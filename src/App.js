@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 import {
     determineAuth,
     getProjects,
-    getCompanies
+    getCompanies,
+    getReports,
+    getPhases
 } from './actions/index';
 
 const mapStateToProps = state => {
@@ -18,6 +20,10 @@ const mapStateToProps = state => {
         loadingProjects: state.loadingProjects,
         loadCompaniesSuccess: state.loadCompaniesSuccess,
         loadingCompanies: state.loadingCompanies,
+        loadingReports: state.loadingReports,
+        loadReportsSuccess: state.loadReportsSuccess,
+        loadingPhases: state.loadingPhases,
+        loadPhasesSuccess: state.loadPhasesSuccess,
     }
 };
 
@@ -29,7 +35,11 @@ const ConnectedApp = (props) => {
         loadingProjects,
         isAuthenticated,
         loadingCompanies,
-        loadCompaniesSuccess
+        loadCompaniesSuccess,
+        loadReportsSuccess,
+        loadingReports,
+        loadPhasesSuccess,
+        loadingPhases
     } = props
 
     const renderRoutes = (props) => {
@@ -45,8 +55,6 @@ const ConnectedApp = (props) => {
         }
     }
 
-    
-
      React.useEffect(() => {
         function authStatus() {
             props.determineAuth();
@@ -60,6 +68,14 @@ const ConnectedApp = (props) => {
             props.getCompanies()
         }
 
+        async function fetchReports() {
+            props.getReports()
+        }
+
+        async function fetchPhases() {
+            props.getPhases()
+        }
+
         authStatus()
 
         if (!loadProjectsSuccess && !loadingProjects && isAuthenticated) {
@@ -68,6 +84,14 @@ const ConnectedApp = (props) => {
 
         if (!loadCompaniesSuccess && !loadingCompanies && isAuthenticated) {
             fetchCompanies();
+        }
+
+        if (!loadReportsSuccess && !loadingReports && isAuthenticated) {
+            fetchReports()
+        }
+
+        if (!loadPhasesSuccess && !loadingPhases && isAuthenticated) {
+            fetchPhases()
         }
     });
    
@@ -81,7 +105,9 @@ const App = connect(
     {
         determineAuth,
         getProjects,
-        getCompanies
+        getCompanies,
+        getReports,
+        getPhases
     }
 )(ConnectedApp);
 

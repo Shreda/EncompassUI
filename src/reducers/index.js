@@ -8,7 +8,13 @@ import {
     LOAD_PROJECTS_FAILURE,
     LOAD_COMPANIES,
     LOAD_COMPANIES_SUCCESS,
-    LOAD_COMPANIES_FAILURE
+    LOAD_COMPANIES_FAILURE,
+    LOAD_REPORTS,
+    LOAD_REPORTS_SUCCESS,
+    LOAD_REPORTS_FAILURE,
+    LOAD_PHASES,
+    LOAD_PHASES_SUCCESS,
+    LOAD_PHASES_FAILURE,
 
 } from '../constants/action-types';
 
@@ -24,6 +30,14 @@ const initialState = {
     companies: [],
     loadingCompanies: false,
     loadCompaniesSuccess: false,
+
+    reports: [],
+    loadingReports: false,
+    loadReportsSuccess: false,
+
+    phases: [],
+    loadingPhases: false,
+    loadPhasesSuccess: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -71,6 +85,29 @@ function rootReducer(state = initialState, action) {
                 loadCompaniesSuccess: true,
                 companies: action.payload,
                 loadingCompanies: false
+            });        
+
+        case LOAD_REPORTS:
+            return Object.assign({}, state, {
+                loadingReports: true
+            });
+
+        case LOAD_REPORTS_SUCCESS:
+            return Object.assign({}, state, {
+                loadReportsSuccess: true,
+                reports: action.payload,
+                loadingReports: false
+            });        
+        case LOAD_PHASES:
+            return Object.assign({}, state, {
+                loadingPhases: true
+            });
+
+        case LOAD_PHASES_SUCCESS:
+            return Object.assign({}, state, {
+                loadPhasesSuccess: true,
+                phases: action.payload,
+                loadingPhases: false
             });        
     }
 

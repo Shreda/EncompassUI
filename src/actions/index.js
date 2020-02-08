@@ -9,6 +9,12 @@ import {
     LOAD_COMPANIES,
     LOAD_COMPANIES_SUCCESS,
     LOAD_COMPANIES_FAILURE,
+    LOAD_REPORTS,
+    LOAD_REPORTS_SUCCESS,
+    LOAD_REPORTS_FAILURE,
+    LOAD_PHASES,
+    LOAD_PHASES_SUCCESS,
+    LOAD_PHASES_FAILURE
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -36,6 +42,48 @@ export function getProjects() {
     }
 }
 
+export function getPhases() {
+    return function(dispatch) {
+        const URL = config.url.API_URL + 'phase/'
+        dispatch({
+            type: LOAD_PHASES
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            }
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: LOAD_PHASES_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function getReports() {
+    return function(dispatch) {
+        const URL = config.url.API_URL + 'report/'
+        dispatch({
+            type: LOAD_REPORTS
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            }
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: LOAD_REPORTS_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+
+}
 export function getCompanies() {
     return function(dispatch) {
         const URL = config.url.API_URL + 'company/'

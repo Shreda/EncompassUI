@@ -61,32 +61,51 @@ const ConnectedProjectDetail = (props) => {
                                 {project.name}
                             </Link>                    
                         </Breadcrumbs>                          
-                        <p>Reference: {project.reference}</p>
-                        <p>Name: {project.name}</p>
-                        <p>Description: {project.description}</p>
-                        <p>Phases:</p>
+                        <Typography variant='body1'>
+                            Reference: {project.reference}
+                        </Typography>
+                        <Typography variant='body1'>
+                            Name: {project.name}
+                        </Typography>
+                        <Typography variant='body1'>
+                            Description: {project.description}
+                        </Typography>
+                        <Typography variant='body1'>
+                            Phases:
+                        </Typography>
                         <ul>
                             {project.phases ? 
                                 project.phases.map(ph =>
                                     <li key={ph.id}>
-                                        <Link 
-                                            component={RouterLink} 
-                                            to={`/phase/${ph.id}`}
-                                        >
-                                            {ph.name}
-                                        </Link>                                
+                                        <Typography variant='body1'>
+                                            <Link 
+                                                component={RouterLink} 
+                                                to={`/phase/${ph.id}`}
+                                            >
+                                                {ph.name}
+                                            </Link>                                
+                                        </Typography>
                                     </li>
                                 )
-                            :<p>No phases</p>}                        
+                            :<p>No phases</p>}
                         </ul>
-                        {project.report_url ?
-                            <p>Generated report:  
-                                <Link href={`${config.url.MEDIA_ROOT}${project.report_url}`}>
-                                    download
-                                </Link>
-                            </p>
-                        : null}
-                        
+                        <Typography variant='body1'>
+                            Reports:
+                        </Typography>
+                        <ul>
+                            {project.reports ? project.reports.map(r =>
+                                <li key={r.id}>
+                                    <Typography variant='body1'>
+                                        <Link 
+                                            component={RouterLink} 
+                                            to={`/report/${r.id}`}
+                                        >
+                                            {r.name}
+                                        </Link>
+                                    </Typography>
+                                </li> 
+                            ) : null }
+                        </ul>
                     </div>                        
                 )
             )}
