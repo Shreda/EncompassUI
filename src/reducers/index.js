@@ -113,7 +113,7 @@ function rootReducer(state = initialState, action) {
             
         case EDIT_REPORT:
             const reports = state.reports.map(r => (
-                (r.id === action.payload.id) ? 
+                (r.id !== action.payload.id) ? 
                     r : 
                     {
                         ...action.payload
@@ -125,7 +125,7 @@ function rootReducer(state = initialState, action) {
 
         case SAVE_REPORT_SUCCESS:
             const new_reports = state.reports.map(r => (
-                (r.id === action.payload.id) ? 
+                (r.id !== action.payload.id) ? 
                     r : 
                     {
                         ...action.payload

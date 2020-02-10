@@ -39,9 +39,12 @@ const getReportByURLId = (props) => {
 const handleSave = (opt, report, callback) => {
     callback(report)
 }
-const handleChange = debounce((value, report, callback) => {
-    report.executive_summary = value()
-    callback(report)
+const handleChange = debounce((value, report, callback, param) => {
+    const r = {
+        ...report,
+        [param]: value()
+    }
+    callback(r)
 }, 500)
 
 const ConnectedProjectDetail = (props) => {
@@ -89,13 +92,21 @@ const ConnectedProjectDetail = (props) => {
                             Generated report: 
                             <Link href={`${config.url.MEDIA_ROOT}${report.report_url}`}> download</Link>
                         </Typography>
-                        {/* <Typography variant='body1'>
-                            Executive Summary: {report.executive_summary}
-                        </Typography> */}
+                        <Typography variant='h4'>
+                            Executive Summary
+                        </Typography>
                         <Editor 
                             defaultValue={report.executive_summary} 
                             onSave={(opt) => handleSave(opt, report, saveReport)}
-                            onChange={(value) => handleChange(value, report, editReport)}
+                            onChange={(value) => handleChange(value, report, editReport, 'executive_summary')}
+                        />
+                        <Typography variant='h4'>
+                            Introduction
+                        </Typography>
+                        <Editor 
+                            defaultValue={report.introduction} 
+                            onSave={(opt) => handleSave(opt, report, saveReport)}
+                            onChange={(value) => handleChange(value, report, editReport, 'introduction')}
                         />
                     </React.Fragment>
                 )
