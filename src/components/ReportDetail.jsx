@@ -6,6 +6,12 @@ import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Typography } from '@material-ui/core';
 import {config} from '../constants/configuration';
+import {debounce} from 'lodash';
+import {
+    editReport
+} from '../actions/index'
+
+import Editor from 'rich-markdown-editor';
 
 const useStyles = makeStyles(theme => ({
 }));
@@ -30,11 +36,27 @@ const getReportByURLId = (props) => {
     return report[0]
 }
 
+// const handleChange = (value, report, callback) => {
+//     console.log(value())
+// }
+
+const handleChange = debounce((value, report, callback) => {
+    report.executive_summary = value()
+    callback(report)
+}, 500)
+
+// const handleChange = debounce((value, report, callback) => {
+//     report.executive_summary = value()
+//     console.log('before callback')
+//     callback(report)
+// }, 250)
+
 const ConnectedProjectDetail = (props) => {
     const {
         reports,
         loadReportsSuccess,
         loadingReports,
+        editReport
     } = props
 
     const classes = useStyles()
@@ -73,9 +95,14 @@ const ConnectedProjectDetail = (props) => {
                             Generated report: 
                             <Link href={`${config.url.MEDIA_ROOT}${report.report_url}`}> download</Link>
                         </Typography>
-                        <Typography variant='body1'>
+                        {/* <Typography variant='body1'>
                             Executive Summary: {report.executive_summary}
-                        </Typography>
+                        </Typography> */}
+                        <Editor 
+                            defaultValue={report.executive_summary} 
+                            onSave={e => console.log(e)}
+                            onChange={(value) => handleChange(value, report, editReport)}
+                        />
                     </React.Fragment>
                 )
             )}
@@ -86,6 +113,7 @@ const ConnectedProjectDetail = (props) => {
 const ProjectDetail = connect(
     mapStateToProps,
     {
+        editReport
     }
 )(ConnectedProjectDetail);
 

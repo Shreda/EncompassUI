@@ -12,9 +12,12 @@ import {
     LOAD_REPORTS,
     LOAD_REPORTS_SUCCESS,
     LOAD_REPORTS_FAILURE,
+    EDIT_REPORT,
     LOAD_PHASES,
     LOAD_PHASES_SUCCESS,
-    LOAD_PHASES_FAILURE
+    LOAD_PHASES_FAILURE,
+    SAVE_REPORT,
+    SAVE_REPORT_SUCCESS
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -36,6 +39,37 @@ export function getProjects() {
             .then(json => {
                 dispatch({
                     type: LOAD_PROJECTS_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function editReport(report) {
+    return function(dispatch) {
+        dispatch({
+            type: EDIT_REPORT,
+            payload: report
+        })
+    }
+}
+
+export function saveReport(report) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + 'report/'
+        dispatch({
+            type: SAVE_REPORT
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            }
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: SAVE_REPORT_SUCCESS,
                     payload: json
                 })
             })
