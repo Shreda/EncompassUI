@@ -71,10 +71,11 @@ const ConnectedProjectDetail = (props) => {
                         </Breadcrumbs>
                         <Typography variant='body1'>
                             Generated report: 
-                            <Link href={`${config.url.MEDIA_ROOT}${report.report_url}`}>
-                                    download
-                            </Link>
-                        </Typography>                   
+                            <Link href={`${config.url.MEDIA_ROOT}${report.report_url}`}> download</Link>
+                        </Typography>
+                        <Typography variant='body1'>
+                            Executive Summary: {report.executive_summary}
+                        </Typography>
                     </React.Fragment>
                 )
             )}
