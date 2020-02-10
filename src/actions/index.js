@@ -56,7 +56,9 @@ export function editReport(report) {
 
 export function saveReport(report) {
     return function(dispatch) {
-        const URL = config.url.API_URL + 'report/'
+        console.log('saving report')
+        console.log(report)
+        const URL = config.url.API_URL + `report/${report.id}/`
         dispatch({
             type: SAVE_REPORT
         })
@@ -64,8 +66,10 @@ export function saveReport(report) {
             mode: 'cors',
             method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${API_KEY}`
-            }
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(report)
         }).then(res => res.json())
             .then(json => {
                 dispatch({
@@ -187,8 +191,6 @@ export function determineAuth() {
         const token = localStorage.getItem(AUTH_TOKEN);
         const expires = localStorage.getItem('auth_expires')
         const date = new Date().getTime()
-        console.log('date    ' + date)
-        console.log('expires ' + expires)
 
         if (token !== null && token !== undefined && date < expires) {
             dispatch({

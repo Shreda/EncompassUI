@@ -8,7 +8,8 @@ import { Typography } from '@material-ui/core';
 import {config} from '../constants/configuration';
 import {debounce} from 'lodash';
 import {
-    editReport
+    editReport,
+    saveReport
 } from '../actions/index'
 
 import Editor from 'rich-markdown-editor';
@@ -35,28 +36,21 @@ const getReportByURLId = (props) => {
 
     return report[0]
 }
-
-// const handleChange = (value, report, callback) => {
-//     console.log(value())
-// }
-
+const handleSave = (opt, report, callback) => {
+    callback(report)
+}
 const handleChange = debounce((value, report, callback) => {
     report.executive_summary = value()
     callback(report)
 }, 500)
-
-// const handleChange = debounce((value, report, callback) => {
-//     report.executive_summary = value()
-//     console.log('before callback')
-//     callback(report)
-// }, 250)
 
 const ConnectedProjectDetail = (props) => {
     const {
         reports,
         loadReportsSuccess,
         loadingReports,
-        editReport
+        editReport, 
+        saveReport
     } = props
 
     const classes = useStyles()
@@ -100,7 +94,7 @@ const ConnectedProjectDetail = (props) => {
                         </Typography> */}
                         <Editor 
                             defaultValue={report.executive_summary} 
-                            onSave={e => console.log(e)}
+                            onSave={(opt) => handleSave(opt, report, saveReport)}
                             onChange={(value) => handleChange(value, report, editReport)}
                         />
                     </React.Fragment>
@@ -113,7 +107,8 @@ const ConnectedProjectDetail = (props) => {
 const ProjectDetail = connect(
     mapStateToProps,
     {
-        editReport
+        editReport,
+        saveReport
     }
 )(ConnectedProjectDetail);
 
