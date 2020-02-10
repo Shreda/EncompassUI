@@ -1,8 +1,8 @@
 const getConfig = () => {
     const prod = {
         url: {
-            API_URL: 'https://app.tacent.io/api/v1/',
-            AUTH_API_URL: 'https://app.tacent.io/o/',
+            API_URL: 'https://api.tacent.io/api/v1/',
+            AUTH_API_URL: 'https://api.tacent.io/o/',
             CLIENT_ID: 'tdb9FtZxJkiB1G41rJL81Px7cDf6xXawDNOcFQUv',
             MEDIA_ROOT: '',
 
