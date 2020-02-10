@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Entering pre_build phase...
+      - echo Installing dependencies...
+      - export REACT_APP_STAGE=production
+      - npm install
+  build:
+    commands:
+      - echo Entering build phase...
+      - echo running npm build...
+      - npm run build
+  post_build:
+    commands:
+      - aws s3 sync ./build s3://app.tacent.io
