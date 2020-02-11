@@ -104,7 +104,7 @@ const ConnectedLogin = (props) => {
 const Login = connect(
     null,
     {
-        doLogin
+        doLogin,
     }
 )(ConnectedLogin);
 

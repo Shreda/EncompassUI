@@ -34,7 +34,7 @@ export function getProjects() {
             mode: 'cors',
             headers: {
                 'Authorization': `Bearer ${API_KEY}`
-            }
+            },
         }).then(res => res.json())
             .then(json => {
                 dispatch({
