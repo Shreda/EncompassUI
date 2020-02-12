@@ -8,9 +8,12 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Typography } from '@material-ui/core';
 import {config} from '../constants/configuration';
 import {debounce} from 'lodash';
+import Button from '@material-ui/core/Button'
 import {
     editReport,
-    saveReport
+    saveReport,
+    uploadImage,
+    generateReport
 } from '../actions/index'
 
 import Editor from 'rich-markdown-editor';
@@ -50,14 +53,28 @@ const handleChange = debounce((value, report, callback, param) => {
     callback(r)
 }, 500)
 
+
 const ConnectedProjectDetail = (props) => {
     const {
         reports,
         loadReportsSuccess,
         loadingReports,
         editReport, 
-        saveReport
+        saveReport,
+        uploadImage,
+        generateReport
     } = props
+    
+    const handleGenerate = (e, reportId) => {
+        e.preventDefault()
+        generateReport(reportId)
+    }
+    
+    // const handleUpload = async (f) => {
+    //     const return_url = await uploadImage(f)
+    //     console.log('returned url: ' + return_url)
+    //     return return_url
+    // }
 
     const classes = useStyles()
 
@@ -91,11 +108,11 @@ const ConnectedProjectDetail = (props) => {
                                 {report.name}
                             </Link>                    
                         </Breadcrumbs>
-                        <img src="https://api.tacent.io/api/v1/image/f02ff149-d79d-4744-a14b-cf9fa893ac4b/"/>
                         <Typography variant='body1'>
                             Generated report: 
                             <Link href={`${config.url.MEDIA_ROOT}${report.report_url}`}> download</Link>
                         </Typography>
+                        <Button onClick={(e) => handleGenerate(e, report.id)}>Generate report</Button>
                         <Paper className={classes.paper}>
                             <Typography variant='h4'>
                                 Executive Summary
@@ -104,6 +121,10 @@ const ConnectedProjectDetail = (props) => {
                                 defaultValue={report.executive_summary} 
                                 onSave={(opt) => handleSave(opt, report, saveReport)}
                                 onChange={(value) => handleChange(value, report, editReport, 'executive_summary')}
+                                uploadImage={async file => {
+                                    const result = await uploadImage(file)
+                                    return result
+                                }}
                             />
                         </Paper>
                         <Paper className={classes.paper}>
@@ -127,7 +148,9 @@ const ProjectDetail = connect(
     mapStateToProps,
     {
         editReport,
-        saveReport
+        saveReport,
+        uploadImage,
+        generateReport
     }
 )(ConnectedProjectDetail);
 

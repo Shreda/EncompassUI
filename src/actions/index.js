@@ -12,6 +12,9 @@ import {
     LOAD_REPORTS,
     LOAD_REPORTS_SUCCESS,
     LOAD_REPORTS_FAILURE,
+    GENERATE_REPORT,
+    GENERATE_REPORT_SUCCESS,
+    GENERATE_REPORT_FAILURE,
     EDIT_REPORT,
     LOAD_PHASES,
     LOAD_PHASES_SUCCESS,
@@ -42,6 +45,50 @@ export function getProjects() {
                     payload: json
                 })
             })
+    }
+}
+
+export function generateReport(report) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `report/${report}/generate/`
+        dispatch({
+            type: GENERATE_REPORT
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            method: 'post',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            },
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: GENERATE_REPORT_SUCCESS,
+                    payload: json
+                })
+            })        
+    }
+}
+
+export function uploadImage(f) {
+    return async function(dispatch){
+        console.log(f)
+        const URL = config.url.API_URL + `upload/${f.name}`
+        console.log(URL)
+        const formData = new FormData
+        formData.append('file', f, f.name)
+        const res = await fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            method: 'post',
+            body: f            
+        })
+
+        const json = await res.json()
+        return `${config.url.API_URL}image/${json.id}`
     }
 }
 
