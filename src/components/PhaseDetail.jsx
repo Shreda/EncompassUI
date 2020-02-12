@@ -69,12 +69,23 @@ const ConnectedPhaseDetail = (props) => {
                                 {phase.name}
                             </Link>                    
                         </Breadcrumbs>
-                        {/* <Typography variant='body1'>
-                            Generated report: 
-                            <Link href={`${config.url.MEDIA_ROOT}${report.report_url}`}>
-                                    download
-                            </Link>
-                        </Typography>                    */}
+                        <Typography variant='body1'>Findings:</Typography>
+                        <ul>
+                        {phase.findings?
+                                phase.findings.map(f =>
+                                    <li key={f.id}>
+                                        <Typography variant='body1'>
+                                            <Link 
+                                                component={RouterLink} 
+                                                to={`/finding/${f.id}`}
+                                            >
+                                                {f.title}
+                                            </Link>                                
+                                        </Typography>
+                                    </li>
+                                )
+                            :<p>No findings</p>}
+                        </ul>                        
                     </React.Fragment>
                 )
             )}
