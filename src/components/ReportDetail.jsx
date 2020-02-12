@@ -135,6 +135,10 @@ const ConnectedProjectDetail = (props) => {
                                 defaultValue={report.introduction} 
                                 onSave={(opt) => handleSave(opt, report, saveReport)}
                                 onChange={(value) => handleChange(value, report, editReport, 'introduction')}
+                                uploadImage={async file => {
+                                    const result = await uploadImage(file)
+                                    return result
+                                }}                                
                             />
                         </Paper>
                     </React.Fragment>
