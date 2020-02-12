@@ -22,6 +22,9 @@ import {
     LOAD_PHASES,
     LOAD_PHASES_SUCCESS,
     LOAD_PHASES_FAILURE,
+    LOAD_FINDINGS,
+    LOAD_FINDINGS_SUCCESS,
+    LOAD_FINDINGS_FAILURE
 
 } from '../constants/action-types';
 
@@ -50,6 +53,10 @@ const initialState = {
     phases: [],
     loadingPhases: false,
     loadPhasesSuccess: false,
+
+    findings: [],
+    loadingFindings: false,
+    loadFindingsSuccess: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -181,11 +188,24 @@ function rootReducer(state = initialState, action) {
                 loadingPhases: false
             });
 
+        //////////////////////////////////////
+        //          Phase Reducers          //
+        /////////////////////////////////////
+        case LOAD_FINDINGS:
+            return Object.assign({}, state, {
+                loadingFindings: true
+            });
+
+        case LOAD_FINDINGS_SUCCESS:
+            return Object.assign({}, state, {
+                loadFindingsSuccess: true,
+                findings: action.payload,
+                loadingFindings: false
+            });        
+
         default:
             return state      
     }
-
-    return state;
 }
 
 export default rootReducer;

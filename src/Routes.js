@@ -7,6 +7,7 @@ import ProjectDetail from './components/ProjectDetail'
 import CompanyDetail from './components/CompanyDetail.jsx';
 import ReportDetail from './components/ReportDetail'
 import PhaseDetail from './components/PhaseDetail.jsx';
+import FindingDetail from './components/FindingDetail.jsx';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -59,6 +60,12 @@ const ConnectedRoutes = (props) => {
                 exact
                 path='/phase/:id'
                 component={PhaseDetail}
+                isAuthenticated={isAuthenticated}
+            />
+            <ProtectedRoute
+                exact
+                path='/finding/:id'
+                component={FindingDetail}
                 isAuthenticated={isAuthenticated}
             />
             <Route 

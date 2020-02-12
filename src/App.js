@@ -9,7 +9,8 @@ import {
     getProjects,
     getCompanies,
     getReports,
-    getPhases
+    getPhases,
+    getFindings
 } from './actions/index';
 
 const mapStateToProps = state => {
@@ -24,6 +25,8 @@ const mapStateToProps = state => {
         loadReportsSuccess: state.loadReportsSuccess,
         loadingPhases: state.loadingPhases,
         loadPhasesSuccess: state.loadPhasesSuccess,
+        loadingFindings: state.loadingFindings,
+        loadFindingsSuccess: state.loadFindingsSuccess,
     }
 };
 
@@ -39,7 +42,9 @@ const ConnectedApp = (props) => {
         loadReportsSuccess,
         loadingReports,
         loadPhasesSuccess,
-        loadingPhases
+        loadingPhases,
+        loadFindingsSuccess,
+        loadingFindings,
     } = props
 
     const renderRoutes = (props) => {
@@ -59,21 +64,20 @@ const ConnectedApp = (props) => {
         function authStatus() {
             props.determineAuth();
         }
-
         async function fetchProjects() {
             props.getProjects()
         }
-
         async function fetchCompanies() {
             props.getCompanies()
         }
-
         async function fetchReports() {
             props.getReports()
         }
-
         async function fetchPhases() {
             props.getPhases()
+        }
+        async function fetchFindings() {
+            props.getFindings()
         }
 
         authStatus()
@@ -81,17 +85,17 @@ const ConnectedApp = (props) => {
         if (!loadProjectsSuccess && !loadingProjects && isAuthenticated) {
             fetchProjects();
         }
-
         if (!loadCompaniesSuccess && !loadingCompanies && isAuthenticated) {
             fetchCompanies();
         }
-
         if (!loadReportsSuccess && !loadingReports && isAuthenticated) {
             fetchReports()
         }
-
         if (!loadPhasesSuccess && !loadingPhases && isAuthenticated) {
             fetchPhases()
+        }
+        if (!loadFindingsSuccess && !loadingFindings && isAuthenticated) {
+            fetchFindings()
         }
     });
    
@@ -107,7 +111,8 @@ const App = connect(
         getProjects,
         getCompanies,
         getReports,
-        getPhases
+        getPhases,
+        getFindings
     }
 )(ConnectedApp);
 

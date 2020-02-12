@@ -20,7 +20,10 @@ import {
     LOAD_PHASES_SUCCESS,
     LOAD_PHASES_FAILURE,
     SAVE_REPORT,
-    SAVE_REPORT_SUCCESS
+    SAVE_REPORT_SUCCESS,
+    LOAD_FINDINGS,
+    LOAD_FINDINGS_SUCCESS,
+    LOAD_FINDINGS_FAILURE
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -42,6 +45,27 @@ export function getProjects() {
             .then(json => {
                 dispatch({
                     type: LOAD_PROJECTS_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function getFindings() {
+    return function(dispatch) {
+        const URL = config.url.API_URL + 'finding/'
+        dispatch({
+            type: LOAD_FINDINGS
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            },
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: LOAD_FINDINGS_SUCCESS,
                     payload: json
                 })
             })
