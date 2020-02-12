@@ -5,7 +5,9 @@ import {config} from '../constants/configuration';
 import { Link as RouterLink } from 'react-router-dom';
 
 import {
-    uploadImage
+    uploadImage,
+    editFinding,
+    saveFinding
 } from '../actions/index'
 
 import Editor from 'rich-markdown-editor';
@@ -50,16 +52,16 @@ const getFindingByURLId = (props) => {
     return finding[0]
 }
 
-// const handleSave = (opt, report, callback) => {
-//     callback(report)
-// }
-// const handleChange = debounce((value, report, callback, param) => {
-//     const r = {
-//         ...report,
-//         [param]: value()
-//     }
-//     callback(r)
-// }, 500)
+const handleSave = (opt, finding, callback) => {
+    callback(finding)
+}
+const handleChange = debounce((value, finding, callback, param) => {
+    const r = {
+        ...finding,
+        [param]: value()
+    }
+    callback(r)
+}, 500)
 
 
 const ConnectedFindingDetail = (props) => {
@@ -68,7 +70,9 @@ const ConnectedFindingDetail = (props) => {
         loadFindingsSuccess,
         loadingFindings,
         uploadImage,
-        generateReport
+        generateReport,
+        editFinding,
+        saveFinding
     } = props
     
     const handleUpload = async (f) => {
@@ -88,6 +92,15 @@ const ConnectedFindingDetail = (props) => {
                         <Breadcrumbs>
                             <Link component={RouterLink} to='/'>
                                 Home
+                            </Link>                    
+                            <Typography>
+                                Project
+                            </Typography>                    
+                            <Link 
+                                component={RouterLink} 
+                                to={`/project/${finding.phase.project.id}`}
+                            >
+                                {finding.phase.project.name}
                             </Link>                    
                             <Typography>
                                 Phase
@@ -122,8 +135,8 @@ const ConnectedFindingDetail = (props) => {
                                     </Typography>
                                     <Editor 
                                         defaultValue={finding.background} 
-                                        // onSave={(opt) => handleSave(opt, report, saveReport)}
-                                        // onChange={(value) => handleChange(value, report, editReport, 'executive_summary')}
+                                        onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                        onChange={(value) => handleChange(value, finding, editFinding, 'background')}
                                         uploadImage={async file => {
                                             const result = await uploadImage(file)
                                             return result
@@ -137,9 +150,9 @@ const ConnectedFindingDetail = (props) => {
                                         Story
                                     </Typography>
                                     <Editor 
-                                        defaultValue={findings.story} 
-                                        // onSave={(opt) => handleSave(opt, report, saveReport)}
-                                        // onChange={(value) => handleChange(value, report, editReport, 'introduction')}
+                                        defaultValue={finding.story} 
+                                        onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                        onChange={(value) => handleChange(value, finding, editFinding, 'story')}
                                         uploadImage={async file => {
                                             const result = await uploadImage(file)
                                             return result
@@ -154,8 +167,8 @@ const ConnectedFindingDetail = (props) => {
                                     </Typography>
                                     <Editor 
                                         defaultValue={finding.recommendation} 
-                                        // onSave={(opt) => handleSave(opt, report, saveReport)}
-                                        // onChange={(value) => handleChange(value, report, editReport, 'introduction')}
+                                        onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                        onChange={(value) => handleChange(value, finding, editFinding, 'recommendation')}
                                         uploadImage={async file => {
                                             const result = await uploadImage(file)
                                             return result
@@ -174,6 +187,8 @@ const FindingDetail = connect(
     mapStateToProps,
     {
         uploadImage,
+        editFinding,
+        saveFinding
     }
 )(ConnectedFindingDetail);
 

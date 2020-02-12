@@ -24,7 +24,11 @@ import {
     LOAD_PHASES_FAILURE,
     LOAD_FINDINGS,
     LOAD_FINDINGS_SUCCESS,
-    LOAD_FINDINGS_FAILURE
+    LOAD_FINDINGS_FAILURE,
+    EDIT_FINDING,
+    SAVE_FINDING,
+    SAVE_FINDING_SUCCESS,
+    SAVE_FINDING_FAILURE
 
 } from '../constants/action-types';
 
@@ -57,6 +61,8 @@ const initialState = {
     findings: [],
     loadingFindings: false,
     loadFindingsSuccess: false,
+    savingFinding: false,
+    saveFindingSuccess: false
 };
 
 function rootReducer(state = initialState, action) {
@@ -189,7 +195,7 @@ function rootReducer(state = initialState, action) {
             });
 
         //////////////////////////////////////
-        //          Phase Reducers          //
+        //          Finding Reducers        //
         /////////////////////////////////////
         case LOAD_FINDINGS:
             return Object.assign({}, state, {
@@ -201,7 +207,37 @@ function rootReducer(state = initialState, action) {
                 loadFindingsSuccess: true,
                 findings: action.payload,
                 loadingFindings: false
-            });        
+            });
+
+        case EDIT_FINDING:
+            const findings = state.findings.map(f => (
+                (f.id !== action.payload.id) ? 
+                    f : 
+                    {
+                        ...action.payload
+                    }
+            ))
+            return Object.assign({}, state, {
+                findings: findings
+            })
+
+        case SAVE_FINDING_SUCCESS:
+            const new_findings = state.findings.map(f => (
+                (f.id !== action.payload.id) ? 
+                    f : 
+                    {
+                        ...action.payload
+                    }
+            ))
+            return Object.assign({}, state, {
+                findings: new_findings,
+                saveFindingSuccess: true
+            })
+
+        case SAVE_FINDING:
+            return Object.assign({}, state, {
+                savingFinding: true
+            })        
 
         default:
             return state      

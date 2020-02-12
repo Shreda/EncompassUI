@@ -8,6 +8,10 @@ import { Typography } from '@material-ui/core';
 import {config} from '../constants/configuration';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+        padding: 20
+    },
 }));
 
 const mapStateToProps = state => {
@@ -42,11 +46,10 @@ const ConnectedProjectDetail = (props) => {
     const project = getProjectByURLId(props)
 
     return (
-        // renderProject(props)
-        <div>          
-            {loadingProjects ? <p>Loading...</p>:(
+        // renderProject(props)         
+            loadingProjects ? <p>Loading...</p>:(
                 (!loadProjectsSuccess ? <p>Error loading project</p>:
-                    <div>
+                    <div className={classes.root}>
                         <Breadcrumbs>
                             <Link component={RouterLink} to='/'>
                                 Home
@@ -108,8 +111,7 @@ const ConnectedProjectDetail = (props) => {
                         </ul>
                     </div>                        
                 )
-            )}
-        </div>
+            )
     )
 }
 

@@ -23,7 +23,11 @@ import {
     SAVE_REPORT_SUCCESS,
     LOAD_FINDINGS,
     LOAD_FINDINGS_SUCCESS,
-    LOAD_FINDINGS_FAILURE
+    LOAD_FINDINGS_FAILURE,
+    EDIT_FINDING,
+    SAVE_FINDING,
+    SAVE_FINDING_SUCCESS,
+    SAVE_FINDING_FAILURE
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -125,10 +129,17 @@ export function editReport(report) {
     }
 }
 
+export function editFinding(finding) {
+    return function(dispatch) {
+        dispatch({
+            type: EDIT_FINDING,
+            payload: finding
+        })
+    }
+}
+
 export function saveReport(report) {
     return function(dispatch) {
-        console.log('saving report')
-        console.log(report)
         const URL = config.url.API_URL + `report/${report.id}/`
         dispatch({
             type: SAVE_REPORT
@@ -145,6 +156,30 @@ export function saveReport(report) {
             .then(json => {
                 dispatch({
                     type: SAVE_REPORT_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function saveFinding(finding) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `finding/${finding.id}/`
+        dispatch({
+            type: SAVE_FINDING
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finding)
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: SAVE_FINDING_SUCCESS,
                     payload: json
                 })
             })

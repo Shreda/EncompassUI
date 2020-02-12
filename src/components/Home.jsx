@@ -13,6 +13,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+        padding: 20
+    },
 }));
 
 const mapStateToProps = state => {
@@ -36,7 +40,7 @@ const ConnectedApp = (props) => {
         <div>
             {loadingProjects ? <p>Loading...</p>:(
                 (!loadProjectsSuccess ? <p>Error loading project</p>:
-                <React.Fragment>
+                <div className={classes.root}>
                     <Breadcrumbs>
                         <Link component={RouterLink} to='/'>
                             Home
@@ -72,7 +76,7 @@ const ConnectedApp = (props) => {
                             </TableBody>
                         </Table>
                     </TableContainer>                         
-                </React.Fragment>
+                </div>
                 )
             )}
         </div>

@@ -32,8 +32,8 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         padding: theme.spacing(2),
-        maxHeight: '300px',
-        overflow: 'scroll'
+        // maxHeight: '400px',
+        // overflow: 'scroll'
     }
 }));
 
@@ -77,10 +77,13 @@ const ConnectedProjectDetail = (props) => {
         uploadImage,
         generateReport
     } = props
+    const [generatingReport, setGeneratingReport] = React.useState(false);
     
-    const handleGenerate = (e, reportId) => {
+    const handleGenerate = async (e, reportId) => {
         e.preventDefault()
-        generateReport(reportId)
+        setGeneratingReport(true)
+        await generateReport(reportId)
+        setGeneratingReport(false)
     }
     
     // const handleUpload = async (f) => {
@@ -92,6 +95,7 @@ const ConnectedProjectDetail = (props) => {
     const classes = useStyles()
 
     const report = getReportByURLId(props)
+
  
     return (
             loadingReports ? <p>Loading...</p>:(
@@ -124,6 +128,7 @@ const ConnectedProjectDetail = (props) => {
                             Generated report: 
                             <Link href={`${config.url.MEDIA_ROOT}${report.report_url}`}> download</Link>
                         </Typography>
+                        {generatingReport ? <Typography>Generating...</Typography>:null}
                         <Button onClick={(e) => handleGenerate(e, report.id)}>Generate report</Button>
                         <Grid 
                             container 

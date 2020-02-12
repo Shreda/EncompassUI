@@ -8,6 +8,10 @@ import { Typography } from '@material-ui/core';
 import {config} from '../constants/configuration';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+        padding: 20
+    },
 }));
 
 const mapStateToProps = state => {
@@ -42,10 +46,9 @@ const ConnectedPhaseDetail = (props) => {
     const phase = getPhaseByURLId(props)
  
     return (
-        <div>          
-            {loadingPhases ? <p>Loading...</p>:(
+            loadingPhases ? <p>Loading...</p>:(
                 (!loadPhasesSuccess ? <p>Error loading phase</p>:
-                    <React.Fragment>
+                    <div className={classes.root}>
                         <Breadcrumbs>
                             <Link component={RouterLink} to='/'>
                                 Home
@@ -86,10 +89,9 @@ const ConnectedPhaseDetail = (props) => {
                                 )
                             :<p>No findings</p>}
                         </ul>                        
-                    </React.Fragment>
+                    </div>
                 )
-            )}
-        </div>
+            )
     )
 }
 
