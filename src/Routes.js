@@ -4,10 +4,10 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login.jsx';
 import Home from './components/Home';
 import ProjectDetail from './components/ProjectDetail'
-import CompanyDetail from './components/CompanyDetail.jsx';
+import CompanyDetail from './components/CompanyDetail';
 import ReportDetail from './components/ReportDetail'
-import PhaseDetail from './components/PhaseDetail.jsx';
-import FindingDetail from './components/FindingDetail.jsx';
+import PhaseDetail from './components/PhaseDetail';
+import FindingDetail from './components/Finding/FindingDetail';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {

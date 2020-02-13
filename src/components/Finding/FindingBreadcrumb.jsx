@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom';
 
-import WrapBreadcrumb from './WrapBreadcrumb'
+import WrapBreadcrumb from '../WrapBreadcrumb'
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
