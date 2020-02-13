@@ -214,7 +214,8 @@ function rootReducer(state = initialState, action) {
                 (f.id !== action.payload.id) ? 
                     f : 
                     {
-                        ...action.payload
+                        ...action.payload,
+                        unsavedChanges: true
                     }
             ))
             return Object.assign({}, state, {

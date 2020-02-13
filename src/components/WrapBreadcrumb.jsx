@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2),
         // maxHeight: '400px',
         // overflow: 'scroll'
+    },
+    grow: {
+        width: '100%'
     }
 }));
 
@@ -29,8 +32,9 @@ const WrapBreadcrumb = (props) => {
             direction='column' 
             justify='flex-start' 
             alignItems='flex-start'
+            
         >
-            <Grid item>
+            <Grid className={classes.grow} item>
                 <Paper className={classes.paper}>
                     {children}
                 </Paper>

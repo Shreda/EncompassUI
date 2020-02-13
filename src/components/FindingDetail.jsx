@@ -15,13 +15,18 @@ import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
-import { Typography } from '@material-ui/core';
-import TextAreaAutosize from '@material-ui/core/TextareaAutosize'
+import { Typography, Input } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 
-import WrapBreadcrumb from './WrapBreadcrumb'
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import EditIcon from '@material-ui/icons/Edit';
+import IconButton from '@material-ui/core/IconButton'
 
+import FindingBreadcrumb from './FindingBreadcrumb'
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -33,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     paper: {
         padding: theme.spacing(2),
         width: '100%'
-    }
+    },    
 }));
 
 const mapStateToProps = state => {
@@ -66,6 +71,15 @@ const handleChange = debounce((value, finding, callback, param) => {
     callback(r)
 }, 500)
 
+const handleSelect = (name, finding, callback) => event => {
+    const f = {
+        ...finding,
+        [name]: event.target.value
+    }
+    callback(f)
+};
+
+
 
 const ConnectedFindingDetail = (props) => {
     const {
@@ -79,55 +93,73 @@ const ConnectedFindingDetail = (props) => {
     } = props
     
     const classes = useStyles()
-
+    
     const finding = getFindingByURLId(props)
- 
+    
     return (
             loadingFindings ? <p>Loading...</p>:(
                 (!loadFindingsSuccess ? <p>Error loading findings</p>:
                     <div className={classes.root}>
                         <Grid 
                             container 
-                            direction='column'
-                            justify='center'
-                            alignItems='center'
+                            direction='row'
+                            justify='flex-start'
+                            alignItems='flex-start'
                             spacing={5}
                         >
-                            <WrapBreadcrumb>
-                                <Breadcrumbs>
-                                    <Link component={RouterLink} to='/'>
-                                        Home
-                                    </Link>                    
-                                    <Typography>
-                                        Project
-                                    </Typography>                    
-                                    <Link 
-                                        component={RouterLink} 
-                                        to={`/project/${finding.phase.project.id}`}
-                                    >
-                                        {finding.phase.project.name}
-                                    </Link>                    
-                                    <Typography>
-                                        Phase
-                                    </Typography>                    
-                                    <Link 
-                                        component={RouterLink} 
-                                        to={`/phase/${finding.phase.id}`}
-                                    >
-                                        {finding.phase.name}
-                                    </Link>                    
-                                    <Typography>
-                                        Finding
-                                    </Typography>                    
-                                    <Link 
-                                        component={RouterLink} 
-                                        to={`/finding/${finding.id}`}
-                                    >
-                                        {finding.title}
-                                    </Link>                    
-                                </Breadcrumbs>
-                            </WrapBreadcrumb>
-                            <Grid item container xs={12} sm={8} lg={6}>
+                            <FindingBreadcrumb finding={finding}/>
+                            <Grid item container xs={12} sm={3} lg={3}>
+                                <Paper className={classes.paper}>
+                                    <Grid container spacing={2}>
+                                        <Grid className={classes.grow} item>
+                                            <FormControl fullWidth className={classes.formControl}>
+                                                <InputLabel htmlFor='impact-select'>
+                                                    Impact
+                                                </InputLabel>
+                                                <Select
+                                                    native
+                                                    value={finding.impact}
+                                                    onChange={handleSelect('impact', finding, editFinding)}
+                                                    inputProps={{
+                                                        name: 'impact',
+                                                        id: 'impact-select'
+                                                    }}
+                                                >
+                                                    <option value={1}>Extreme</option>
+                                                    <option value={2}>Major</option>
+                                                    <option value={3}>Moderate</option>
+                                                    <option value={4}>Low</option>
+                                                    <option value={5}>Negligible</option>
+                                                </Select>
+                                            </FormControl>                  
+                                        </Grid>
+                                        <Grid className={classes.grow} item>
+                                            <FormControl fullWidth className={classes.formControl}>
+                                                <InputLabel htmlFor='likelihood-select'>
+                                                    Likelihood
+                                                </InputLabel>
+                                                <Select
+                                                    native
+                                                    value={finding.likelihood}
+                                                    onChange={handleSelect('likelihood', finding, editFinding)}
+                                                    inputProps={{
+                                                        name: 'likelihood',
+                                                        id: 'likelihood-select'
+                                                    }}
+                                                >
+                                                    <option value={1}>Certain</option>
+                                                    <option value={2}>Likely</option>
+                                                    <option value={3}>Possible</option>
+                                                    <option value={4}>Unlikely</option>
+                                                    <option value={5}>Rare</option>
+                                                </Select>
+                                            </FormControl>                  
+                                        </Grid>
+                                    </Grid>
+                                    {finding.unsavedChanges ? <p>There are unsaved changes</p> : null}
+                                </Paper>
+                            </Grid>                            
+                            <Grid item container xs={12} sm={9} lg={6}>
                                 <Paper className={classes.paper}>
                                     <Grid 
                                         direction='column' 
@@ -138,7 +170,7 @@ const ConnectedFindingDetail = (props) => {
                                         container
                                     >
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h2'>
+                                                <Typography noWrap variant='h3'>
                                                     Background
                                                 </Typography>
                                                 <Editor 
@@ -152,7 +184,7 @@ const ConnectedFindingDetail = (props) => {
                                                 />
                                         </Grid>
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h2'>
+                                                <Typography noWrap variant='h3'>
                                                     Story
                                                 </Typography>
                                                 <Editor 
@@ -166,7 +198,7 @@ const ConnectedFindingDetail = (props) => {
                                                 />
                                         </Grid>
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h2'>
+                                                <Typography noWrap variant='h3'>
                                                     Recommendation
                                                 </Typography>
                                                 <Editor 
@@ -181,7 +213,7 @@ const ConnectedFindingDetail = (props) => {
                                         </Grid>
                                     </Grid>
                                 </Paper>
-                            </Grid>
+                            </Grid>                            
                         </Grid>
                     </div>
                 )
