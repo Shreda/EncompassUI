@@ -232,7 +232,8 @@ function rootReducer(state = initialState, action) {
             ))
             return Object.assign({}, state, {
                 findings: new_findings,
-                saveFindingSuccess: true
+                saveFindingSuccess: true,
+                savingFinding: false
             })
 
         case SAVE_FINDING:

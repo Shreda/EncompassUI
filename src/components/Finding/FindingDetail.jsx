@@ -27,7 +27,8 @@ const mapStateToProps = state => {
     return {
         findings: state.findings,
         loadingFindings: state.loadingFindings,
-        loadFindingsSuccess: state.loadFindingsSuccess
+        loadFindingsSuccess: state.loadFindingsSuccess,
+        savingFinding: state.savingFinding,
     }
 }
 
@@ -67,7 +68,8 @@ const ConnectedFindingDetail = (props) => {
         uploadImage,
         generateReport,
         editFinding,
-        saveFinding
+        saveFinding,
+        savingFinding
     } = props
     
     const classes = commonStyles()
@@ -102,7 +104,9 @@ const ConnectedFindingDetail = (props) => {
                                             aria-label="toggle edit"
                                             title="toggle edit"
                                         >
-                                            <EditIcon fontSize='large' color='primary'/>
+                                            <EditIcon 
+                                                fontSize='large' 
+                                                color={readOnly ? 'default' : 'primary'}/>
                                         </IconButton>
                                     </Grid>
                                     <Grid item>
@@ -111,17 +115,22 @@ const ConnectedFindingDetail = (props) => {
                                             aria-label="save finding"
                                             title="save finding"
                                         >
-                                            <SaveIcon fontSize='large' color='primary'/>
+                                            <SaveIcon 
+                                                fontSize='large' 
+                                                color={!savingFinding ? 'default': 'primary'}
+                                            />
                                         </IconButton>
-                                    </Grid>
-                                    {finding.unsavedChanges ? 
-                                    <Grid className={classes.grow} item>
+                                    </Grid>                                    
+                                </Grid>
+                                {finding.unsavedChanges ?
+                                <Grid item container direction='colum' justify='center' alignItems='center'>
+                                    <Grid item>
                                         <Typography variant='body1'>
                                             Don't forget to (ctrl + s) your changes 🐳
                                         </Typography>
                                     </Grid>
-                                    : null}                                      
                                 </Grid>
+                                : null}
                             </Dock>
 
                             <Grid item container xs={12} sm={6} lg={6}>
