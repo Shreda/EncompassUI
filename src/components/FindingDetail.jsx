@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
         width: '100%'
     },
     paper: {
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
+        width: '100%'
     }
 }));
 
@@ -128,7 +129,14 @@ const ConnectedFindingDetail = (props) => {
                             </WrapBreadcrumb>
                             <Grid item container xs={12} sm={8} lg={6}>
                                 <Paper className={classes.paper}>
-                                    <Grid direction='column' justify='center' alignItems='center' spacing={5} item container >
+                                    <Grid 
+                                        direction='column' 
+                                        justify='center' 
+                                        alignItems='center' 
+                                        spacing={5} 
+                                        item 
+                                        container
+                                    >
                                         <Grid className={classes.grow} zeroMinWidth item>
                                                 <Typography noWrap variant='h2'>
                                                     Background

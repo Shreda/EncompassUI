@@ -189,7 +189,7 @@ const ConnectedProjectDetail = (props) => {
                                         container
                                     >
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                            <Typography variant='h2'>
+                                            <Typography noWrap variant='h2'>
                                                 Executive Summary
                                             </Typography>
                                                 <Editor 
@@ -203,7 +203,7 @@ const ConnectedProjectDetail = (props) => {
                                                 />
                                         </Grid>
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                            <Typography variant='h2'>
+                                            <Typography noWrap variant='h2'>
                                                 Introduction
                                             </Typography>
                                                 <Editor 
