@@ -4,14 +4,23 @@ import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import { Typography } from '@material-ui/core';
+import { Typography, Paper } from '@material-ui/core';
 import {config} from '../constants/configuration';
+
+import Grid from '@material-ui/core/Grid'
+
+import WrapBreadcrumb from './WrapBreadcrumb'
 
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
         padding: 20
     },
+    paper: {
+        padding: theme.spacing(2),
+        // maxHeight: '400px',
+        // overflow: 'scroll'
+    }
 }));
 
 const mapStateToProps = state => {
@@ -50,20 +59,30 @@ const ConnectedProjectDetail = (props) => {
             loadingProjects ? <p>Loading...</p>:(
                 (!loadProjectsSuccess ? <p>Error loading project</p>:
                     <div className={classes.root}>
-                        <Breadcrumbs>
-                            <Link component={RouterLink} to='/'>
-                                Home
-                            </Link>                    
-                            <Typography>
-                                Project
-                            </Typography>                    
-                            <Link 
-                                component={RouterLink} 
-                                to={`/project/${project.id}`}
-                            >
-                                {project.name}
-                            </Link>                    
-                        </Breadcrumbs>                          
+                        <Grid
+                            container
+                            direction='column'
+                            jusify='center'
+                            alignItems='center'
+                            spacing={5}
+                        >
+                            <WrapBreadcrumb>
+                                <Breadcrumbs>
+                                    <Link component={RouterLink} to='/'>
+                                        Home
+                                    </Link>                    
+                                    <Typography>
+                                        Project
+                                    </Typography>                    
+                                    <Link 
+                                        component={RouterLink} 
+                                        to={`/project/${project.id}`}
+                                    >
+                                        {project.name}
+                                    </Link>                    
+                                </Breadcrumbs>                          
+                            </WrapBreadcrumb>
+                        </Grid>                        
                         <Typography variant='body1'>
                             Reference: {project.reference}
                         </Typography>

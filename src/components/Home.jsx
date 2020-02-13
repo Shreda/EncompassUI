@@ -11,12 +11,21 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper'
+
+import WrapBreadcrumb from './WrapBreadcrumb'
 
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
         padding: 20
     },
+    paper: {
+        padding: theme.spacing(2),
+        // maxHeight: '400px',
+        // overflow: 'scroll'
+    }
 }));
 
 const mapStateToProps = state => {
@@ -41,11 +50,21 @@ const ConnectedApp = (props) => {
             {loadingProjects ? <p>Loading...</p>:(
                 (!loadProjectsSuccess ? <p>Error loading project</p>:
                 <div className={classes.root}>
-                    <Breadcrumbs>
-                        <Link component={RouterLink} to='/'>
-                            Home
-                        </Link>                    
-                    </Breadcrumbs>
+                        <Grid 
+                            container 
+                            direction='column'
+                            justify='center'
+                            alignItems='center'
+                            spacing={5}
+                        >
+                            <WrapBreadcrumb>
+                                <Breadcrumbs>
+                                    <Link component={RouterLink} to='/'>
+                                        Home
+                                    </Link>                    
+                                </Breadcrumbs>
+                            </WrapBreadcrumb>
+                        </Grid>                    
                     <TableContainer>
                         <Table>
                             <TableHead>

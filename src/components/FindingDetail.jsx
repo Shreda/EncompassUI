@@ -11,14 +11,16 @@ import {
 } from '../actions/index'
 
 import Editor from 'rich-markdown-editor';
-
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import { Typography } from '@material-ui/core';
+import TextAreaAutosize from '@material-ui/core/TextareaAutosize'
 import { makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+
+import WrapBreadcrumb from './WrapBreadcrumb'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -75,12 +77,6 @@ const ConnectedFindingDetail = (props) => {
         saveFinding
     } = props
     
-    const handleUpload = async (f) => {
-        const return_url = await uploadImage(f)
-        console.log('returned url: ' + return_url)
-        return return_url
-    }
-
     const classes = useStyles()
 
     const finding = getFindingByURLId(props)
@@ -89,91 +85,93 @@ const ConnectedFindingDetail = (props) => {
             loadingFindings ? <p>Loading...</p>:(
                 (!loadFindingsSuccess ? <p>Error loading findings</p>:
                     <div className={classes.root}>
-                        <Breadcrumbs>
-                            <Link component={RouterLink} to='/'>
-                                Home
-                            </Link>                    
-                            <Typography>
-                                Project
-                            </Typography>                    
-                            <Link 
-                                component={RouterLink} 
-                                to={`/project/${finding.phase.project.id}`}
-                            >
-                                {finding.phase.project.name}
-                            </Link>                    
-                            <Typography>
-                                Phase
-                            </Typography>                    
-                            <Link 
-                                component={RouterLink} 
-                                to={`/phase/${finding.phase.id}`}
-                            >
-                                {finding.phase.name}
-                            </Link>                    
-                            <Typography>
-                                Finding
-                            </Typography>                    
-                            <Link 
-                                component={RouterLink} 
-                                to={`/finding/${finding.id}`}
-                            >
-                                {finding.title}
-                            </Link>                    
-                        </Breadcrumbs>
                         <Grid 
                             container 
                             direction='column'
                             justify='center'
                             alignItems='center'
-                            spacing={2}
+                            spacing={5}
                         >
-                            <Grid className={classes.grow} zeroMinWidth xs={12} s={8} lg={6} item>
+                            <WrapBreadcrumb>
+                                <Breadcrumbs>
+                                    <Link component={RouterLink} to='/'>
+                                        Home
+                                    </Link>                    
+                                    <Typography>
+                                        Project
+                                    </Typography>                    
+                                    <Link 
+                                        component={RouterLink} 
+                                        to={`/project/${finding.phase.project.id}`}
+                                    >
+                                        {finding.phase.project.name}
+                                    </Link>                    
+                                    <Typography>
+                                        Phase
+                                    </Typography>                    
+                                    <Link 
+                                        component={RouterLink} 
+                                        to={`/phase/${finding.phase.id}`}
+                                    >
+                                        {finding.phase.name}
+                                    </Link>                    
+                                    <Typography>
+                                        Finding
+                                    </Typography>                    
+                                    <Link 
+                                        component={RouterLink} 
+                                        to={`/finding/${finding.id}`}
+                                    >
+                                        {finding.title}
+                                    </Link>                    
+                                </Breadcrumbs>
+                            </WrapBreadcrumb>
+                            <Grid item container xs={12} sm={8} lg={6}>
                                 <Paper className={classes.paper}>
-                                    <Typography noWrap variant='h4'>
-                                        Background
-                                    </Typography>
-                                    <Editor 
-                                        defaultValue={finding.background} 
-                                        onSave={(opt) => handleSave(opt, finding, saveFinding)}
-                                        onChange={(value) => handleChange(value, finding, editFinding, 'background')}
-                                        uploadImage={async file => {
-                                            const result = await uploadImage(file)
-                                            return result
-                                        }}
-                                    />
-                                </Paper>
-                            </Grid>
-                            <Grid className={classes.grow} zeroMinWidth item xs={12} s={8} lg={6}>
-                                <Paper className={classes.paper}>
-                                    <Typography noWrap variant='h4'>
-                                        Story
-                                    </Typography>
-                                    <Editor 
-                                        defaultValue={finding.story} 
-                                        onSave={(opt) => handleSave(opt, finding, saveFinding)}
-                                        onChange={(value) => handleChange(value, finding, editFinding, 'story')}
-                                        uploadImage={async file => {
-                                            const result = await uploadImage(file)
-                                            return result
-                                        }}
-                                    />
-                                </Paper>
-                            </Grid>
-                            <Grid className={classes.grow} xs={12} s={8} lg={6} zeroMinWidth item>
-                                <Paper className={classes.paper}>
-                                    <Typography noWrap variant='h4'>
-                                        Recommendation
-                                    </Typography>
-                                    <Editor 
-                                        defaultValue={finding.recommendation} 
-                                        onSave={(opt) => handleSave(opt, finding, saveFinding)}
-                                        onChange={(value) => handleChange(value, finding, editFinding, 'recommendation')}
-                                        uploadImage={async file => {
-                                            const result = await uploadImage(file)
-                                            return result
-                                        }}
-                                    />
+                                    <Grid direction='column' justify='center' alignItems='center' spacing={5} item container >
+                                        <Grid className={classes.grow} zeroMinWidth item>
+                                                <Typography noWrap variant='h2'>
+                                                    Background
+                                                </Typography>
+                                                <Editor 
+                                                    defaultValue={finding.background} 
+                                                    onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                                    onChange={(value) => handleChange(value, finding, editFinding, 'background')}
+                                                    uploadImage={async file => {
+                                                        const result = await uploadImage(file)
+                                                        return result
+                                                    }}
+                                                />
+                                        </Grid>
+                                        <Grid className={classes.grow} zeroMinWidth item>
+                                                <Typography noWrap variant='h2'>
+                                                    Story
+                                                </Typography>
+                                                <Editor 
+                                                    defaultValue={finding.story} 
+                                                    onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                                    onChange={(value) => handleChange(value, finding, editFinding, 'story')}
+                                                    uploadImage={async file => {
+                                                        const result = await uploadImage(file)
+                                                        return result
+                                                    }}
+                                                />
+                                        </Grid>
+                                        <Grid className={classes.grow} zeroMinWidth item>
+                                                <Typography noWrap variant='h2'>
+                                                    Recommendation
+                                                </Typography>
+                                                <Editor 
+                                                    defaultValue={finding.recommendation} 
+                                                    onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                                    onChange={(value) => handleChange(value, finding, editFinding, 'recommendation')}
+                                                    uploadImage={async file => {
+                                                        const result = await uploadImage(file)
+                                                        return result
+                                                    }}
+                                                />
+                                        </Grid>
+                                    </Grid>
                                 </Paper>
                             </Grid>
                         </Grid>

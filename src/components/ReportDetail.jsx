@@ -20,6 +20,11 @@ import Button from '@material-ui/core/Button'
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import IconButton from '@material-ui/core/IconButton'
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+
+import WrapBreadcrumb from './WrapBreadcrumb'
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,9 +37,15 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         padding: theme.spacing(2),
-        // maxHeight: '400px',
-        // overflow: 'scroll'
-    }
+        width: '100%'
+    },
+    controlBar: {
+        width: '100%',
+        // padding: theme.spacing(1)
+    },
+    rotate: {
+        animation: "rotation 2s infinite linear"
+      }
 }));
 
 const mapStateToProps = state => {
@@ -85,12 +96,6 @@ const ConnectedProjectDetail = (props) => {
         await generateReport(reportId)
         setGeneratingReport(false)
     }
-    
-    // const handleUpload = async (f) => {
-    //     const return_url = await uploadImage(f)
-    //     console.log('returned url: ' + return_url)
-    //     return return_url
-    // }
 
     const classes = useStyles()
 
@@ -101,75 +106,119 @@ const ConnectedProjectDetail = (props) => {
             loadingReports ? <p>Loading...</p>:(
                 (!loadReportsSuccess ? <p>Error loading report</p>:
                     <div className={classes.root}>
-                        <Breadcrumbs>
-                            <Link component={RouterLink} to='/'>
-                                Home
-                            </Link>                    
-                            <Typography>
-                                Project
-                            </Typography>                    
-                            <Link 
-                                component={RouterLink} 
-                                to={`/project/${report.project.id}`}
-                            >
-                                {report.project.name}
-                            </Link>                    
-                            <Typography>
-                                Report
-                            </Typography>                    
-                            <Link 
-                                component={RouterLink} 
-                                to={`/report/${report.id}`}
-                            >
-                                {report.name}
-                            </Link>                    
-                        </Breadcrumbs>
-                        <Typography variant='body1'>
-                            Generated report: 
-                            <Link href={`${config.url.MEDIA_ROOT}${report.report_url}`}> download</Link>
-                        </Typography>
-                        {generatingReport ? <Typography>Generating...</Typography>:null}
-                        <Button onClick={(e) => handleGenerate(e, report.id)}>Generate report</Button>
                         <Grid 
                             container 
                             direction='column'
                             justify='center'
                             alignItems='center'
-                            spacing={2}
+                            spacing={5}
                         >
-                            <Grid className={classes.grow} zeroMinWidth xs={12} s={8} lg={6} item>
-                                <Typography variant='h4'>
-                                    Executive Summary
-                                </Typography>
-                                <Paper className={classes.paper}>
-                                    <Editor 
-                                        defaultValue={report.executive_summary} 
-                                        onSave={(opt) => handleSave(opt, report, saveReport)}
-                                        onChange={(value) => handleChange(value, report, editReport, 'executive_summary')}
-                                        uploadImage={async file => {
-                                            const result = await uploadImage(file)
-                                            return result
-                                        }}
-                                    />
+                            <WrapBreadcrumb>
+                                <Breadcrumbs>
+                                    <Link component={RouterLink} to='/'>
+                                        Home
+                                    </Link>                    
+                                    <Typography>
+                                        Project
+                                    </Typography>                    
+                                    <Link 
+                                        component={RouterLink} 
+                                        to={`/project/${report.project.id}`}
+                                    >
+                                        {report.project.name}
+                                    </Link>                    
+                                    <Typography>
+                                        Report
+                                    </Typography>                    
+                                    <Link 
+                                        component={RouterLink} 
+                                        to={`/report/${report.id}`}
+                                    >
+                                        {report.name}
+                                    </Link>                    
+                                </Breadcrumbs>
+                            </WrapBreadcrumb>
+                            <Grid item container xs={12} sm={8} lg={6}>
+                                <Paper className={classes.controlBar}>
+                                    <Grid
+                                            direction='row'
+                                            justify='center'
+                                            alignItems='center'
+                                            spacing={5}
+                                            container
+                                    >
+                                        <Grid
+                                            item
+                                        >
+                                            <IconButton 
+                                                aria-label="generate report"
+                                                onClick={(e) => handleGenerate(e, report.id)}
+                                                title="generate report"
+                                            >
+                                                <AutorenewIcon 
+                                                     className={[
+                                                         generatingReport? "App-logo": null
+                                                     ]}
+                                                />
+                                            </IconButton>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                        >
+                                            <IconButton 
+                                                component={Link}
+                                                href={`${config.url.MEDIA_ROOT}${report.report_url}`}
+                                                aria-label="view report pdf"
+                                                title="download report"
+                                            >
+                                                <CloudDownloadIcon
+                                                />
+                                            </IconButton>
+                                        </Grid>
+                                    </Grid>
                                 </Paper>
                             </Grid>
-
-                            <Grid className={classes.grow} zeroMinWidth xs={12} s={8} lg={6} item>
-                                <Typography variant='h4'>
-                                    Introduction
-                                </Typography>
+                            <Grid item container xs={12} sm={8} lg={6}>
                                 <Paper className={classes.paper}>
-                                    <Editor 
-                                        defaultValue={report.introduction} 
-                                        onSave={(opt) => handleSave(opt, report, saveReport)}
-                                        onChange={(value) => handleChange(value, report, editReport, 'introduction')}
-                                        uploadImage={async file => {
-                                            const result = await uploadImage(file)
-                                            return result
-                                        }}
-                                    />
+                                    <Grid
+                                        direction='column'
+                                        jusity='center'
+                                        alignItems='center'
+                                        spacing={5}
+                                        item
+                                        container
+                                    >
+                                        <Grid className={classes.grow} zeroMinWidth item>
+                                            <Typography variant='h2'>
+                                                Executive Summary
+                                            </Typography>
+                                                <Editor 
+                                                    defaultValue={report.executive_summary} 
+                                                    onSave={(opt) => handleSave(opt, report, saveReport)}
+                                                    onChange={(value) => handleChange(value, report, editReport, 'executive_summary')}
+                                                    uploadImage={async file => {
+                                                        const result = await uploadImage(file)
+                                                        return result
+                                                    }}
+                                                />
+                                        </Grid>
+                                        <Grid className={classes.grow} zeroMinWidth item>
+                                            <Typography variant='h2'>
+                                                Introduction
+                                            </Typography>
+                                                <Editor 
+                                                    defaultValue={report.introduction} 
+                                                    onSave={(opt) => handleSave(opt, report, saveReport)}
+                                                    onChange={(value) => handleChange(value, report, editReport, 'introduction')}
+                                                    uploadImage={async file => {
+                                                        const result = await uploadImage(file)
+                                                        return result
+                                                    }}
+                                                />
+                                        </Grid>
+                                    </Grid>
                                 </Paper>
-                            </Grid>
+                            </Grid>                      
                         </Grid>                        
                     </div>
                 )
