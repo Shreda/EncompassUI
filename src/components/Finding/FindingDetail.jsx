@@ -97,54 +97,52 @@ const ConnectedFindingDetail = (props) => {
                             <FindingBreadcrumb finding={finding}/>
                             <Dock>
                                 <RiskRatingForm finding={finding} />
-                                <Grid item spacing={2} justify='center' alignItems='center' container>
-                                    <Grid item>
-                                        <IconButton
-                                            onClick={handleEditButton}
-                                            aria-label="toggle edit"
-                                            title="toggle edit"
-                                        >
-                                            <EditIcon 
-                                                fontSize='large' 
-                                                color={readOnly ? 'default' : 'primary'}/>
-                                        </IconButton>
-                                    </Grid>
-                                    <Grid item>
-                                        <IconButton
-                                            onClick={handleSaveButton(finding, saveFinding)}
-                                            aria-label="save finding"
-                                            title="save finding"
-                                        >
-                                            <SaveIcon 
-                                                fontSize='large' 
-                                                color={!savingFinding ? 'default': 'primary'}
-                                            />
-                                        </IconButton>
-                                    </Grid>                                    
-                                </Grid>
-                                {finding.unsavedChanges ?
-                                <Grid item container direction='colum' justify='center' alignItems='center'>
-                                    <Grid item>
-                                        <Typography variant='body1'>
-                                            Don't forget to (ctrl + s) your changes 🐳
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                : null}
                             </Dock>
 
                             <Grid item container xs={12} sm={6} lg={6}>
                                 <Paper className={classes.paper}>
+                                    <Grid item spacing={2} justify='flex-start' alignItems='center' container>
+                                        <Grid item>
+                                            <IconButton
+                                                onClick={handleEditButton}
+                                                aria-label="toggle edit"
+                                                title="toggle edit"
+                                            >
+                                                <EditIcon 
+                                                    
+                                                    color={readOnly ? 'default' : 'primary'}/>
+                                            </IconButton>
+                                        </Grid>
+                                        <Grid item>
+                                            <IconButton
+                                                onClick={handleSaveButton(finding, saveFinding)}
+                                                aria-label="save finding"
+                                                title="save finding"
+                                            >
+                                                <SaveIcon 
+                                                    
+                                                    color={!savingFinding ? 'default': 'primary'}
+                                                />
+                                            </IconButton>
+                                        </Grid>
+                                        {finding.unsavedChanges ?
+                                            <Grid item>
+                                                <Typography variant='body1'>
+                                                    Don't forget to save 🐳
+                                                </Typography>
+                                            </Grid>
+                                        : null}                                                                      
+                                    </Grid>                                        
                                     <Grid 
                                         direction='column' 
                                         justify='center' 
                                         alignItems='center' 
-                                        spacing={5} 
+                                        spacing={2} 
                                         item 
                                         container
                                     >
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h3'>
+                                                <Typography noWrap variant='h4'>
                                                     Background
                                                 </Typography>
                                                 <Editor 
@@ -159,7 +157,7 @@ const ConnectedFindingDetail = (props) => {
                                                 />
                                         </Grid>
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h3'>
+                                                <Typography noWrap variant='h4'>
                                                     Story
                                                 </Typography>
                                                 <Editor 
@@ -174,7 +172,7 @@ const ConnectedFindingDetail = (props) => {
                                                 />
                                         </Grid>
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h3'>
+                                                <Typography noWrap variant='h4'>
                                                     Recommendation
                                                 </Typography>
                                                 <Editor 

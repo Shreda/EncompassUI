@@ -1,7 +1,7 @@
 import React from 'react';
 import {debounce} from 'lodash';
 import { connect } from 'react-redux';
-import {config} from '../constants/configuration';
+import {config} from '../../constants/configuration';
 import { Link as RouterLink } from 'react-router-dom';
 
 import {
@@ -9,7 +9,8 @@ import {
     saveReport,
     uploadImage,
     generateReport
-} from '../actions/index'
+} from '../../actions/index'
+import ReportBreadcrumb from './ReportBreadcrumb'
 
 import Editor from 'rich-markdown-editor';
 
@@ -24,7 +25,7 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import IconButton from '@material-ui/core/IconButton'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
-import WrapBreadcrumb from './WrapBreadcrumb'
+import WrapBreadcrumb from '../WrapBreadcrumb'
 
 
 const useStyles = makeStyles(theme => ({
@@ -111,60 +112,37 @@ const ConnectedProjectDetail = (props) => {
                             direction='column'
                             justify='center'
                             alignItems='center'
-                            spacing={5}
+                            spacing={3}
                         >
-                            <WrapBreadcrumb>
-                                <Breadcrumbs>
-                                    <Link component={RouterLink} to='/'>
-                                        Home
-                                    </Link>                    
-                                    <Typography>
-                                        Project
-                                    </Typography>                    
-                                    <Link 
-                                        component={RouterLink} 
-                                        to={`/project/${report.project.id}`}
-                                    >
-                                        {report.project.name}
-                                    </Link>                    
-                                    <Typography>
-                                        Report
-                                    </Typography>                    
-                                    <Link 
-                                        component={RouterLink} 
-                                        to={`/report/${report.id}`}
-                                    >
-                                        {report.name}
-                                    </Link>                    
-                                </Breadcrumbs>
-                            </WrapBreadcrumb>
+                            <ReportBreadcrumb report={report} />
                             <Grid item container xs={12} sm={8} lg={6}>
-                                <Paper className={classes.controlBar}>
-                                    <Grid
-                                            direction='row'
-                                            justify='center'
-                                            alignItems='center'
-                                            spacing={5}
-                                            container
-                                    >
-                                        <Grid
-                                            item
-                                        >
+                                <Paper className={classes.paper}>
+                                    <Grid item spacing={2} justify='flex-start' alignItems='center' container>
+                                        {/* <Grid item>
+                                            <IconButton
+                                                onClick={handleEditButton}
+                                                aria-label="toggle edit"
+                                                title="toggle edit"
+                                            >
+                                                <EditIcon 
+                                                    
+                                                    color={readOnly ? 'default' : 'primary'}/>
+                                            </IconButton>
+                                        </Grid> */}
+                                        <Grid item>
                                             <IconButton 
                                                 aria-label="generate report"
                                                 onClick={(e) => handleGenerate(e, report.id)}
                                                 title="generate report"
                                             >
                                                 <AutorenewIcon 
-                                                     className={[
-                                                         generatingReport? "App-logo": null
-                                                     ]}
+                                                    className={[
+                                                        generatingReport? "App-logo": null
+                                                    ]}
                                                 />
-                                            </IconButton>
-                                        </Grid>
-                                        <Grid
-                                            item
-                                        >
+                                            </IconButton>                                                
+                                        </Grid>                                            
+                                        <Grid item>
                                             <IconButton 
                                                 component={Link}
                                                 href={`${config.url.MEDIA_ROOT}${report.report_url}`}
@@ -175,21 +153,17 @@ const ConnectedProjectDetail = (props) => {
                                                 />
                                             </IconButton>
                                         </Grid>
-                                    </Grid>
-                                </Paper>
-                            </Grid>
-                            <Grid item container xs={12} sm={8} lg={6}>
-                                <Paper className={classes.paper}>
+                                    </Grid>                                                                                 
                                     <Grid
                                         direction='column'
                                         jusity='center'
                                         alignItems='center'
-                                        spacing={5}
+                                        spacing={2}
                                         item
                                         container
                                     >
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                            <Typography noWrap variant='h2'>
+                                            <Typography noWrap variant='h4'>
                                                 Executive Summary
                                             </Typography>
                                                 <Editor 
@@ -203,7 +177,7 @@ const ConnectedProjectDetail = (props) => {
                                                 />
                                         </Grid>
                                         <Grid className={classes.grow} zeroMinWidth item>
-                                            <Typography noWrap variant='h2'>
+                                            <Typography noWrap variant='h4'>
                                                 Introduction
                                             </Typography>
                                                 <Editor 
