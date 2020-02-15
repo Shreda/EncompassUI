@@ -28,7 +28,10 @@ import {
     EDIT_FINDING,
     SAVE_FINDING,
     SAVE_FINDING_SUCCESS,
-    SAVE_FINDING_FAILURE
+    SAVE_FINDING_FAILURE,
+    LOAD_USER,
+    LOAD_USER_SUCCESS,
+    LOAD_USER_FAILURE
 
 } from '../constants/action-types';
 
@@ -62,7 +65,11 @@ const initialState = {
     loadingFindings: false,
     loadFindingsSuccess: false,
     savingFinding: false,
-    saveFindingSuccess: false
+    saveFindingSuccess: false,
+
+    user: null,
+    loadingUser: false,
+    loadUserSuccess: false
 };
 
 function rootReducer(state = initialState, action) {
@@ -239,7 +246,21 @@ function rootReducer(state = initialState, action) {
         case SAVE_FINDING:
             return Object.assign({}, state, {
                 savingFinding: true
-            })        
+            })
+
+        case LOAD_USER:
+            return Object.assign({}, state, {
+                loadingUser: true
+            })
+
+        case LOAD_USER_SUCCESS:
+            return Object.assign({}, state, {
+                loadUserSuccess: true,
+                loadingUser: false,
+                user: action.payload
+            })
+            
+        
 
         default:
             return state      

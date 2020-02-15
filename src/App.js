@@ -11,7 +11,8 @@ import {
     getCompanies,
     getReports,
     getPhases,
-    getFindings
+    getFindings,
+    getUser
 } from './actions/index';
 
 const mapStateToProps = state => {
@@ -28,6 +29,8 @@ const mapStateToProps = state => {
         loadPhasesSuccess: state.loadPhasesSuccess,
         loadingFindings: state.loadingFindings,
         loadFindingsSuccess: state.loadFindingsSuccess,
+        loadingUser: state.loadingUser,
+        loadUserSuccess: state.loadUserSuccess,
     }
 };
 
@@ -46,6 +49,8 @@ const ConnectedApp = (props) => {
         loadingPhases,
         loadFindingsSuccess,
         loadingFindings,
+        loadingUser,
+        loadUserSuccess
     } = props
 
     const renderRoutes = (props) => {
@@ -80,6 +85,9 @@ const ConnectedApp = (props) => {
         async function fetchFindings() {
             props.getFindings()
         }
+        async function fetchUser() {
+            props.getUser()
+        }
 
         authStatus()
 
@@ -98,6 +106,9 @@ const ConnectedApp = (props) => {
         if (!loadFindingsSuccess && !loadingFindings && isAuthenticated) {
             fetchFindings()
         }
+        if (!loadUserSuccess && !loadingUser && isAuthenticated) {
+            fetchUser()
+        }
     });
    
     return (
@@ -113,7 +124,8 @@ const App = connect(
         getCompanies,
         getReports,
         getPhases,
-        getFindings
+        getFindings,
+        getUser
     }
 )(ConnectedApp);
 

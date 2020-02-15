@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 
@@ -26,6 +25,7 @@ import BusinessIcon from '@material-ui/icons/Business';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import { commonStyles } from '../styles/index';
 
@@ -156,16 +156,18 @@ const ConnectedApp = (props) => {
                                     <Grid className={classes.grow} item>
                                         <List component="nav" aria-label="useful links">
                                             <ListItem to='company' component={RouterLink} button>
-                                                <ListItemIcon>
-                                                    <BusinessIcon />
-                                                </ListItemIcon>
                                                 <ListItemText primary="Companies" />
+                                                <ListItemSecondaryAction>
+                                                    <IconButton edge="end" aria-label="favourite">
+                                                        <FavoriteIcon />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>                                                
                                             </ListItem>
                                             <ListItem component={RouterLink} to='project' button>
                                                 <ListItemText primary="Projects" />
                                                 <ListItemSecondaryAction>
-                                                    <IconButton>
-                                                    <LibraryBooksIcon />
+                                                    <IconButton edge="end" aria-label="favourite">
+                                                        <FavoriteIcon />
                                                     </IconButton>
                                                 </ListItemSecondaryAction>
                                             </ListItem>
