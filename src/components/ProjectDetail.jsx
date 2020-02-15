@@ -64,7 +64,7 @@ const ConnectedProjectDetail = (props) => {
                             direction='column'
                             jusify='center'
                             alignItems='center'
-                            spacing={5}
+                            spacing={3}
                         >
                             <WrapBreadcrumb>
                                 <Breadcrumbs>
