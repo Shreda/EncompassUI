@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import {
     uploadImage,
     editFinding,
-    saveFinding
+    saveFinding,
+    getFinding
 } from '../../actions/index'
 
 import Editor from 'rich-markdown-editor';
@@ -29,18 +30,25 @@ const mapStateToProps = state => {
         loadingFindings: state.loadingFindings,
         loadFindingsSuccess: state.loadFindingsSuccess,
         savingFinding: state.savingFinding,
+        loadFinding: state.loadFinding
     }
 }
 
-const getFindingByURLId = (props) => {
-    const finding = props.findings.filter(f => {
+const getFindingByURLId = async (props) => {
+    const finding = await props.findings.filter(f => {
         if(f.id === props.match.params.id) {
             return true;
         } else {
             return false;
         }
     })
-    return finding[0]
+    if (Array.isArray(finding) && finding.length) {
+        return finding[0]
+    }
+    else {
+        const finding = await props.getFinding(props.match.params.id)
+        return finding
+    }
 }
 
 const handleSave = (opt, finding, callback) => {
@@ -69,12 +77,21 @@ const ConnectedFindingDetail = (props) => {
         generateReport,
         editFinding,
         saveFinding,
-        savingFinding
+        savingFinding,
+        loadFinding
     } = props
     
     const classes = commonStyles()
+    const [finding, setFinding] = React.useState(null);
     
-    const finding = getFindingByURLId(props)
+    const fetchFinding = async () => {
+        const finding = await getFindingByURLId(props)
+        setFinding(finding)
+    }
+
+    React.useEffect(() => {
+        fetchFinding()
+    }, [finding])
 
     const [readOnly, setReadOnly] = React.useState(true);
 
@@ -85,119 +102,124 @@ const ConnectedFindingDetail = (props) => {
     
     return (
             loadingFindings ? <p>Loading...</p>:(
-                (!loadFindingsSuccess ? <p>Error loading findings</p>:
-                    <div className={classes.root}>
-                        <Grid 
-                            container 
-                            direction='row'
-                            justify='flex-start'
-                            alignItems='flex-start'
-                            spacing={3}
-                        >
-                            <FindingBreadcrumb finding={finding}/>
-                            <Dock>
-                                <RiskRatingForm finding={finding} />
-                            </Dock>
+                (!loadFindingsSuccess ? <p>Error loading findings</p>: (
+                    loadFinding ? <p>Loading finding...</p> : (
+                        !finding ? null: (
+                            <div className={classes.root}>
+                                <Grid 
+                                    container 
+                                    direction='row'
+                                    justify='flex-start'
+                                    alignItems='flex-start'
+                                    spacing={3}
+                                >
+                                    <FindingBreadcrumb finding={finding}/>
+                                    <Dock>
+                                        <RiskRatingForm finding={finding} />
+                                    </Dock>
 
-                            <Grid item container xs={12} sm={6} lg={6}>
-                                <Paper className={classes.paper}>
-                                    <Grid item spacing={2} justify='flex-start' alignItems='center' container>
-                                        <Grid item>
-                                            <IconButton
-                                                onClick={handleEditButton}
-                                                aria-label="toggle edit"
-                                                title="toggle edit"
+                                    <Grid item container xs={12} sm={6} lg={6}>
+                                        <Paper className={classes.paper}>
+                                            <Grid item spacing={2} justify='flex-start' alignItems='center' container>
+                                                <Grid item>
+                                                    <IconButton
+                                                        onClick={handleEditButton}
+                                                        aria-label="toggle edit"
+                                                        title="toggle edit"
+                                                    >
+                                                        <EditIcon 
+                                                            
+                                                            color={readOnly ? 'default' : 'primary'}/>
+                                                    </IconButton>
+                                                </Grid>
+                                                <Grid item>
+                                                    <IconButton
+                                                        onClick={handleSaveButton(finding, saveFinding)}
+                                                        aria-label="save finding"
+                                                        title="save finding"
+                                                    >
+                                                        <SaveIcon 
+                                                            
+                                                            color={!savingFinding ? 'default': 'primary'}
+                                                        />
+                                                    </IconButton>
+                                                </Grid>
+                                                {finding.unsavedChanges ?
+                                                    <Grid item>
+                                                        <Typography variant='body1'>
+                                                            Don't forget to save 🐳
+                                                        </Typography>
+                                                    </Grid>
+                                                : null}                                                                      
+                                            </Grid>                                        
+                                            <Grid 
+                                                direction='column' 
+                                                justify='center' 
+                                                alignItems='center' 
+                                                spacing={2} 
+                                                item 
+                                                container
                                             >
-                                                <EditIcon 
-                                                    
-                                                    color={readOnly ? 'default' : 'primary'}/>
-                                            </IconButton>
-                                        </Grid>
-                                        <Grid item>
-                                            <IconButton
-                                                onClick={handleSaveButton(finding, saveFinding)}
-                                                aria-label="save finding"
-                                                title="save finding"
-                                            >
-                                                <SaveIcon 
-                                                    
-                                                    color={!savingFinding ? 'default': 'primary'}
-                                                />
-                                            </IconButton>
-                                        </Grid>
-                                        {finding.unsavedChanges ?
-                                            <Grid item>
-                                                <Typography variant='body1'>
-                                                    Don't forget to save 🐳
-                                                </Typography>
+                                                <Grid className={classes.grow} zeroMinWidth item>
+                                                        <Typography noWrap variant='h4'>
+                                                            Background
+                                                        </Typography>
+                                                        <Editor 
+                                                            defaultValue={finding.background} 
+                                                            onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                                            onChange={(value) => handleChange(value, finding, editFinding, 'background')}
+                                                            uploadImage={async file => {
+                                                                const result = await uploadImage(file)
+                                                                return result
+                                                            }}
+                                                            readOnly={readOnly}
+                                                        />
+                                                </Grid>
+                                                <Grid className={classes.grow} zeroMinWidth item>
+                                                        <Typography noWrap variant='h4'>
+                                                            Story
+                                                        </Typography>
+                                                        <Editor 
+                                                            defaultValue={finding.story} 
+                                                            onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                                            onChange={(value) => handleChange(value, finding, editFinding, 'story')}
+                                                            uploadImage={async file => {
+                                                                const result = await uploadImage(file)
+                                                                return result
+                                                            }}
+                                                            readOnly={readOnly}
+                                                        />
+                                                </Grid>
+                                                <Grid className={classes.grow} zeroMinWidth item>
+                                                        <Typography noWrap variant='h4'>
+                                                            Recommendation
+                                                        </Typography>
+                                                        <Editor 
+                                                            defaultValue={finding.recommendation} 
+                                                            onSave={(opt) => handleSave(opt, finding, saveFinding)}
+                                                            onChange={(value) => handleChange(value, finding, editFinding, 'recommendation')}
+                                                            uploadImage={async file => {
+                                                                const result = await uploadImage(file)
+                                                                return result
+                                                            }}
+                                                            readOnly={readOnly}
+                                                        />
+                                                </Grid>
                                             </Grid>
-                                        : null}                                                                      
-                                    </Grid>                                        
-                                    <Grid 
-                                        direction='column' 
-                                        justify='center' 
-                                        alignItems='center' 
-                                        spacing={2} 
-                                        item 
-                                        container
-                                    >
-                                        <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h4'>
-                                                    Background
-                                                </Typography>
-                                                <Editor 
-                                                    defaultValue={finding.background} 
-                                                    onSave={(opt) => handleSave(opt, finding, saveFinding)}
-                                                    onChange={(value) => handleChange(value, finding, editFinding, 'background')}
-                                                    uploadImage={async file => {
-                                                        const result = await uploadImage(file)
-                                                        return result
-                                                    }}
-                                                    readOnly={readOnly}
-                                                />
-                                        </Grid>
-                                        <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h4'>
-                                                    Story
-                                                </Typography>
-                                                <Editor 
-                                                    defaultValue={finding.story} 
-                                                    onSave={(opt) => handleSave(opt, finding, saveFinding)}
-                                                    onChange={(value) => handleChange(value, finding, editFinding, 'story')}
-                                                    uploadImage={async file => {
-                                                        const result = await uploadImage(file)
-                                                        return result
-                                                    }}
-                                                    readOnly={readOnly}
-                                                />
-                                        </Grid>
-                                        <Grid className={classes.grow} zeroMinWidth item>
-                                                <Typography noWrap variant='h4'>
-                                                    Recommendation
-                                                </Typography>
-                                                <Editor 
-                                                    defaultValue={finding.recommendation} 
-                                                    onSave={(opt) => handleSave(opt, finding, saveFinding)}
-                                                    onChange={(value) => handleChange(value, finding, editFinding, 'recommendation')}
-                                                    uploadImage={async file => {
-                                                        const result = await uploadImage(file)
-                                                        return result
-                                                    }}
-                                                    readOnly={readOnly}
-                                                />
-                                        </Grid>
+                                        </Paper>
                                     </Grid>
-                                </Paper>
-                            </Grid>
-                            <Dock>
-                                <Grid item>
-                                    <Typography variant='subtitle1'>
-                                        Affected Assets
-                                    </Typography>
+                                    <Dock>
+                                        <Grid item>
+                                            <Typography variant='subtitle1'>
+                                                Affected Assets
+                                            </Typography>
+                                        </Grid>
+                                    </Dock>                                                    
                                 </Grid>
-                            </Dock>                                                    
-                        </Grid>
-                    </div>
+                            </div>
+                        )
+                    )
+                )
                 )
             )
     )
@@ -208,7 +230,8 @@ const FindingDetail = connect(
     {
         uploadImage,
         editFinding,
-        saveFinding
+        saveFinding,
+        getFinding
     }
 )(ConnectedFindingDetail);
 

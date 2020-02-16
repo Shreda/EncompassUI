@@ -35,6 +35,12 @@ import {
     UPDATE_FAVOURITES,
     UPDATE_FAVOURITES_SUCCESS,
     UPDATE_FAVOURITES_FAILURE,
+    GET_FINDING,
+    GET_FINDING_SUCCESS,
+    GET_FINDING_FAILURE,
+    GET_PHASE,
+    GET_PHASE_FAILURE,
+    GET_PHASE_SUCCESS
 
 } from '../constants/action-types';
 
@@ -63,12 +69,14 @@ const initialState = {
     phases: [],
     loadingPhases: false,
     loadPhasesSuccess: false,
+    loadPhase: false,
 
     findings: [],
     loadingFindings: false,
     loadFindingsSuccess: false,
     savingFinding: false,
     saveFindingSuccess: false,
+    loadFinding: false,
 
     user: null,
     loadingUser: false,
@@ -200,9 +208,20 @@ function rootReducer(state = initialState, action) {
         case LOAD_PHASES_SUCCESS:
             return Object.assign({}, state, {
                 loadPhasesSuccess: true,
-                phases: action.payload,
+                phases: state.phases.concat(action.payload),
                 loadingPhases: false
             });
+
+        case GET_PHASE:
+            return Object.assign({}, state, {
+                loadPhase: true
+            })
+        
+        case GET_PHASE_SUCCESS:
+            return Object.assign({}, state, {
+                phases: state.phases.concat(action.payload),
+                loadPhase: false
+            })            
 
         //////////////////////////////////////
         //          Finding Reducers        //
@@ -249,6 +268,17 @@ function rootReducer(state = initialState, action) {
         case SAVE_FINDING:
             return Object.assign({}, state, {
                 savingFinding: true
+            })
+
+        case GET_FINDING:
+            return Object.assign({}, state, {
+                loadFinding: true
+            })
+        
+        case GET_FINDING_SUCCESS:
+            return Object.assign({}, state, {
+                findings: state.findings.concat(action.payload),
+                loadFinding: false
             })
 
         case LOAD_USER:

@@ -32,7 +32,13 @@ import {
     LOAD_USER_SUCCESS,
     LOAD_PROJECTS_FAILURE,
     UPDATE_FAVOURITES,
-    UPDATE_FAVOURITES_SUCCESS
+    UPDATE_FAVOURITES_SUCCESS,
+    GET_FINDING,
+    GET_FINDING_SUCCESS,
+    GET_FINDING_FAILURE,
+    GET_PHASE,
+    GET_PHASE_SUCCESS,
+    GET_PHASE_FAILURE
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -54,11 +60,55 @@ export function getProjects() {
             .then(json => {
                 dispatch({
                     type: LOAD_PROJECTS_SUCCESS,
-                    payload: json
+                    payload: json.results
                 })
             })
     }
 }
+
+export function getFinding(id) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `finding/${id}/`
+        dispatch({
+            type: GET_FINDING
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            },            
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: GET_FINDING_SUCCESS,
+                    payload: json
+                })
+                return json
+            })
+    }
+}
+
+export function getPhase(id) {
+    return async function(dispatch) {
+        const URL = config.url.API_URL + `phase/${id}/`
+        dispatch({
+            type: GET_PHASE
+        })
+        const res = await fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            },            
+        })
+
+        const json = await res.json()
+        dispatch({
+            type: GET_PHASE_SUCCESS,
+            payload: json
+        })
+        return json
+}}
+
 
 export function getUser() {
     return function(dispatch) {
@@ -251,7 +301,7 @@ export function getPhases() {
             .then(json => {
                 dispatch({
                     type: LOAD_PHASES_SUCCESS,
-                    payload: json
+                    payload: json.results
                 })
             })
     }
