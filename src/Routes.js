@@ -18,7 +18,6 @@ const mapStateToProps = state => {
 };
 
 const ProtectedRoute = ({ component: Component, isAuthenticated, ...rest }) => {
-    console.log(isAuthenticated);
     return isAuthenticated ? (
         <Route {...rest} render={matchProps => <Component {...matchProps}/> }/>
     ) : (

@@ -31,7 +31,10 @@ import {
     SAVE_FINDING_FAILURE,
     LOAD_USER,
     LOAD_USER_SUCCESS,
-    LOAD_USER_FAILURE
+    LOAD_USER_FAILURE,
+    UPDATE_FAVOURITES,
+    UPDATE_FAVOURITES_SUCCESS,
+    UPDATE_FAVOURITES_FAILURE,
 
 } from '../constants/action-types';
 
@@ -259,8 +262,11 @@ function rootReducer(state = initialState, action) {
                 loadingUser: false,
                 user: action.payload
             })
-            
-        
+
+        case UPDATE_FAVOURITES_SUCCESS:
+            return Object.assign({}, state, {
+                user: action.payload
+            })
 
         default:
             return state      

@@ -30,7 +30,9 @@ import {
     SAVE_FINDING_FAILURE,
     LOAD_USER,
     LOAD_USER_SUCCESS,
-    LOAD_PROJECTS_FAILURE
+    LOAD_PROJECTS_FAILURE,
+    UPDATE_FAVOURITES,
+    UPDATE_FAVOURITES_SUCCESS
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -73,6 +75,30 @@ export function getUser() {
             .then(json => {
                 dispatch({
                     type: LOAD_USER_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function updateFavourites(user) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + 'me/favourites/'
+        return fetch(
+            URL,
+            {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${API_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                body: JSON.stringify(user)
+            }
+        ).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: UPDATE_FAVOURITES_SUCCESS,
                     payload: json
                 })
             })
