@@ -4,6 +4,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 
+import {debounce} from 'lodash';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -61,19 +63,24 @@ const ConnectedApp = (props) => {
     } = props
 
     const classes = commonStyles()
+    
+    const [searchTerm, setSearchTerm] = React.useState('');
 
-    const handleFavButton = (user, action, projectid) => event => {
-        const favs = [] 
-        user.favourite_projects.map(f =>(
-            (f.id !== projectid) ? (
-                favs.push(f.id)
-            ):(null)
-        ))
-        const payload = {
-            favourite_projects: favs
-        }
-        updateFavourites(payload)
-    }
+    const debounceHandleChange = debounce((value, callback) => {
+        callback(value)
+    })
+
+    const debounceFilterValue = debounce((array, string) => {
+        return array.filter(o => {
+            if(o.name.toLowerCase().includes(string.toLowerCase())) {
+                return true
+            } else {
+                return false
+            }
+        })
+    }, 500, {leading:true})
+
+    const filtered_projects = debounceFilterValue(projects, searchTerm)
 
     return (
             loadingProjects ? <p>Loading...</p>:(
@@ -121,13 +128,18 @@ const ConnectedApp = (props) => {
                                     </Dock>
                                     <Grid item container xs={12} sm={6} lg={6}>
                                         <Paper className={classes.paper}>
-                                            <Grid item spacing={2} justify='flex-start' alignItems='center' container>
+                                            <Grid item direction='column' spacing={2} justify='flex-start' alignItems='flex-start' container>
+                                                <Grid item>
+                                                    <Typography variant='subtitle1'>
+                                                        Latest Projects
+                                                    </Typography>                                                    
+                                                </Grid>
                                                 <Grid item>
                                                     <FormControl>
                                                         <InputLabel
                                                             htmlFor="search-field"
                                                         >
-                                                            Search
+                                                            Search Latest
                                                         </InputLabel>
                                                         <Input
                                                             id="search-field"
@@ -136,6 +148,12 @@ const ConnectedApp = (props) => {
                                                                     <SearchIcon />
                                                                 </InputAdornment>
                                                             }
+                                                            value={searchTerm}
+                                                            onChange={(event) => debounceHandleChange(
+                                                                event.target.value,
+                                                                setSearchTerm
+                                                                )}
+                                                            autoComplete="off"
                                                         />
                                                     </FormControl>
                                                 </Grid>
@@ -153,7 +171,7 @@ const ConnectedApp = (props) => {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {projects.map(p =>
+                                                        {filtered_projects.slice(0,30).map(p =>
                                                             <TableRow key={p.id}>
                                                                 <TableCell>
                                                                     <Link component={RouterLink} to={`/project/${p.id}`}>
@@ -184,7 +202,7 @@ const ConnectedApp = (props) => {
                                                 <List component="nav" aria-label="useful links">
                                                     {loadingUser ? <p>Loading user...</p>: (
                                                         user.favourite_projects.map(fp => 
-                                                        <ListItem to={`/project/${fp.id}`} component={RouterLink} button>
+                                                        <ListItem key={fp.id} to={`/project/${fp.id}`} component={RouterLink} button>
                                                             <ListItemText primary={fp.name} />
                                                             <ListItemSecondaryAction>
                                                                 <ProjectFavouriteButton project={fp} />

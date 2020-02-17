@@ -4,7 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from './components/Login.jsx';
 import Home from './components/Home';
 import ProjectDetail from './components/ProjectDetail'
-import CompanyDetail from './components/CompanyDetail';
+import CompanyDetail from './components/Company/CompanyDetail';
 import ReportDetail from './components/Report/ReportDetail'
 import PhaseDetail from './components/PhaseDetail';
 import FindingDetail from './components/Finding/FindingDetail';

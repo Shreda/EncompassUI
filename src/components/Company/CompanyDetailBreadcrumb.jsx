@@ -7,7 +7,11 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
 
-const CompanyListBreadcrumb = (props) => {
+const CompanyDetailBreadcrumb = (props) => {
+    const {
+        company
+    } = props
+
     return (
     <WrapBreadcrumb>
         <Breadcrumbs>
@@ -16,10 +20,16 @@ const CompanyListBreadcrumb = (props) => {
             </Link>                    
             <Typography>
                 Company
-            </Typography>                                       
-        </Breadcrumbs>
+            </Typography>                    
+            <Link 
+                component={RouterLink} 
+                to={`/company/${company.id}`}
+            >
+                {company.short_name}
+            </Link>                    
+        </Breadcrumbs> 
     </WrapBreadcrumb>        
     )
 }
 
-export default CompanyListBreadcrumb
+export default CompanyDetailBreadcrumb

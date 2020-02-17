@@ -40,7 +40,9 @@ import {
     GET_FINDING_FAILURE,
     GET_PHASE,
     GET_PHASE_FAILURE,
-    GET_PHASE_SUCCESS
+    GET_PHASE_SUCCESS,
+    GET_COMPANY,
+    GET_COMPANY_SUCCESS
 
 } from '../constants/action-types';
 
@@ -56,6 +58,7 @@ const initialState = {
     companies: [],
     loadingCompanies: false,
     loadCompaniesSuccess: false,
+    loadCompany: false,
 
     reports: [],
     loadingReports: false,
@@ -130,9 +133,19 @@ function rootReducer(state = initialState, action) {
         case LOAD_COMPANIES_SUCCESS:
             return Object.assign({}, state, {
                 loadCompaniesSuccess: true,
-                companies: action.payload,
+                companies: state.companies.concat(action.payload),
                 loadingCompanies: false
-            });        
+            });
+        case GET_COMPANY:
+            return Object.assign({}, state, {
+                loadCompany: true
+            })
+        
+        case GET_COMPANY_SUCCESS:
+            return Object.assign({}, state, {
+                companies: state.companies.concat(action.payload),
+                loadCompany: false
+            })                 
         //////////////////////////////////////
         //         Report Reducers          //
         /////////////////////////////////////
@@ -234,7 +247,7 @@ function rootReducer(state = initialState, action) {
         case LOAD_FINDINGS_SUCCESS:
             return Object.assign({}, state, {
                 loadFindingsSuccess: true,
-                findings: action.payload,
+                findings: state.findings.concat(action.payload),
                 loadingFindings: false
             });
 

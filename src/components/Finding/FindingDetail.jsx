@@ -91,7 +91,7 @@ const ConnectedFindingDetail = (props) => {
 
     React.useEffect(() => {
         fetchFinding()
-    }, [finding])
+    })
 
     const [readOnly, setReadOnly] = React.useState(true);
 

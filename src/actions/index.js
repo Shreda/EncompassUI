@@ -38,7 +38,10 @@ import {
     GET_FINDING_FAILURE,
     GET_PHASE,
     GET_PHASE_SUCCESS,
-    GET_PHASE_FAILURE
+    GET_PHASE_FAILURE,
+    GET_COMPANY_SUCCESS,
+    GET_COMPANY,
+    GET_COMPANY_FAILURE
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -81,6 +84,28 @@ export function getFinding(id) {
             .then(json => {
                 dispatch({
                     type: GET_FINDING_SUCCESS,
+                    payload: json
+                })
+                return json
+            })
+    }
+}
+
+export function getCompany(id) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `company/${id}/`
+        dispatch({
+            type: GET_COMPANY
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            },            
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: GET_COMPANY_SUCCESS,
                     payload: json
                 })
                 return json
@@ -170,7 +195,7 @@ export function getFindings() {
             .then(json => {
                 dispatch({
                     type: LOAD_FINDINGS_SUCCESS,
-                    payload: json
+                    payload: json.results
                 })
             })
     }
@@ -343,7 +368,7 @@ export function getCompanies() {
             .then(json => {
                 dispatch({
                     type: LOAD_COMPANIES_SUCCESS,
-                    payload: json
+                    payload: json.results
                 })
             })
     }
