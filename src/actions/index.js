@@ -41,10 +41,18 @@ import {
     GET_PHASE_FAILURE,
     GET_COMPANY_SUCCESS,
     GET_COMPANY,
-    GET_COMPANY_FAILURE
+    GET_COMPANY_FAILURE,
+    EDIT_COMPANY,
+    SAVE_COMPANY,
+    SAVE_COMPANY_SUCCESS,
+    SAVE_COMPANY_FAILURE,
+    TOGGLE_SAVE_COMPANY_SUCCESS,
+    TOGGLE_SAVE_FINDING_SUCCESS,
+    TOGGLE_SAVE_REPORT_SUCCESS
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
+import { debounce } from 'lodash'
 
 const API_KEY = localStorage.getItem(AUTH_TOKEN);
 
@@ -263,6 +271,15 @@ export function editFinding(finding) {
     }
 }
 
+export function editCompany(company) {
+    return function(dispatch) {
+        dispatch({
+            type: EDIT_COMPANY,
+            payload: company
+        })
+    }
+}
+
 export function saveReport(report) {
     return function(dispatch) {
         const URL = config.url.API_URL + `report/${report.id}/`
@@ -308,6 +325,52 @@ export function saveFinding(finding) {
                     payload: json
                 })
             })
+    }
+}
+
+export function saveCompany(company) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `company/${company.id}/`
+        dispatch({
+            type: SAVE_COMPANY
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(company)
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: SAVE_COMPANY_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function toggleSaveCompanySuccess() {
+    return function(dispatch) {
+        dispatch({
+            type: TOGGLE_SAVE_COMPANY_SUCCESS
+        })
+    }
+}
+export function toggleSaveReportSuccess() {
+    return function(dispatch) {
+        dispatch({
+            type: TOGGLE_SAVE_REPORT_SUCCESS
+        })
+    }
+}
+export function toggleSaveFindingSuccess() {
+    return function(dispatch) {
+        dispatch({
+            type: TOGGLE_SAVE_FINDING_SUCCESS
+        })
     }
 }
 

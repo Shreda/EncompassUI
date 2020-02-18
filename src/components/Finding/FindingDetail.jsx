@@ -6,7 +6,8 @@ import {
     uploadImage,
     editFinding,
     saveFinding,
-    getFinding
+    getFinding,
+    toggleSaveFindingSuccess
 } from '../../actions/index'
 
 import Editor from 'rich-markdown-editor';
@@ -23,6 +24,7 @@ import FindingBreadcrumb from './FindingBreadcrumb'
 import { commonStyles } from '../../styles/index';
 import Dock from '../Dock'
 import RiskRatingForm from './RiskRatingForm'
+import SaveSuccessSnack from '../SaveSuccessSnack'
 
 const mapStateToProps = state => {
     return {
@@ -30,7 +32,8 @@ const mapStateToProps = state => {
         loadingFindings: state.loadingFindings,
         loadFindingsSuccess: state.loadFindingsSuccess,
         savingFinding: state.savingFinding,
-        loadFinding: state.loadFinding
+        loadFinding: state.loadFinding,
+        saveFindingSuccess: state.saveFindingSuccess
     }
 }
 
@@ -78,7 +81,9 @@ const ConnectedFindingDetail = (props) => {
         editFinding,
         saveFinding,
         savingFinding,
-        loadFinding
+        loadFinding,
+        toggleSaveFindingSuccess,
+        saveFindingSuccess
     } = props
     
     const classes = commonStyles()
@@ -106,6 +111,7 @@ const ConnectedFindingDetail = (props) => {
                     loadFinding ? <p>Loading finding...</p> : (
                         !finding ? null: (
                             <div className={classes.root}>
+                                <SaveSuccessSnack saveSuccess={saveFindingSuccess} callback={toggleSaveFindingSuccess} />
                                 <Grid 
                                     container 
                                     direction='row'
@@ -143,14 +149,7 @@ const ConnectedFindingDetail = (props) => {
                                                             color={!savingFinding ? 'default': 'primary'}
                                                         />
                                                     </IconButton>
-                                                </Grid>
-                                                {finding.unsavedChanges ?
-                                                    <Grid item>
-                                                        <Typography variant='body1'>
-                                                            Don't forget to save 🐳
-                                                        </Typography>
-                                                    </Grid>
-                                                : null}                                                                      
+                                                </Grid>                                                                     
                                             </Grid>                                        
                                             <Grid 
                                                 direction='column' 
@@ -231,7 +230,8 @@ const FindingDetail = connect(
         uploadImage,
         editFinding,
         saveFinding,
-        getFinding
+        getFinding,
+        toggleSaveFindingSuccess
     }
 )(ConnectedFindingDetail);
 

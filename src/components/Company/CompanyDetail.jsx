@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper'
 import {getCompany} from '../../actions/index'
 import { commonStyles } from '../../styles/index'
 import Dock from '../Dock'
+import CompanyDetailDock from './CompanyDetailDock'
 
 import RoomIcon from '@material-ui/icons/Room';
 import red from '@material-ui/core/colors/red'
@@ -79,28 +80,7 @@ const ConnectedCompanyDetail = (props) => {
                                     spacing={3}
                                 >
                                     <CompanyDetailBreadcrumb company={company} />
-                                    <Dock>
-                                        <Grid className={classes.grow} item>
-                                            <Typography gutterBottom={false} variant='subtitle1'>
-                                                {company.name}
-                                            </Typography>
-                                            <Typography color="textSecondary">
-                                                {company.short_name}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid spacing={2} container alignItems='center' className={classes.grow} item>
-                                            <Grid item> 
-                                                <RoomIcon 
-                                                    style={{color: red[400]}}
-                                                />
-                                            </Grid>
-                                            <Grid>
-                                                <Typography gutterBottom={false} variant='body2'>
-                                                {company.address}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
-                                    </Dock>
+                                    <CompanyDetailDock company={company} />
                                     <Grid item container xs={12} sm={6} lg={6}>
                                         <Paper className={classes.paper}>
                      

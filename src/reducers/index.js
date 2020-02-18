@@ -42,7 +42,14 @@ import {
     GET_PHASE_FAILURE,
     GET_PHASE_SUCCESS,
     GET_COMPANY,
-    GET_COMPANY_SUCCESS
+    GET_COMPANY_SUCCESS,
+    EDIT_COMPANY,
+    SAVE_COMPANY,
+    SAVE_COMPANY_SUCCESS,
+    SAVE_COMPANY_FAILURE,
+    TOGGLE_SAVE_COMPANY_SUCCESS,
+    TOGGLE_SAVE_REPORT_SUCCESS,
+    TOGGLE_SAVE_FINDING_SUCCESS
 
 } from '../constants/action-types';
 
@@ -59,6 +66,8 @@ const initialState = {
     loadingCompanies: false,
     loadCompaniesSuccess: false,
     loadCompany: false,
+    saveCompanySuccess: false,
+    savingCompany: false,
 
     reports: [],
     loadingReports: false,
@@ -145,7 +154,42 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 companies: state.companies.concat(action.payload),
                 loadCompany: false
-            })                 
+            })
+        case EDIT_COMPANY:
+            const companies = state.companies.map(c => (
+                (c.id !== action.payload.id) ? 
+                    c : 
+                    {
+                        ...action.payload,
+                        unsavedChanges: true
+                    }
+            ))
+            return Object.assign({}, state, {
+                companies: companies
+            })
+            case SAVE_COMPANY_SUCCESS:
+                const new_companies = state.companies.map(c => (
+                    (c.id !== action.payload.id) ? 
+                        c : 
+                        {
+                            ...action.payload
+                        }
+                ))
+                return Object.assign({}, state, {
+                    companies: new_companies,
+                    saveCompanySuccess: true,
+                    savingCompany: false
+                })
+    
+        case SAVE_COMPANY:
+            return Object.assign({}, state, {
+                savingCompany: true
+            })
+
+        case TOGGLE_SAVE_COMPANY_SUCCESS:
+            return Object.assign({}, state, {
+                saveCompanySuccess: !state.saveCompanySuccess
+            })
         //////////////////////////////////////
         //         Report Reducers          //
         /////////////////////////////////////
@@ -208,6 +252,11 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 reports: x_reports,
                 generateReportSuccess: true
+            })
+
+        case TOGGLE_SAVE_REPORT_SUCCESS:
+            return Object.assign({}, state, {
+                saveReportSuccess: !state.saveReportSuccess
             })
 
         //////////////////////////////////////
@@ -292,6 +341,11 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 findings: state.findings.concat(action.payload),
                 loadFinding: false
+            })
+
+        case TOGGLE_SAVE_FINDING_SUCCESS:
+            return Object.assign({}, state, {
+                saveFindingSuccess: !state.saveFindingSuccess
             })
 
         case LOAD_USER:
