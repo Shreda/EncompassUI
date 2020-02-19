@@ -174,14 +174,18 @@ const ConnectedApp = (props) => {
                                                         {filtered_projects.slice(0,30).map(p =>
                                                             <TableRow key={p.id}>
                                                                 <TableCell>
-                                                                    <Link component={RouterLink} to={`/project/${p.id}`}>
-                                                                        {p.name}
-                                                                    </Link>
-                                                                    <ProjectFavouriteButton project={p} />
+                                                                    <Typography variant='body1'>
+                                                                        <Link component={RouterLink} to={`/project/${p.id}`}>
+                                                                            {p.name}
+                                                                        </Link>
+                                                                        <ProjectFavouriteButton project={p} />
+                                                                    </Typography>
                                                                 </TableCell>
                                                                 <TableCell>
                                                                     <Link component={RouterLink} to={`/company/${p.company.id}`}>
-                                                                        {p.company.name}
+                                                                        <Typography variant='body1'>
+                                                                            {p.company.name}
+                                                                        </Typography>
                                                                     </Link>
                                                                 </TableCell>
                                                             </TableRow>    
