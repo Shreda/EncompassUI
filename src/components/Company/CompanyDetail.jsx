@@ -22,29 +22,20 @@ import red from '@material-ui/core/colors/red'
 import CompanyDetailBreadcrumb from './CompanyDetailBreadcrumb'
 import CompanyProjectsTable from './CompanyProjectsTable'
 
-const mapStateToProps = state => {
-    return {
-        companies: state.companies,
-        loadingCompanies: state.loadingCompanies,
-        loadCompaniesSuccess: state.loadCompaniesSuccess,
-        loadCompany: state.loadCompany
-    }
-}
-
-const getCompanyByURLId = async (props) => {
-    const company = await props.companies.filter(f => {
+const mapStateToProps = (state, props) => {
+    const company = state.companies.filter(f => {
         if(f.id === props.match.params.id) {
             return true;
         } else {
             return false;
         }
     })
-    if (Array.isArray(company) && company.length) {
-        return company[0]
-    }
-    else {
-        const company = await props.getCompany(props.match.params.id)
-        return company
+    return {
+        companies: state.companies,
+        loadingCompanies: state.loadingCompanies,
+        loadCompaniesSuccess: state.loadCompaniesSuccess,
+        loadCompany: state.loadCompany,
+        company: company[0]
     }
 }
 
@@ -54,20 +45,21 @@ const ConnectedCompanyDetail = (props) => {
         loadingCompanies,
         loadCompaniesSuccess,
         loadCompany,
-        getCompany
+        getCompany,
+        company
     } = props
 
     const classes = commonStyles()
-    const [company, setCompany] = React.useState(null);
-
-    const fetchCompany = async () => {
-        const company = await getCompanyByURLId(props)
-        setCompany(company)
-    }
 
     React.useEffect(() => {
-        fetchCompany()
-    })
+        async function fetchCompany() {
+            props.getCompany(props.match.params.id)
+        }
+
+        if (!company && !loadCompany) {
+            fetchCompany()
+        }
+    })    
 
     return (
     loadingCompanies ? <p>Loading...</p>:(

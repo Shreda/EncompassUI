@@ -11,5 +11,5 @@ export const commonStyles = makeStyles(theme => ({
     paper: {
         padding: theme.spacing(2),
         width: '100%'
-    },    
+    },
 }));

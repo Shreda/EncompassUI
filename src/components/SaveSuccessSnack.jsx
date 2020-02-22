@@ -29,7 +29,7 @@ export default function SimpleSnackbar({saveSuccess, callback}) {
                 horizontal: 'left',
             }}
             open={open}
-            autoHideDuration={2000}
+            autoHideDuration={1000}
             onClose={handleClose}
             message="Saved"
             action={

@@ -3,10 +3,10 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 // Import our components later
 import Login from './components/Login.jsx';
 import Home from './components/Home';
-import ProjectDetail from './components/ProjectDetail'
+import ProjectDetail from './components/Project/ProjectDetail'
 import CompanyDetail from './components/Company/CompanyDetail';
 import ReportDetail from './components/Report/ReportDetail'
-import PhaseDetail from './components/PhaseDetail';
+import PhaseDetail from './components/Phase/PhaseDetail';
 import FindingDetail from './components/Finding/FindingDetail';
 import CompanyList from './components/Company/CompanyList'
 import { connect } from 'react-redux';

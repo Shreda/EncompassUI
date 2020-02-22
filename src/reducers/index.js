@@ -1,3 +1,4 @@
+import unionBy from 'lodash/unionBy'
 import {
     LOGIN,
     LOGIN_SUCCESS,
@@ -49,7 +50,14 @@ import {
     SAVE_COMPANY_FAILURE,
     TOGGLE_SAVE_COMPANY_SUCCESS,
     TOGGLE_SAVE_REPORT_SUCCESS,
-    TOGGLE_SAVE_FINDING_SUCCESS
+    TOGGLE_SAVE_FINDING_SUCCESS,
+    GET_PROJECT,
+    GET_PROJECT_SUCCESS,
+    EDIT_PROJECT,
+    SAVE_PROJECT,
+    SAVE_PROJECT_SUCCESS,
+    SAVE_PROJECT_FAILURE,
+    TOGGLE_SAVE_PROJECT_SUCCESS
 
 } from '../constants/action-types';
 
@@ -61,6 +69,9 @@ const initialState = {
     projects: [],
     loadingProjects: false,
     loadProjectsSuccess: false,
+    loadProject: false,
+    saveProjectSuccess: false,
+    savingProject: false,
 
     companies: [],
     loadingCompanies: false,
@@ -131,6 +142,54 @@ function rootReducer(state = initialState, action) {
                 projects: action.payload,
                 loadingProjects: false
             });
+
+        case GET_PROJECT:
+            return Object.assign({}, state, {
+                loadProject: true
+            })
+
+        case GET_PROJECT_SUCCESS:
+            return Object.assign({}, state, {
+                projects: state.projects.concat(action.payload),
+                loadProject: false
+            })
+
+        case EDIT_PROJECT:
+            const projects = state.projects.map(p => (
+                (p.id !== action.payload.id) ?
+                    p :
+                    {
+                        ...action.payload,
+                        unsavedChanges: true
+                    }
+            ))
+            return Object.assign({}, state, {
+                projects: projects
+            })
+
+            case SAVE_PROJECT_SUCCESS:
+                const new_projects = state.projects.map(c => (
+                    (c.id !== action.payload.id) ?
+                        c :
+                        {
+                            ...action.payload
+                        }
+                ))
+                return Object.assign({}, state, {
+                    projects: new_projects,
+                    saveProjectSuccess: true,
+                    savingProject: false
+                })
+    
+            case SAVE_PROJECT:
+                return Object.assign({}, state, {
+                    savingProject: true
+                })
+    
+            case TOGGLE_SAVE_PROJECT_SUCCESS:
+                return Object.assign({}, state, {
+                    saveProjectSuccess: !state.saveProjectSuccess
+                })            
         //////////////////////////////////////
         //        Company Reducers          //
         /////////////////////////////////////
@@ -149,7 +208,7 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 loadCompany: true
             })
-        
+
         case GET_COMPANY_SUCCESS:
             return Object.assign({}, state, {
                 companies: state.companies.concat(action.payload),
@@ -157,8 +216,8 @@ function rootReducer(state = initialState, action) {
             })
         case EDIT_COMPANY:
             const companies = state.companies.map(c => (
-                (c.id !== action.payload.id) ? 
-                    c : 
+                (c.id !== action.payload.id) ?
+                    c :
                     {
                         ...action.payload,
                         unsavedChanges: true
@@ -167,20 +226,20 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 companies: companies
             })
-            case SAVE_COMPANY_SUCCESS:
-                const new_companies = state.companies.map(c => (
-                    (c.id !== action.payload.id) ? 
-                        c : 
-                        {
-                            ...action.payload
-                        }
-                ))
-                return Object.assign({}, state, {
-                    companies: new_companies,
-                    saveCompanySuccess: true,
-                    savingCompany: false
-                })
-    
+        case SAVE_COMPANY_SUCCESS:
+            const new_companies = state.companies.map(c => (
+                (c.id !== action.payload.id) ?
+                    c :
+                    {
+                        ...action.payload
+                    }
+            ))
+            return Object.assign({}, state, {
+                companies: new_companies,
+                saveCompanySuccess: true,
+                savingCompany: false
+            })
+
         case SAVE_COMPANY:
             return Object.assign({}, state, {
                 savingCompany: true
@@ -203,12 +262,12 @@ function rootReducer(state = initialState, action) {
                 loadReportsSuccess: true,
                 reports: action.payload,
                 loadingReports: false
-            }); 
-            
+            });
+
         case EDIT_REPORT:
             const reports = state.reports.map(r => (
-                (r.id !== action.payload.id) ? 
-                    r : 
+                (r.id !== action.payload.id) ?
+                    r :
                     {
                         ...action.payload
                     }
@@ -219,8 +278,8 @@ function rootReducer(state = initialState, action) {
 
         case SAVE_REPORT_SUCCESS:
             const new_reports = state.reports.map(r => (
-                (r.id !== action.payload.id) ? 
-                    r : 
+                (r.id !== action.payload.id) ?
+                    r :
                     {
                         ...action.payload
                     }
@@ -238,7 +297,7 @@ function rootReducer(state = initialState, action) {
         case GENERATE_REPORT:
             return Object.assign({}, state, {
                 generatingReport: true
-            })            
+            })
 
         case GENERATE_REPORT_SUCCESS:
             const x_reports = state.reports.map(r => (
@@ -278,12 +337,12 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 loadPhase: true
             })
-        
+
         case GET_PHASE_SUCCESS:
             return Object.assign({}, state, {
                 phases: state.phases.concat(action.payload),
                 loadPhase: false
-            })            
+            })
 
         //////////////////////////////////////
         //          Finding Reducers        //
@@ -294,16 +353,17 @@ function rootReducer(state = initialState, action) {
             });
 
         case LOAD_FINDINGS_SUCCESS:
+            const a_new_findings = unionBy(state.findings, action.payload, 'id')
             return Object.assign({}, state, {
                 loadFindingsSuccess: true,
-                findings: state.findings.concat(action.payload),
+                findings: a_new_findings,
                 loadingFindings: false
             });
 
         case EDIT_FINDING:
             const findings = state.findings.map(f => (
-                (f.id !== action.payload.id) ? 
-                    f : 
+                (f.id !== action.payload.id) ?
+                    f :
                     {
                         ...action.payload,
                         unsavedChanges: true
@@ -315,8 +375,8 @@ function rootReducer(state = initialState, action) {
 
         case SAVE_FINDING_SUCCESS:
             const new_findings = state.findings.map(f => (
-                (f.id !== action.payload.id) ? 
-                    f : 
+                (f.id !== action.payload.id) ?
+                    f :
                     {
                         ...action.payload
                     }
@@ -336,7 +396,7 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 loadFinding: true
             })
-        
+
         case GET_FINDING_SUCCESS:
             return Object.assign({}, state, {
                 findings: state.findings.concat(action.payload),
@@ -366,7 +426,7 @@ function rootReducer(state = initialState, action) {
             })
 
         default:
-            return state      
+            return state
     }
 }
 

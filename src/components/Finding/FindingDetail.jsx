@@ -26,33 +26,25 @@ import Dock from '../Dock'
 import RiskRatingForm from './RiskRatingForm'
 import SaveSuccessSnack from '../SaveSuccessSnack'
 
-const mapStateToProps = state => {
-    return {
-        findings: state.findings,
-        loadingFindings: state.loadingFindings,
-        loadFindingsSuccess: state.loadFindingsSuccess,
-        savingFinding: state.savingFinding,
-        loadFinding: state.loadFinding,
-        saveFindingSuccess: state.saveFindingSuccess
-    }
-}
-
-const getFindingByURLId = async (props) => {
-    const finding = await props.findings.filter(f => {
+const mapStateToProps = (state, props) => {
+    const finding = state.findings.filter(f => {
         if(f.id === props.match.params.id) {
             return true;
         } else {
             return false;
         }
     })
-    if (Array.isArray(finding) && finding.length) {
-        return finding[0]
-    }
-    else {
-        const finding = await props.getFinding(props.match.params.id)
-        return finding
+    return {
+        findings: state.findings,
+        loadingFindings: state.loadingFindings,
+        loadFindingsSuccess: state.loadFindingsSuccess,
+        savingFinding: state.savingFinding,
+        loadFinding: state.loadFinding,
+        saveFindingSuccess: state.saveFindingSuccess,
+        finding: finding[0]
     }
 }
+
 
 const handleSave = (opt, finding, callback) => {
     callback(finding)
@@ -83,19 +75,20 @@ const ConnectedFindingDetail = (props) => {
         savingFinding,
         loadFinding,
         toggleSaveFindingSuccess,
-        saveFindingSuccess
+        saveFindingSuccess,
+        finding
     } = props
     
     const classes = commonStyles()
-    const [finding, setFinding] = React.useState(null);
     
-    const fetchFinding = async () => {
-        const finding = await getFindingByURLId(props)
-        setFinding(finding)
-    }
-
     React.useEffect(() => {
-        fetchFinding()
+        async function fetchFinding() {
+            props.getFinding(props.match.params.id)
+        }
+
+        if (!finding && !loadFinding) {
+            fetchFinding()
+        }
     })
 
     const [readOnly, setReadOnly] = React.useState(true);
@@ -164,7 +157,8 @@ const ConnectedFindingDetail = (props) => {
                                                             Background
                                                         </Typography>
                                                         <Editor 
-                                                            defaultValue={finding.background} 
+                                                            defaultValue={finding.background}
+                                                            className={classes.shadow}
                                                             onSave={(opt) => handleSave(opt, finding, saveFinding)}
                                                             onChange={(value) => handleChange(value, finding, editFinding, 'background')}
                                                             uploadImage={async file => {
