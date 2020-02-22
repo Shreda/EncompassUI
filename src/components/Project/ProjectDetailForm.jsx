@@ -14,20 +14,19 @@ import { commonStyles } from '../../styles/index'
 import SaveSuccessSnack from '../SaveSuccessSnack'
 import { editProject, saveProject, toggleSaveProjectSuccess } from '../../actions/index'
 
-const handleChange = debounce((value, project, callback, param) => {
+const handleChange = (value, project, callback, param) => {
     const r = {
         ...project,
         [param]: value
     }
     callback(r)
-})
+}
 
 const mapStateToProps = state => {
     return {
         saveProjectSuccess: state.saveProjectSuccess
     }
 }
-
 
 const ConnectedProjectDetailForm = ({
     project, 
@@ -47,18 +46,18 @@ const ConnectedProjectDetailForm = ({
     <React.Fragment>
         <SaveSuccessSnack callback={toggleSaveProjectSuccess} saveSuccess={saveProjectSuccess}/>
         <Grid 
-            onSubmit={(e) => handleSave(e, project)} 
-            component='form' 
-            container 
-            spacing={3} 
-            direction='column' 
-            className={classes.grow} 
+            onSubmit={(e) => handleSave(e, project)}
+            component='form'
+            container
+            spacing={3}
+            direction='column'
+            className={classes.grow}
             item
         >
             <Grid item>
                 <TextField 
-                    onChange={(e) => handleChange(e.target.value, project, editProject, 'name')} 
-                    fullWidth value={project.name} 
+                    onChange={(e) => handleChange(e.target.value, project, editProject, 'name')}
+                    fullWidth value={project.name}
                     label="Name" 
                 />
             </Grid>

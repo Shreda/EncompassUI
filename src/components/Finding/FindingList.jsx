@@ -3,7 +3,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { sortBy } from 'lodash'
 
 // Material-ui
-import Link from '@material-ui/core/Link'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -13,6 +12,7 @@ import red from '@material-ui/core/colors/red'
 import orange from '@material-ui/core/colors/orange';
 import yellow from '@material-ui/core/colors/yellow';
 import green from '@material-ui/core/colors/green';
+import blue from '@material-ui/core/colors/blue';
 
 
 const FindingList = (props) => {
@@ -30,6 +30,8 @@ const FindingList = (props) => {
             return yellow[400]
         } else if(finding.rating >= 15 && finding.rating <=25) {
             return green[400]
+        } else if (finding.rating === 0) {
+            return blue[400]
         }
     }
     const sorted_findings = sortBy(findings, 'rating')

@@ -66,9 +66,9 @@ const ConnectedApp = (props) => {
     
     const [searchTerm, setSearchTerm] = React.useState('');
 
-    const debounceHandleChange = debounce((value, callback) => {
+    const handleChange = (value, callback) => {
         callback(value)
-    })
+    }
 
     const debounceFilterValue = debounce((array, string) => {
         return array.filter(o => {
@@ -149,7 +149,7 @@ const ConnectedApp = (props) => {
                                                                 </InputAdornment>
                                                             }
                                                             value={searchTerm}
-                                                            onChange={(event) => debounceHandleChange(
+                                                            onChange={(event) => handleChange(
                                                                 event.target.value,
                                                                 setSearchTerm
                                                                 )}

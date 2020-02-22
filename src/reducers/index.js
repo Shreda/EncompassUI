@@ -327,9 +327,10 @@ function rootReducer(state = initialState, action) {
             });
 
         case LOAD_PHASES_SUCCESS:
+            const a_new_phases = unionBy(state.phases, action.payload, 'id')
             return Object.assign({}, state, {
                 loadPhasesSuccess: true,
-                phases: state.phases.concat(action.payload),
+                phases: a_new_phases,
                 loadingPhases: false
             });
 

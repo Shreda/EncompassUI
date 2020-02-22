@@ -257,6 +257,27 @@ export function getPhaseFindings(id) {
     }
 }
 
+export function getProjectPhases(id) { 
+    return function(dispatch) {
+        const URL = config.url.API_URL + `project/${id}/phase/`
+        dispatch({
+            type: LOAD_PHASES
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            },
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: LOAD_PHASES_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
 export function generateReport(report) {
     return function(dispatch) {
         const URL = config.url.API_URL + `report/${report}/generate/`

@@ -12,11 +12,13 @@ import Grid from '@material-ui/core/Grid'
 import { commonStyles } from '../../styles/index'
 
 import {
-    getProject
+    getProject,
+    getProjectPhases
 } from '../../actions/index'
 
 import ProjectDetailBreadcrumb from './ProjectDetailBreadcrumb'
 import ProjectDetailDock from './ProjectDetailDock'
+import ProjectPhaseList from './ProjectPhaseList'
 import Dock from '../Dock';
 import MainStage from '../MainStage'
 
@@ -28,12 +30,20 @@ const mapStateToProps = (state, props) => {
             return false;
         }
     })
+    const phases = state.phases.filter(p => {
+        if(p.project === props.match.params.id) {
+            return true
+        } else {
+            return false
+        }
+    })
     return {
         projects: state.projects,
         loadingProjects: state.loadingProjects,
         loadProjectsSuccess: state.loadProjectsSuccess,
         loadProject: state.loadProject,
-        project: project[0]
+        project: project[0],
+        phases: phases
     }
 }
 
@@ -44,7 +54,9 @@ const ConnectedProjectDetail = (props) => {
         loadingProjects,
         loadProject,
         getProject,
-        project
+        getProjectPhases,
+        project,
+        phases
     } = props
 
     const classes = commonStyles()
@@ -54,10 +66,16 @@ const ConnectedProjectDetail = (props) => {
             props.getProject(props.match.params.id)
         }
 
+        async function fetchPhases() {
+            getProjectPhases(props.match.params.id)
+        }
+
         if (!project && !loadProject) {
             fetchProject()
         }
-    })
+
+        fetchPhases()
+    },[])
 
     return (
         loadingProjects ? <p>Loading...</p> : (
@@ -74,55 +92,20 @@ const ConnectedProjectDetail = (props) => {
                             >
                                 <ProjectDetailBreadcrumb project={project} />
                                 <ProjectDetailDock project={project} />
-                                <MainStage></MainStage>
+                                <MainStage>
+                                    <Grid item direction='column' spacing={2} justify='flex-start' alignItems='flex-start' container>
+                                        <Grid item>
+                                            <Typography variant='subtitle1'>
+                                                Phases
+                                            </Typography>                                                    
+                                        </Grid>
+                                        <Grid className={classes.grow} item>
+                                            <ProjectPhaseList phases={phases} />
+                                        </Grid>
+                                    </Grid>                                    
+                                </MainStage>
                             </Grid>
-                            <Typography variant='body1'>
-                                Reference: {project.reference}
-                            </Typography>
-                            <Typography variant='body1'>
-                                Name: {project.name}
-                            </Typography>
-                            <Typography variant='body1'>
-                                Description: {project.description}
-                            </Typography>
-                            <Typography variant='body1'>
-                                Phases:
-                                </Typography>
-                            <ul>
-                                {project.phases ?
-                                    project.phases.map(ph =>
-                                        <li key={ph.id}>
-                                            <Typography variant='body1'>
-                                                <Link
-                                                    component={RouterLink}
-                                                    to={`/phase/${ph.id}`}
-                                                >
-                                                    {ph.name}
-                                                </Link>
-                                            </Typography>
-                                        </li>
-                                    )
-                                    : <p>No phases</p>}
-                            </ul>
-                            <Typography variant='body1'>
-                                Reports:
-                                </Typography>
-                            <ul>
-                                {project.reports ? project.reports.map(r =>
-                                    <li key={r.id}>
-                                        <Typography variant='body1'>
-                                            <Link
-                                                component={RouterLink}
-                                                to={`/report/${r.id}`}
-                                            >
-                                                {r.name}
-                                            </Link>
-                                        </Typography>
-                                    </li>
-                                ) : null}
-                            </ul>
                         </div>
-
                     )
                 )
             )
@@ -134,7 +117,8 @@ const ConnectedProjectDetail = (props) => {
 const ProjectDetail = connect(
     mapStateToProps,
     {
-        getProject
+        getProject,
+        getProjectPhases
     }
 )(ConnectedProjectDetail);
 

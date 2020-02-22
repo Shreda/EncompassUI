@@ -14,13 +14,13 @@ import { commonStyles } from '../../styles/index'
 import SaveSuccessSnack from '../SaveSuccessSnack'
 import { editCompany, saveCompany, toggleSaveCompanySuccess } from '../../actions/index'
 
-const handleChange = debounce((value, company, callback, param) => {
+const handleChange = (value, company, callback, param) => {
     const r = {
         ...company,
         [param]: value
     }
     callback(r)
-})
+}
 
 const mapStateToProps = state => {
     return {

@@ -42,6 +42,7 @@ const ConnectedRiskRatingForm = props => {
                             id: 'impact-select'
                         }}
                     >
+                        <option value={0}>Informational</option>
                         <option value={1}>Extreme</option>
                         <option value={2}>Major</option>
                         <option value={3}>Moderate</option>
@@ -64,6 +65,7 @@ const ConnectedRiskRatingForm = props => {
                             id: 'likelihood-select'
                         }}
                     >
+                        <option value={0}>Informational</option>
                         <option value={1}>Certain</option>
                         <option value={2}>Likely</option>
                         <option value={3}>Possible</option>
