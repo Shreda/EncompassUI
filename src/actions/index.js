@@ -128,6 +128,28 @@ export function getCompany(id) {
     }
 }
 
+export function searchCompanies(search) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `company/?name=${search}`
+        dispatch({
+            type: LOAD_COMPANIES
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            }
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: LOAD_COMPANIES_SUCCESS,
+                    payload: json.results,
+                    nextCompanies: json.next,
+                })
+            })        
+    }
+}
+
 export function getPhase(id) {
     return async function(dispatch) {
         const URL = config.url.API_URL + `phase/${id}/`
@@ -540,7 +562,29 @@ export function getCompanies() {
             .then(json => {
                 dispatch({
                     type: LOAD_COMPANIES_SUCCESS,
-                    payload: json.results
+                    payload: json.results,
+                    nextCompanies: json.next,
+                })
+            })
+    }
+}
+
+export function getNextCompanies(url) {
+    return function(dispatch) {
+        dispatch({
+            type: LOAD_COMPANIES
+        })
+        return fetch(url, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            }            
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: LOAD_COMPANIES_SUCCESS,
+                    payload: json.results,
+                    nextCompanies: json.next
                 })
             })
     }

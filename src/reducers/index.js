@@ -74,6 +74,7 @@ const initialState = {
     savingProject: false,
 
     companies: [],
+    nextCompanies: null,
     loadingCompanies: false,
     loadCompaniesSuccess: false,
     loadCompany: false,
@@ -199,10 +200,12 @@ function rootReducer(state = initialState, action) {
             });
 
         case LOAD_COMPANIES_SUCCESS:
+            const a_new_companies = unionBy(state.companies, action.payload, 'id')
             return Object.assign({}, state, {
                 loadCompaniesSuccess: true,
-                companies: state.companies.concat(action.payload),
-                loadingCompanies: false
+                companies: a_new_companies,
+                loadingCompanies: false,
+                nextCompanies: action.nextCompanies
             });
         case GET_COMPANY:
             return Object.assign({}, state, {
