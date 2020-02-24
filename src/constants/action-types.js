@@ -4,6 +4,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED'
 export const AUTH_TOKEN = 'AUTH_TOKEN'
+export const LOGOUT = 'LOGOUT'
 
 // Projects
 export const LOAD_PROJECTS = 'LOAD_PROJECTS'

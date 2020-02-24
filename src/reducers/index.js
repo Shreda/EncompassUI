@@ -57,7 +57,8 @@ import {
     SAVE_PROJECT,
     SAVE_PROJECT_SUCCESS,
     SAVE_PROJECT_FAILURE,
-    TOGGLE_SAVE_PROJECT_SUCCESS
+    TOGGLE_SAVE_PROJECT_SUCCESS,
+    LOGOUT
 
 } from '../constants/action-types';
 
@@ -129,6 +130,9 @@ function rootReducer(state = initialState, action) {
                 isAuthenticated: action.payload,
                 authDetermined: true
             });
+
+        case LOGOUT:
+            return initialState
         //////////////////////////////////////
         //        Project Reducers          //
         /////////////////////////////////////

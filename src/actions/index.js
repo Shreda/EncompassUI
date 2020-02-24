@@ -55,7 +55,8 @@ import {
     TOGGLE_SAVE_PROJECT_SUCCESS,
     SAVE_PROJECT,
     SAVE_PROJECT_SUCCESS,
-    SAVE_PROJECT_FAILURE
+    SAVE_PROJECT_FAILURE,
+    LOGOUT
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -355,6 +356,7 @@ export function editReport(report) {
 
 export function editFinding(finding) {
     return function(dispatch) {
+        finding.rating = finding.impact * finding.likelihood
         dispatch({
             type: EDIT_FINDING,
             payload: finding
@@ -650,5 +652,15 @@ export function determineAuth() {
                 payload: false
             })
         }
+    }
+}
+
+export function logout() {
+    return function(dispatch) {
+        console.log('in action logout')
+        dispatch({
+            type: LOGOUT
+        })
+        localStorage.clear()
     }
 }

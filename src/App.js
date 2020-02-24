@@ -3,6 +3,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import Routes from './Routes';
 import { connect } from 'react-redux';
 import './App.css'
+import ButtonAppBar from './components/ButtonAppBar'
 
 // import actions
 import {
@@ -57,6 +58,7 @@ const ConnectedApp = (props) => {
         if (props.authDetermined) {
             return (
                 <Router>
+                    <ButtonAppBar isAuthenticated={isAuthenticated}/>
                     <Routes />
                 </Router>
             )

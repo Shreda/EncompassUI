@@ -35,9 +35,7 @@ const WrapBreadcrumb = (props) => {
             
         >
             <Grid className={classes.grow} item>
-                <Paper className={classes.paper}>
-                    {children}
-                </Paper>
+                {children}
             </Grid>
         </Grid>                        
     )

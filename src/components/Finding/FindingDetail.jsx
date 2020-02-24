@@ -23,8 +23,9 @@ import IconButton from '@material-ui/core/IconButton'
 import FindingBreadcrumb from './FindingBreadcrumb'
 import { commonStyles } from '../../styles/index';
 import Dock from '../Dock'
-import RiskRatingForm from './RiskRatingForm'
+import FindingDetailForm from './FindingDetailForm'
 import SaveSuccessSnack from '../SaveSuccessSnack'
+import FindingDetailDock from './FindingDetailDock';
 
 const mapStateToProps = (state, props) => {
     const finding = state.findings.filter(f => {
@@ -113,9 +114,7 @@ const ConnectedFindingDetail = (props) => {
                                     spacing={3}
                                 >
                                     <FindingBreadcrumb finding={finding}/>
-                                    <Dock>
-                                        <RiskRatingForm finding={finding} />
-                                    </Dock>
+                                    <FindingDetailDock saveSuccess={saveFindingSuccess} finding={finding} />
 
                                     <Grid item container xs={12} sm={6} lg={6}>
                                         <Paper className={classes.paper}>

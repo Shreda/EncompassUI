@@ -22,18 +22,6 @@ const ProjectDetailRead = ({project}) => {
             </Typography>
         
         </Grid>
-        {/* <Grid spacing={2} container alignItems='center' className={classes.grow} item>
-            <Grid item> 
-                <RoomIcon 
-                    style={{color: red[400]}}
-                />
-            </Grid>
-            <Grid>
-                <Typography gutterBottom={false} variant='body2'>
-                {project.address}
-                </Typography>
-            </Grid>
-        </Grid> */}
     </React.Fragment>        
     )
 }

@@ -4,11 +4,16 @@ import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import TextField from '@material-ui/core/TextField'
 import Select from '@material-ui/core/Select'
+import { Typography, Input } from '@material-ui/core';
+import BugReportIcon from '@material-ui/icons/BugReport';
+
 
 import {commonStyles} from '../../styles/index'
 import {editFinding} from '../../actions/index'
-import { Typography } from '@material-ui/core';
+import { getColor } from '../../utils'
 
 const handleSelect = (name, finding, callback) => event => {
     const f = {
@@ -18,7 +23,7 @@ const handleSelect = (name, finding, callback) => event => {
     callback(f)
 };
 
-const ConnectedRiskRatingForm = props => {
+const ConnectedFindingDetailForm = props => {
     const {
         finding,
         editFinding
@@ -28,6 +33,23 @@ const ConnectedRiskRatingForm = props => {
 
     return(
         <React.Fragment>
+            <Grid item className={classes.grow}>
+                <TextField 
+                    fullWidth
+                    onChange={handleSelect('title', finding, editFinding)}
+                    value={finding.title}
+                    label="Title"
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <BugReportIcon 
+                                    style={{color: getColor(finding)}} 
+                                />
+                            </InputAdornment>
+                        )
+                    }}
+                />                
+            </Grid>
             <Grid className={classes.grow} item>
                 <FormControl fullWidth>
                     <InputLabel htmlFor='impact-select'>
@@ -78,11 +100,11 @@ const ConnectedRiskRatingForm = props => {
     )
 }
 
-const RiskRatingForm = connect(
+const FindingDetailForm = connect(
     null,
     {
         editFinding,
     }
-)(ConnectedRiskRatingForm);
+)(ConnectedFindingDetailForm);
 
-export default RiskRatingForm;
+export default FindingDetailForm;

@@ -95,14 +95,11 @@ const ConnectedCompanyList = (props) => {
                     <Grid 
                         container 
                         direction='row'
-                        justify='flex-start'
+                        justify='center'
                         alignItems='flex-start'
                         spacing={3}
                     >
                         <CompanyListBreadcrumb />
-                        <Dock>
-
-                        </Dock>
                         <MainStage>
                             <Grid item direction='column' spacing={2} justify='flex-start' alignItems='flex-start' container>
                                 <Grid item>
@@ -115,7 +112,7 @@ const ConnectedCompanyList = (props) => {
                                         <InputLabel
                                             htmlFor="search-field"
                                         >
-                                            Search Latest
+                                            Search
                                         </InputLabel>
                                         <Input
                                             id="search-field"
