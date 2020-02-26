@@ -42,6 +42,9 @@ import {
     GET_PHASE,
     GET_PHASE_FAILURE,
     GET_PHASE_SUCCESS,
+    ADD_PHASE,
+    ADD_PHASE_SUCCESS,
+    ADD_PHASE_FAILURE,
     GET_COMPANY,
     GET_COMPANY_SUCCESS,
     EDIT_COMPANY,
@@ -350,6 +353,11 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 phases: state.phases.concat(action.payload),
                 loadPhase: false
+            })
+
+        case ADD_PHASE_SUCCESS:
+            return Object.assign({}, state, {
+                phases: state.phases.concat(action.payload),
             })
 
         //////////////////////////////////////

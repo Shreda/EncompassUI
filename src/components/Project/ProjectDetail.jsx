@@ -7,9 +7,15 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Typography, Paper } from '@material-ui/core';
 import { config } from '../../constants/configuration';
 
+import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import AddIcon from '@material-ui/icons/Add';
+import TextField from '@material-ui/core/TextField'
+
 
 import { commonStyles } from '../../styles/index'
+import AddPhaseForm from '../Phase/AddPhaseForm'
 
 import {
     getProject,
@@ -60,22 +66,29 @@ const ConnectedProjectDetail = (props) => {
     } = props
 
     const classes = commonStyles()
+    const [showAddProject, setShowAddProject] = React.useState(false)
+
+    const toggleForm = event => {
+        event.preventDefault()
+        setShowAddProject(!showAddProject)
+    }
 
     React.useEffect(() => {
         async function fetchProject() {
             props.getProject(props.match.params.id)
         }
 
-        async function fetchPhases() {
-            getProjectPhases(props.match.params.id)
-        }
-
         if (!project && !loadProject) {
             fetchProject()
         }
+    })
 
+    React.useEffect(() => {
+        async function fetchPhases() {
+            getProjectPhases(props.match.params.id)
+        }
         fetchPhases()
-    },[])
+    }, [])
 
     return (
         loadingProjects ? <p>Loading...</p> : (
@@ -101,6 +114,22 @@ const ConnectedProjectDetail = (props) => {
                                         </Grid>
                                         <Grid className={classes.grow} item>
                                             <ProjectPhaseList phases={phases} />
+                                            {showAddProject ? (
+                                                <React.Fragment>
+                                                    <AddPhaseForm projectid={props.match.params.id}/>
+                                                    <IconButton onClick={toggleForm}>
+                                                        <CloseIcon />
+                                                    </IconButton>
+                                                </React.Fragment>
+                                            ): (
+                                                <IconButton onClick={toggleForm}>
+                                                    <AddIcon 
+                                                        color='secondary' 
+                                                    />
+                                                </IconButton>                                                
+                                            )}
+                                        </Grid>
+                                        <Grid item className={classes.grow}>
                                         </Grid>
                                     </Grid>                                    
                                 </MainStage>

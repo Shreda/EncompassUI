@@ -56,7 +56,8 @@ import {
     SAVE_PROJECT,
     SAVE_PROJECT_SUCCESS,
     SAVE_PROJECT_FAILURE,
-    LOGOUT
+    LOGOUT,
+    ADD_PHASE_SUCCESS
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -472,6 +473,30 @@ export function saveProject(project) {
             .then(json => {
                 dispatch({
                     type: SAVE_PROJECT_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function addPhase(phase) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `phase/`
+        // dispatch({
+        //     type: SAVE_PROJECT
+        // })
+        return fetch(URL, {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(phase)
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: ADD_PHASE_SUCCESS,
                     payload: json
                 })
             })
