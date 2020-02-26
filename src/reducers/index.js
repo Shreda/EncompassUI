@@ -30,6 +30,9 @@ import {
     SAVE_FINDING,
     SAVE_FINDING_SUCCESS,
     SAVE_FINDING_FAILURE,
+    ADD_FINDING,
+    ADD_FINDING_SUCCESS,
+    ADD_FINDING_FAILURE,
     LOAD_USER,
     LOAD_USER_SUCCESS,
     LOAD_USER_FAILURE,
@@ -423,6 +426,11 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 saveFindingSuccess: !state.saveFindingSuccess
             })
+        
+        case ADD_FINDING_SUCCESS:
+            return Object.assign({}, state, {
+                findings: state.findings.concat(action.payload),
+            })            
 
         case LOAD_USER:
             return Object.assign({}, state, {

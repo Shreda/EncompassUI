@@ -36,6 +36,9 @@ import {
     GET_FINDING,
     GET_FINDING_SUCCESS,
     GET_FINDING_FAILURE,
+    ADD_FINDING,
+    ADD_FINDING_SUCCESS,
+    ADD_FINDING_FAILURE,
     GET_PHASE,
     GET_PHASE_SUCCESS,
     GET_PHASE_FAILURE,
@@ -497,6 +500,30 @@ export function addPhase(phase) {
             .then(json => {
                 dispatch({
                     type: ADD_PHASE_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function addFinding(finding) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `finding/`
+        // dispatch({
+        //     type: SAVE_PROJECT
+        // })
+        return fetch(URL, {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finding)
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: ADD_FINDING_SUCCESS,
                     payload: json
                 })
             })

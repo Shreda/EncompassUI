@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import { Typography, Paper } from '@material-ui/core';
 import {config} from '../../constants/configuration';
 
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { makeStyles } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
+import { Typography, Paper } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import AddIcon from '@material-ui/icons/Add'
+import CloseIcon from '@material-ui/icons/Close';
 
 import FindingList from '../Finding/FindingList'
+import AddFindingForm from '../Finding/AddFindingForm'
 import PhaseDetailBreadcrumb from './PhaseDetailBreadcrumb'
 import Dock from '../Dock'
 import MainStage from '../MainStage'
@@ -57,6 +61,12 @@ const ConnectedPhaseDetail = (props) => {
     } = props
     
     const classes = commonStyles()
+    const [addFinding, setAddFinding] = React.useState(false)
+
+    const toggleForm = event => {
+        event.preventDefault()
+        setAddFinding(!addFinding)
+    }
     
     React.useEffect(() => {
         async function fetchPhase() {
@@ -66,8 +76,6 @@ const ConnectedPhaseDetail = (props) => {
         async function fetchFindings() {
             props.getPhaseFindings(props.match.params.id)
         }
-
-
 
         if (!phase && !loadPhase) {
             fetchPhase()
@@ -109,6 +117,21 @@ const ConnectedPhaseDetail = (props) => {
                                                 {findings? (
                                                     <FindingList findings={findings}/>
                                                 ) : (null)}
+                                                {addFinding ? (
+                                                <React.Fragment>
+                                                    <AddFindingForm phaseid={props.match.params.id}/>
+                                                    <IconButton onClick={toggleForm}>
+                                                        <CloseIcon />
+                                                    </IconButton>                                                    
+
+                                                </React.Fragment>
+                                                ) : (
+                                                <IconButton onClick={toggleForm}>
+                                                    <AddIcon 
+                                                        color='secondary' 
+                                                    />
+                                                </IconButton>     
+                                                )}
                                             </Grid>
                                         </Grid>                                        
                                     </MainStage>

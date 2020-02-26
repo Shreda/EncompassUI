@@ -9,10 +9,11 @@ import TextField from '@material-ui/core/TextField'
 import Select from '@material-ui/core/Select'
 import { Typography, Input } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
+import Button from '@material-ui/core/Button'
 
 
 import {commonStyles} from '../../styles/index'
-import {editFinding} from '../../actions/index'
+import {editFinding, saveFinding} from '../../actions/index'
 import { getColor } from '../../utils'
 
 const handleSelect = (name, finding, callback) => event => {
@@ -26,10 +27,16 @@ const handleSelect = (name, finding, callback) => event => {
 const ConnectedFindingDetailForm = props => {
     const {
         finding,
-        editFinding
+        editFinding,
+        saveFinding
     } = props
 
     const classes = commonStyles()
+
+    const handleSave = (event, finding) => {
+        event.preventDefault()
+        saveFinding(finding)
+    }
 
     return(
         <React.Fragment>
@@ -95,7 +102,17 @@ const ConnectedFindingDetailForm = props => {
                         <option value={5}>Rare</option>
                     </Select>
                 </FormControl>           
-            </Grid>                                        
+            </Grid>
+            <Grid item>
+                <Button
+                    type='submit'
+                    color='primary'
+                    variant='contained'
+                    onClick={(e) => handleSave(e, finding)}
+                >
+                    save
+                </Button>
+            </Grid>                                                    
         </React.Fragment>
     )
 }
@@ -104,6 +121,7 @@ const FindingDetailForm = connect(
     null,
     {
         editFinding,
+        saveFinding
     }
 )(ConnectedFindingDetailForm);
 
