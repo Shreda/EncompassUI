@@ -25,6 +25,7 @@ import {
 import ProjectDetailBreadcrumb from './ProjectDetailBreadcrumb'
 import ProjectDetailDock from './ProjectDetailDock'
 import ProjectPhaseList from './ProjectPhaseList'
+import ReportList from '../Report/ReportList'
 import Dock from '../Dock';
 import MainStage from '../MainStage'
 
@@ -43,13 +44,21 @@ const mapStateToProps = (state, props) => {
             return false
         }
     })
+    const reports = state.reports.filter(r => {
+        if(r.project === props.match.params.id) {
+            return true
+        } else {
+            return false
+        }
+    })
     return {
         projects: state.projects,
         loadingProjects: state.loadingProjects,
         loadProjectsSuccess: state.loadProjectsSuccess,
         loadProject: state.loadProject,
         project: project[0],
-        phases: phases
+        phases: phases,
+        reports: reports
     }
 }
 
@@ -62,7 +71,8 @@ const ConnectedProjectDetail = (props) => {
         getProject,
         getProjectPhases,
         project,
-        phases
+        phases,
+        reports
     } = props
 
     const classes = commonStyles()
@@ -133,6 +143,18 @@ const ConnectedProjectDetail = (props) => {
                                         </Grid>
                                     </Grid>                                    
                                 </MainStage>
+                                <Dock>
+                                <Grid item container spacing={2} direction='column' justify='flex-start' alignItems='flex-start'>
+                                    <Grid item>
+                                        <Typography variant='subtitle1'>
+                                            Reports
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item className={classes.grow}>
+                                        <ReportList reports={reports} />
+                                    </Grid>
+                                </Grid>                                    
+                                </Dock>
                             </Grid>
                         </div>
                     )
