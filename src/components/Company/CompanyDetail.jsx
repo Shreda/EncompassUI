@@ -87,7 +87,7 @@ const ConnectedCompanyDetail = (props) => {
                                     container
                                 >
                                     <Grid item>
-                                        <Typography variant='subtitle1'>
+                                        <Typography variant='h5' component='h2'>
                                             Projects
                                         </Typography>
                                     </Grid>

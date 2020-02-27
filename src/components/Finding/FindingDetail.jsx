@@ -119,7 +119,7 @@ const ConnectedFindingDetail = (props) => {
                                     <Grid item container xs={12} sm={6} lg={6}>
                                         <Paper className={classes.paper}>
                                             <Grid item spacing={2} justify='flex-start' alignItems='center' container>
-                                                <Grid item>
+                                                {/* <Grid item>
                                                     <IconButton
                                                         onClick={handleEditButton}
                                                         aria-label="toggle edit"
@@ -129,7 +129,7 @@ const ConnectedFindingDetail = (props) => {
                                                             
                                                             color={readOnly ? 'default' : 'primary'}/>
                                                     </IconButton>
-                                                </Grid>
+                                                </Grid> */}
                                                 <Grid item>
                                                     <IconButton
                                                         onClick={handleSaveButton(finding, saveFinding)}
@@ -138,7 +138,7 @@ const ConnectedFindingDetail = (props) => {
                                                     >
                                                         <SaveIcon 
                                                             
-                                                            color={!savingFinding ? 'default': 'primary'}
+                                                            color={!savingFinding ? 'primary': 'secondary'}
                                                         />
                                                     </IconButton>
                                                 </Grid>                                                                     
@@ -152,7 +152,7 @@ const ConnectedFindingDetail = (props) => {
                                                 container
                                             >
                                                 <Grid className={classes.grow} zeroMinWidth item>
-                                                        <Typography noWrap variant='h4'>
+                                                        <Typography noWrap variant='h5' component='h2'>
                                                             Background
                                                         </Typography>
                                                         <Editor 
@@ -164,11 +164,11 @@ const ConnectedFindingDetail = (props) => {
                                                                 const result = await uploadImage(file)
                                                                 return result
                                                             }}
-                                                            readOnly={readOnly}
+                                                            // readOnly={readOnly}
                                                         />
                                                 </Grid>
                                                 <Grid className={classes.grow} zeroMinWidth item>
-                                                        <Typography noWrap variant='h4'>
+                                                        <Typography noWrap variant='h5' component='h2'>
                                                             Story
                                                         </Typography>
                                                         <Editor 
@@ -179,11 +179,11 @@ const ConnectedFindingDetail = (props) => {
                                                                 const result = await uploadImage(file)
                                                                 return result
                                                             }}
-                                                            readOnly={readOnly}
+                                                            // readOnly={readOnly}
                                                         />
                                                 </Grid>
                                                 <Grid className={classes.grow} zeroMinWidth item>
-                                                        <Typography noWrap variant='h4'>
+                                                        <Typography noWrap variant='h5' component='h2'>
                                                             Recommendation
                                                         </Typography>
                                                         <Editor 
@@ -194,7 +194,7 @@ const ConnectedFindingDetail = (props) => {
                                                                 const result = await uploadImage(file)
                                                                 return result
                                                             }}
-                                                            readOnly={readOnly}
+                                                            // readOnly={readOnly}
                                                         />
                                                 </Grid>
                                             </Grid>
@@ -202,7 +202,7 @@ const ConnectedFindingDetail = (props) => {
                                     </Grid>
                                     <Dock>
                                         <Grid item>
-                                            <Typography variant='subtitle1'>
+                                            <Typography variant='h5' component='h2'>
                                                 Affected Assets
                                             </Typography>
                                         </Grid>

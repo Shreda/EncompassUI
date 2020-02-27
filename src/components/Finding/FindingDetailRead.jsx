@@ -22,10 +22,11 @@ const ProjectDetailRead = ({finding}) => {
             <Grid item> 
                 <BugReportIcon
                     style={{color: getColor(finding)}}
+                    fontSize='large'
                 />
             </Grid>
             <Grid>
-                <Typography gutterBottom={false} variant='subtitle1'>
+                <Typography gutterBottom={false} variant='h4' component='h1'>
                 {finding.title}
                 </Typography>
             </Grid>

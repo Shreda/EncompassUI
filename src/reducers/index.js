@@ -48,6 +48,11 @@ import {
     ADD_PHASE,
     ADD_PHASE_SUCCESS,
     ADD_PHASE_FAILURE,
+    SAVE_PHASE,
+    SAVE_PHASE_SUCCESS,
+    SAVE_PHASE_FAILURE,
+    EDIT_PHASE,
+    TOGGLE_SAVE_PHASE_SUCCESS,
     GET_COMPANY,
     GET_COMPANY_SUCCESS,
     EDIT_COMPANY,
@@ -101,6 +106,8 @@ const initialState = {
     loadingPhases: false,
     loadPhasesSuccess: false,
     loadPhase: false,
+    savePhaseSuccess: false,
+    savingPhase: false,    
 
     findings: [],
     loadingFindings: false,
@@ -362,6 +369,43 @@ function rootReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 phases: state.phases.concat(action.payload),
             })
+
+        case EDIT_PHASE:
+            const phases = state.phases.map(p => (
+                (p.id !== action.payload.id) ?
+                    p :
+                    {
+                        ...action.payload,
+                        unsavedChanges: true
+                    }
+            ))
+            return Object.assign({}, state, {
+                phases: phases
+            })
+
+        case SAVE_PHASE_SUCCESS:
+            const new_phases = state.phases.map(c => (
+                (c.id !== action.payload.id) ?
+                    c :
+                    {
+                        ...action.payload
+                    }
+            ))
+            return Object.assign({}, state, {
+                phases: new_phases,
+                savePhaseSuccess: true,
+                savingPhase: false
+            })
+
+        case SAVE_PHASE:
+            return Object.assign({}, state, {
+                savingPhase: true
+            })
+
+        case TOGGLE_SAVE_PHASE_SUCCESS:
+            return Object.assign({}, state, {
+                savePhaseSuccess: !state.savePhaseSuccess
+            })              
 
         //////////////////////////////////////
         //          Finding Reducers        //

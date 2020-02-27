@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography'
 const mapStateToProps = (state, props) => {
     const project = state.projects.filter(p => {
         if(p.id === props.phase.project) {
-            console.log(props.phase.project)
             return true
         } else {
             return false

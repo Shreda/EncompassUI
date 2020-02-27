@@ -4,6 +4,8 @@ import { Link as RouterLink } from 'react-router-dom'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import Divider from '@material-ui/core/Divider'
+
 
 const ProjectPhaseList = (props) => {
     // Takes an array of Phases and displays them
@@ -16,9 +18,12 @@ const ProjectPhaseList = (props) => {
     return (
     <List component="nav" aria-label="phases">
         {phases.map(p =>
-            <ListItem button key={p.id} to={`/phase/${p.id}`} component={RouterLink}>
-                <ListItemText primary={p.name} />
-            </ListItem>
+            <React.Fragment key={p.id}>
+                <ListItem button to={`/phase/${p.id}`} component={RouterLink}>
+                    <ListItemText primary={p.name} />
+                </ListItem>
+                <Divider light={true} component='li' variant='middle' />
+            </React.Fragment>
         )}
     </List>        
     )

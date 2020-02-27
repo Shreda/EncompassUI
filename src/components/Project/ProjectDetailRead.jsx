@@ -14,7 +14,7 @@ const ProjectDetailRead = ({project}) => {
     return (
     <React.Fragment>
         <Grid className={classes.grow} item>
-            <Typography gutterBottom={false} variant='subtitle1'>
+            <Typography gutterBottom={false} variant='h4' component='h1'>
                 {project.name}
             </Typography>
             <Typography color="textSecondary">

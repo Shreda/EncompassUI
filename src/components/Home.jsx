@@ -104,7 +104,7 @@ const ConnectedApp = (props) => {
                                     <Dock>
                                         <Grid item container direction='column' justify='flex-start' alignItems='flex-start'>
                                             <Grid item>
-                                                <Typography variant='subtitle1'>
+                                                <Typography variant='h5' component='h2'>
                                                     Useful Links
                                                 </Typography>
                                             </Grid>
@@ -130,7 +130,7 @@ const ConnectedApp = (props) => {
                                         <Paper className={classes.paper}>
                                             <Grid item direction='column' spacing={2} justify='flex-start' alignItems='flex-start' container>
                                                 <Grid item>
-                                                    <Typography variant='subtitle1'>
+                                                    <Typography variant='h5' component='h2'>
                                                         Latest Projects
                                                     </Typography>                                                    
                                                 </Grid>
@@ -198,12 +198,12 @@ const ConnectedApp = (props) => {
                                     <Dock>
                                         <Grid item container direction='column' justify='flex-start' alignItems='flex-start'>
                                             <Grid item>
-                                                <Typography variant='subtitle1'>
+                                                <Typography variant='h5' component='h2'>
                                                     Favourites
                                                 </Typography>
                                             </Grid>
                                             <Grid className={classes.grow} item>
-                                                <List component="nav" aria-label="useful links">
+                                                <List component="nav" aria-label="favourites">
                                                     {loadingUser ? <p>Loading user...</p>: (
                                                         user.favourite_projects.map(fp => 
                                                         <ListItem key={fp.id} to={`/project/${fp.id}`} component={RouterLink} button>

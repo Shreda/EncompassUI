@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Typography, Paper } from '@material-ui/core';
-import { config } from '../../constants/configuration';
-
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
@@ -14,6 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField'
 
 
+import { config } from '../../constants/configuration';
 import { commonStyles } from '../../styles/index'
 import AddPhaseForm from '../Phase/AddPhaseForm'
 
@@ -118,7 +118,7 @@ const ConnectedProjectDetail = (props) => {
                                 <MainStage>
                                     <Grid item direction='column' spacing={2} justify='flex-start' alignItems='flex-start' container>
                                         <Grid item>
-                                            <Typography variant='subtitle1'>
+                                            <Typography variant='h5' component='h2'>
                                                 Phases
                                             </Typography>                                                    
                                         </Grid>
@@ -146,7 +146,7 @@ const ConnectedProjectDetail = (props) => {
                                 <Dock>
                                 <Grid item container spacing={2} direction='column' justify='flex-start' alignItems='flex-start'>
                                     <Grid item>
-                                        <Typography variant='subtitle1'>
+                                        <Typography variant='h5' component='h2'>
                                             Reports
                                         </Typography>
                                     </Grid>

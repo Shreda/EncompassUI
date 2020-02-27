@@ -15,12 +15,15 @@ import CloseIcon from '@material-ui/icons/Close';
 import FindingList from '../Finding/FindingList'
 import AddFindingForm from '../Finding/AddFindingForm'
 import PhaseDetailBreadcrumb from './PhaseDetailBreadcrumb'
+import PhaseDetailDock from './PhaseDetailDock'
+import SaveSuccessSnack from '../SaveSuccessSnack'
 import Dock from '../Dock'
 import MainStage from '../MainStage'
 import {commonStyles} from '../../styles/index'
 import {
     getPhase,
-    getPhaseFindings
+    getPhaseFindings,
+    toggleSavePhaseSuccess
 } from '../../actions/index'
 
 const mapStateToProps = (state, props) => {
@@ -45,7 +48,8 @@ const mapStateToProps = (state, props) => {
         loadPhase: state.loadPhase,
         isAuthenticated: state.isAuthenticated,
         phase: phase[0],
-        findings: findings
+        findings: findings,
+        savePhaseSuccess: state.savePhaseSuccess
     }
 }
 
@@ -57,7 +61,9 @@ const ConnectedPhaseDetail = (props) => {
         loadPhase,
         isAuthenticated,
         phase,
-        findings
+        findings,
+        toggleSavePhaseSuccess,
+        savePhaseSuccess
     } = props
     
     const classes = commonStyles()
@@ -89,6 +95,7 @@ const ConnectedPhaseDetail = (props) => {
                     loadPhase ? <p>Loading phase...</p> : (
                         !phase ? <p>No phase...</p>: (
                             <div className={classes.root}>
+                                <SaveSuccessSnack saveSuccess={savePhaseSuccess} callback={toggleSavePhaseSuccess} />
                                 <Grid 
                                     container 
                                     direction='row'
@@ -97,19 +104,20 @@ const ConnectedPhaseDetail = (props) => {
                                     spacing={3}
                                 >
                                     <PhaseDetailBreadcrumb phase={phase} />
-                                    <Dock>
+                                    {/* <Dock>
                                         <Grid item container direction='column' justify='flex-start' alignItems='flex-start'>
                                             <Grid item>
-                                                <Typography variant='subtitle1'>
+                                                <Typography variant='h4' component='h2'>
                                                     {phase.name}
                                                 </Typography>
                                             </Grid>
                                         </Grid>                                        
-                                    </Dock>
+                                    </Dock> */}
+                                    <PhaseDetailDock phase={phase}/>
                                     <MainStage>
                                         <Grid className={classes.grow} item container direction='column' justify='flex-start' alignItems='flex-start'>
                                             <Grid item>
-                                                <Typography variant='subtitle1'>
+                                                <Typography variant='h5' component='h2'>
                                                     Findings
                                                 </Typography>
                                             </Grid>
@@ -149,7 +157,8 @@ const PhaseDetail = connect(
     mapStateToProps,
     {
         getPhase,
-        getPhaseFindings
+        getPhaseFindings,
+        toggleSavePhaseSuccess
     }
 )(ConnectedPhaseDetail);
 

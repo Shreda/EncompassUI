@@ -60,7 +60,12 @@ import {
     SAVE_PROJECT_SUCCESS,
     SAVE_PROJECT_FAILURE,
     LOGOUT,
-    ADD_PHASE_SUCCESS
+    ADD_PHASE_SUCCESS,
+    EDIT_PHASE,
+    SAVE_PHASE,
+    SAVE_PHASE_SUCCESS,
+    SAVE_PHASE_FAILURE,
+    TOGGLE_SAVE_PHASE_SUCCESS,
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
@@ -386,6 +391,15 @@ export function editProject(project) {
     }
 }
 
+export function editPhase(phase) {
+    return function(dispatch) {
+        dispatch({
+            type: EDIT_PHASE,
+            payload: phase
+        })
+    }
+}
+
 export function saveReport(report) {
     return function(dispatch) {
         const URL = config.url.API_URL + `report/${report.id}/`
@@ -452,6 +466,30 @@ export function saveCompany(company) {
             .then(json => {
                 dispatch({
                     type: SAVE_COMPANY_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function savePhase(phase) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `phase/${phase.id}/`
+        dispatch({
+            type: SAVE_PHASE
+        })
+        return fetch(URL, {
+            mode: 'cors',
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(phase)
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: SAVE_PHASE_SUCCESS,
                     payload: json
                 })
             })
@@ -534,6 +572,14 @@ export function toggleSaveCompanySuccess() {
     return function(dispatch) {
         dispatch({
             type: TOGGLE_SAVE_COMPANY_SUCCESS
+        })
+    }
+}
+
+export function toggleSavePhaseSuccess() {
+    return function(dispatch) {
+        dispatch({
+            type: TOGGLE_SAVE_PHASE_SUCCESS
         })
     }
 }

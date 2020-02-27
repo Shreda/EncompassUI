@@ -11,15 +11,15 @@ import blue from '@material-ui/core/colors/blue';
 
 export const getColor = (finding) => {
     if(finding.rating >=1 && finding.rating <=2) {
-        return red[400]
+        return red[300]
     } else if(finding.rating >=3 && finding.rating <=6 && finding.rating != 5 ) {
-        return orange[400]
+        return orange[300]
     } else if (finding.rating >= 5 && finding.rating <=12 && finding.rating != 6) {
-        return yellow[400]
+        return yellow[300]
     } else if(finding.rating >= 15 && finding.rating <=25) {
-        return green[400]
+        return green[300]
     } else if (finding.rating === 0) {
-        return blue[400]
+        return blue[300]
     }
 }
 
