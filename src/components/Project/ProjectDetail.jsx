@@ -16,6 +16,7 @@ import TextField from '@material-ui/core/TextField'
 import { config } from '../../constants/configuration';
 import { commonStyles } from '../../styles/index'
 import AddPhaseForm from '../Phase/AddPhaseForm'
+import AddReportForm from '../Report/AddReportForm'
 
 import {
     getProject,
@@ -52,7 +53,6 @@ const mapStateToProps = (state, props) => {
         }
     })
     return {
-        projects: state.projects,
         loadingProjects: state.loadingProjects,
         loadProjectsSuccess: state.loadProjectsSuccess,
         loadProject: state.loadProject,
@@ -64,7 +64,6 @@ const mapStateToProps = (state, props) => {
 
 const ConnectedProjectDetail = (props) => {
     const {
-        projects,
         loadProjectsSuccess,
         loadingProjects,
         loadProject,
@@ -77,10 +76,16 @@ const ConnectedProjectDetail = (props) => {
 
     const classes = commonStyles()
     const [showAddProject, setShowAddProject] = React.useState(false)
+    const [showAddReport, setShowAddReport] = React.useState(false)
 
     const toggleForm = event => {
         event.preventDefault()
         setShowAddProject(!showAddProject)
+    }
+
+    const toggleReportForm = event => {
+        event.preventDefault()
+        setShowAddReport(!showAddReport)
     }
 
     React.useEffect(() => {
@@ -152,6 +157,20 @@ const ConnectedProjectDetail = (props) => {
                                     </Grid>
                                     <Grid item className={classes.grow}>
                                         <ReportList reports={reports} />
+                                        {showAddReport ? (
+                                            <React.Fragment>
+                                                <AddReportForm projectid={props.match.params.id}/>
+                                                <IconButton onClick={toggleReportForm}>
+                                                    <CloseIcon />
+                                                </IconButton>                                                
+                                            </React.Fragment>
+                                        ) : (
+                                            <IconButton onClick={toggleReportForm}>
+                                                <AddIcon 
+                                                    color='secondary' 
+                                                />
+                                            </IconButton>                                                
+                                        )}
                                     </Grid>
                                 </Grid>                                    
                                 </Dock>

@@ -12,6 +12,9 @@ import {
     LOAD_COMPANIES_FAILURE,
     LOAD_REPORTS,
     LOAD_REPORTS_SUCCESS,
+    GET_REPORT,
+    GET_REPORT_SUCCESS,
+    GET_REPORT_FAILURE,
     LOAD_REPORTS_FAILURE,
     GENERATE_REPORT,
     GENERATE_REPORT_SUCCESS,
@@ -19,6 +22,7 @@ import {
     EDIT_REPORT,
     SAVE_REPORT,
     SAVE_REPORT_SUCCESS,
+    ADD_REPORT_SUCCESS,
     SAVE_REPORT_FAILURE,
     LOAD_PHASES,
     LOAD_PHASES_SUCCESS,
@@ -101,6 +105,7 @@ const initialState = {
     generatingReport: false,
     generateReportSuccess: false,
     generateReportFailure: false,
+    loadReport: false,
 
     phases: [],
     loadingPhases: false,
@@ -338,6 +343,22 @@ function rootReducer(state = initialState, action) {
                 saveReportSuccess: !state.saveReportSuccess
             })
 
+        case ADD_REPORT_SUCCESS:
+            return Object.assign({}, state, {
+                reports: state.reports.concat(action.payload),
+            })
+
+        case GET_REPORT:
+            return Object.assign({}, state, {
+                loadReport: true
+            })
+
+        case GET_REPORT_SUCCESS:
+            return Object.assign({}, state, {
+                reports: state.reports.concat(action.payload),
+                loadReport: false
+            })
+    
         //////////////////////////////////////
         //          Phase Reducers          //
         /////////////////////////////////////

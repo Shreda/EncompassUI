@@ -103,7 +103,7 @@ const ConnectedCompanyList = (props) => {
                         <MainStage>
                             <Grid item direction='column' spacing={2} justify='flex-start' alignItems='flex-start' container>
                                 <Grid item>
-                                    <Typography variant='subtitle1'>
+                                    <Typography gutterBottom={false} variant='h4' component='h1'>
                                         Companies
                                     </Typography>                                                    
                                 </Grid>

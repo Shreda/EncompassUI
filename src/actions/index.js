@@ -16,6 +16,9 @@ import {
     GENERATE_REPORT_SUCCESS,
     GENERATE_REPORT_FAILURE,
     EDIT_REPORT,
+    GET_REPORT,
+    GET_REPORT_SUCCESS,
+    GET_REPORT_FAILURE,
     LOAD_PHASES,
     LOAD_PHASES_SUCCESS,
     LOAD_PHASES_FAILURE,
@@ -66,10 +69,10 @@ import {
     SAVE_PHASE_SUCCESS,
     SAVE_PHASE_FAILURE,
     TOGGLE_SAVE_PHASE_SUCCESS,
+    ADD_REPORT_SUCCESS,
 } from '../constants/action-types';
 
 import {config} from '../constants/configuration';
-import { debounce } from 'lodash'
 
 const API_KEY = localStorage.getItem(AUTH_TOKEN);
 
@@ -202,6 +205,26 @@ export function getProject(id) {
         return json
 }}
 
+export function getReport(id) {
+    return async function(dispatch) {
+        const URL = config.url.API_URL + `report/${id}/`
+        dispatch({
+            type: GET_REPORT
+        })
+        const res = await fetch(URL, {
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`
+            },            
+        })
+
+        const json = await res.json()
+        dispatch({
+            type: GET_REPORT_SUCCESS,
+            payload: json
+        })
+        return json
+}}
 
 export function getUser() {
     return function(dispatch) {
@@ -538,6 +561,30 @@ export function addPhase(phase) {
             .then(json => {
                 dispatch({
                     type: ADD_PHASE_SUCCESS,
+                    payload: json
+                })
+            })
+    }
+}
+
+export function addReport(report) {
+    return function(dispatch) {
+        const URL = config.url.API_URL + `report/`
+        // dispatch({
+        //     type: SAVE_PROJECT
+        // })
+        return fetch(URL, {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(report)
+        }).then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type: ADD_REPORT_SUCCESS,
                     payload: json
                 })
             })

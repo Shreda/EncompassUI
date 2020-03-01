@@ -8,9 +8,11 @@ import {
     editReport,
     saveReport,
     uploadImage,
-    generateReport
+    generateReport,
+    getReport
 } from '../../actions/index'
 import ReportBreadcrumb from './ReportBreadcrumb'
+import ReportDetailDock from './ReportDetailDock'
 
 import Editor from 'rich-markdown-editor';
 
@@ -49,24 +51,27 @@ const useStyles = makeStyles(theme => ({
       }
 }));
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
+    const report = state.reports.filter(r => {
+        if(r.id === props.match.params.id) return true;
+        else return false;
+    })
+    // const phases = state.phases.filter(p => {
+        // index of 
+    //     if(p.project === props.match.params.id) {
+    //         return true
+    //     } else {
+    //         return false
+    //     }
+    // })    
     return {
-        reports: state.reports,
+        report: report[0],
         loadingReports: state.loadingReports,
-        loadReportsSuccess: state.loadReportsSuccess
+        loadReportsSuccess: state.loadReportsSuccess,
+        loadReport: state.loadReport,
     }
 }
 
-const getReportByURLId = (props) => {
-    const report = props.reports.filter(r => {
-        if(r.id === props.match.params.id) {
-            return true;
-        } else {
-            return false;
-        }
-    })
-    return report[0]
-}
 const handleSave = (opt, report, callback) => {
     callback(report)
 }
@@ -78,16 +83,17 @@ const handleChange = debounce((value, report, callback, param) => {
     callback(r)
 }, 500)
 
-
 const ConnectedProjectDetail = (props) => {
     const {
-        reports,
+        report,
         loadReportsSuccess,
         loadingReports,
         editReport, 
         saveReport,
         uploadImage,
-        generateReport
+        generateReport,
+        getReport,
+        loadReport
     } = props
     const [generatingReport, setGeneratingReport] = React.useState(false);
     
@@ -100,7 +106,17 @@ const ConnectedProjectDetail = (props) => {
 
     const classes = useStyles()
 
-    const report = getReportByURLId(props)
+    // const report = getReportByURLId(props)
+
+    React.useEffect(() => {
+        async function fetchReport() {
+            props.getReport(props.match.params.id)
+        }
+
+        if (!report && !loadReport) {
+            fetchReport()
+        }
+    })
 
  
     return (
@@ -109,12 +125,13 @@ const ConnectedProjectDetail = (props) => {
                     <div className={classes.root}>
                         <Grid 
                             container 
-                            direction='column'
-                            justify='center'
-                            alignItems='center'
+                            direction='row'
+                            justify='flex-start'
+                            alignItems='flex-start'
                             spacing={3}
                         >
                             <ReportBreadcrumb report={report} />
+                            <ReportDetailDock report={report} />
                             <Grid item container xs={12} sm={8} lg={6}>
                                 <Paper className={classes.paper}>
                                     <Grid item spacing={2} justify='flex-start' alignItems='center' container>
@@ -206,7 +223,8 @@ const ProjectDetail = connect(
         editReport,
         saveReport,
         uploadImage,
-        generateReport
+        generateReport,
+        getReport
     }
 )(ConnectedProjectDetail);
 
