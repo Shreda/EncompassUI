@@ -426,6 +426,13 @@ export function editPhase(phase) {
 export function saveReport(report) {
     return function(dispatch) {
         const URL = config.url.API_URL + `report/${report.id}/`
+        var phase_ids = []
+        if (Array.isArray(report.phases) && report.phases.length) {
+            phase_ids = report.phases.map(p => {
+                return p.id
+            })
+        }
+        report.phases = phase_ids
         dispatch({
             type: SAVE_REPORT
         })

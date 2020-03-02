@@ -8,11 +8,24 @@ import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
 import Select from '@material-ui/core/Select'
+import FormControl from '@material-ui/core/FormControl'
 
 import { commonStyles } from '../../styles/index'
 import { editReport, saveReport, toggleSaveReportSuccess } from '../../actions/index'
 
+const mapStateToProps = (state, props) => {
+    const phases = state.phases.filter(p => {
+        if(p.project === props.report.project) return true
+        else return false
+    })
+    return({
+        phases: phases
+    })
+}
+
 const handleChange = (value, report, callback, param) => {
+    console.log('value')
+    console.log(value)
     const r = {
         ...report,
         [param]: value
@@ -25,7 +38,8 @@ const ConnectedReportDetailForm = ({
     editReport, 
     saveReport,
     saveReportSuccess,
-    toggleSaveReportSuccess
+    toggleSaveReportSuccess,
+    phases
 }) => {
     const classes = commonStyles()
 
@@ -33,6 +47,30 @@ const ConnectedReportDetailForm = ({
         event.preventDefault()
         saveReport(report)
     }
+
+    const handleMultiSelect = (callback, report, param) => event => {
+        event.preventDefault()
+        const {options} = event.target
+        const value = []
+        for (let i = 0, l = options.length; i < l; i += 1) {
+            if (options[i].selected) {
+                const ph = phases.filter(p => {
+                    if(p.id === options[i].value) return true
+                    else return false
+                })
+                value.push(ph[0]);
+            }
+        }
+        const r = {
+            ...report,
+            [param]: value
+        }
+        callback(r)
+    }
+
+    const phase_ids = report.phases.map(p => {
+        return p.id
+    })
 
     return(
     <React.Fragment>
@@ -53,6 +91,20 @@ const ConnectedReportDetailForm = ({
                 />
             </Grid>
             <Grid item>
+                <FormControl>
+                    <Select 
+                        multiple
+                        native
+                        value={phase_ids}
+                        onChange={handleMultiSelect(editReport, report, 'phases')}
+                    >
+                    {phases.map(p => (
+                        <option value={p.id} key={p.id}>{p.name}</option>
+                    ))}
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item>
                 <Button
                     type='submit'
                     color='primary'
@@ -68,7 +120,7 @@ const ConnectedReportDetailForm = ({
 }
 
 const ReportDetailForm = connect(
-    null,
+    mapStateToProps,
     {
         editReport,
         saveReport,

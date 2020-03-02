@@ -25,7 +25,7 @@ import {
 
 import ProjectDetailBreadcrumb from './ProjectDetailBreadcrumb'
 import ProjectDetailDock from './ProjectDetailDock'
-import ProjectPhaseList from './ProjectPhaseList'
+import PhaseList from '../Phase/PhaseList'
 import ReportList from '../Report/ReportList'
 import Dock from '../Dock';
 import MainStage from '../MainStage'
@@ -128,7 +128,7 @@ const ConnectedProjectDetail = (props) => {
                                             </Typography>                                                    
                                         </Grid>
                                         <Grid className={classes.grow} item>
-                                            <ProjectPhaseList phases={phases} />
+                                            <PhaseList showDelete={true} phases={phases} />
                                             {showAddProject ? (
                                                 <React.Fragment>
                                                     <AddPhaseForm projectid={props.match.params.id}/>

@@ -4,15 +4,18 @@ import { Link as RouterLink } from 'react-router-dom'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Divider from '@material-ui/core/Divider'
-
+import IconButton from '@material-ui/core/IconButton'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const ProjectPhaseList = (props) => {
     // Takes an array of Phases and displays them
     // in a list
 
     const {
-        phases
+        phases,
+        showDelete
     } = props
 
     return (
