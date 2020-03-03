@@ -72,7 +72,7 @@ const ConnectedApp = (props) => {
 
     const debounceFilterValue = debounce((array, string) => {
         return array.filter(o => {
-            if(o.name.toLowerCase().includes(string.toLowerCase())) {
+            if(o.name.toLowerCase().includes(string.toLowerCase()) || o.reference.toLowerCase().includes(string.toLowerCase())) {
                 return true
             } else {
                 return false

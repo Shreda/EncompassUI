@@ -9,10 +9,12 @@ import {
     saveReport,
     uploadImage,
     generateReport,
-    getReport
+    getReport,
+    toggleSaveReportSuccess
 } from '../../actions/index'
 import ReportBreadcrumb from './ReportBreadcrumb'
 import ReportDetailDock from './ReportDetailDock'
+import SaveSuccessSnack from '../SaveSuccessSnack'
 
 import Editor from 'rich-markdown-editor';
 
@@ -24,6 +26,7 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import SaveIcon from '@material-ui/icons/Save'
 import IconButton from '@material-ui/core/IconButton'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
@@ -42,10 +45,6 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2),
         width: '100%'
     },
-    controlBar: {
-        width: '100%',
-        // padding: theme.spacing(1)
-    },
     rotate: {
         animation: "rotation 2s infinite linear"
       }
@@ -55,24 +54,23 @@ const mapStateToProps = (state, props) => {
     const report = state.reports.filter(r => {
         if(r.id === props.match.params.id) return true;
         else return false;
-    })
-    // const phases = state.phases.filter(p => {
-        // index of 
-    //     if(p.project === props.match.params.id) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // })    
+    })    
     return {
         report: report[0],
         loadingReports: state.loadingReports,
         loadReportsSuccess: state.loadReportsSuccess,
         loadReport: state.loadReport,
+        saveReportSuccess: state.saveReportSuccess,
+        savingReport: state.savingReport
     }
 }
 
 const handleSave = (opt, report, callback) => {
+    callback(report)
+}
+
+const handleSaveButton = (report, callback) => event => {
+    event.preventDefault()
     callback(report)
 }
 const handleChange = debounce((value, report, callback, param) => {
@@ -93,7 +91,10 @@ const ConnectedProjectDetail = (props) => {
         uploadImage,
         generateReport,
         getReport,
-        loadReport
+        loadReport,
+        saveReportSuccess,
+        toggleSaveReportSuccess,
+        savingReport
     } = props
     const [generatingReport, setGeneratingReport] = React.useState(false);
     
@@ -123,6 +124,7 @@ const ConnectedProjectDetail = (props) => {
             loadingReports ? <p>Loading...</p>:(
                 (!loadReportsSuccess ? <p>Error loading report</p>:
                     <div className={classes.root}>
+                        <SaveSuccessSnack saveSuccess={saveReportSuccess} callback={toggleSaveReportSuccess} />
                         <Grid 
                             container 
                             direction='row'
@@ -146,6 +148,18 @@ const ConnectedProjectDetail = (props) => {
                                                     color={readOnly ? 'default' : 'primary'}/>
                                             </IconButton>
                                         </Grid> */}
+                                        <Grid item>
+                                            <IconButton
+                                                onClick={handleSaveButton(report, saveReport)}
+                                                aria-label="save report"
+                                                title="save report"
+                                            >
+                                                <SaveIcon 
+                                                    
+                                                  
+                                                />
+                                            </IconButton>
+                                        </Grid>                                         
                                         <Grid item>
                                             <IconButton 
                                                 aria-label="generate report"
@@ -224,7 +238,8 @@ const ProjectDetail = connect(
         saveReport,
         uploadImage,
         generateReport,
-        getReport
+        getReport,
+        toggleSaveReportSuccess
     }
 )(ConnectedProjectDetail);
 

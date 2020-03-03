@@ -56,13 +56,13 @@ const handleSaveButton = (finding, callback) => event => {
     callback(finding)
 }
 
-const handleChange = debounce((value, finding, callback, param) => {
+const handleChange = (value, finding, callback, param) => {
     const r = {
         ...finding,
         [param]: value()
     }
     callback(r)
-}, 500)
+}
 
 const ConnectedFindingDetail = (props) => {
     const {
@@ -138,7 +138,7 @@ const ConnectedFindingDetail = (props) => {
                                                     >
                                                         <SaveIcon 
                                                             
-                                                            color={!savingFinding ? 'primary': 'secondary'}
+                                                            color={!savingFinding ? 'secondary': 'primary'}
                                                         />
                                                     </IconButton>
                                                 </Grid>                                                                     
