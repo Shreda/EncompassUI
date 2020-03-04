@@ -123,7 +123,12 @@ const initialState = {
 
     user: null,
     loadingUser: false,
-    loadUserSuccess: false
+    loadUserSuccess: false,
+    
+    templateFindings: [],
+    nextTemplateFindings: null,
+    loadingTemplateFindings: false,
+    loadTemplateFindingsSuccess: false,
 };
 
 function rootReducer(state = initialState, action) {

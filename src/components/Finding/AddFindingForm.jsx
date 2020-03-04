@@ -7,7 +7,8 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 import {addFinding} from '../../actions/index'
-
+import { Typography } from '@material-ui/core';
+import AddTemplateToFindingList from './AddTemplateToFindingList'
 const useStyles = makeStyles(theme => ({
     leftMargin: {
         marginLeft: theme.spacing(2),
@@ -59,6 +60,10 @@ const ConnectedAddFindingForm = (props) => {
                 >
                     Add
                 </Button>
+            </Grid>
+            <Grid className={classes.leftMargin} item>
+                <Typography variant='subtitle1' component='h2'>Template Findings</Typography>
+
             </Grid>
         </Grid>
     )

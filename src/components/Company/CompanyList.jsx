@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import { connect } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom';
 import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
 import sortBy from 'lodash/sortBy'
 import CompanyListBreadcrumb from './CompanyListBreadcrumb'
 import Dock from '../Dock'
@@ -44,23 +45,9 @@ const ConnectedCompanyList = (props) => {
         searchCompanies
     } = props
 
-    window.onscroll = debounce(() => {
-        // Bails early if:
-        // * there's an error
-        // * it's already loading
-        // * there's nothing left to load
-        if (loadingCompanies || !nextCompanies) return;
-  
-        // Checks that the page has scrolled to the bottom
-        if (
-          window.innerHeight + document.documentElement.scrollTop
-          === document.documentElement.offsetHeight
-        ) {
-          getNextCompanies(nextCompanies);
-        }
-      }, 100);
 
-      const debounceFilterValue = debounce((array, string) => {
+
+      const debounceFilterValue = (array, string) => {
         return array.filter(o => {
             if(o.name.toLowerCase().includes(string.toLowerCase())) {
                 return true
@@ -68,20 +55,42 @@ const ConnectedCompanyList = (props) => {
                 return false
             }
         })
-    }, 500, {leading:true})      
+    }
 
     const [searchTerm, setSearchTerm] = React.useState('');
     const handleChange = (value, callback) => {
         callback(value)
     }
 
+    const throttleSearchCompanies = useCallback(throttle((searchTerm) => {
+        searchCompanies(searchTerm)
+    }, 750, {leading: true}), [])
+    
     React.useEffect(() => {
-        const debounceSearchCompanies = debounce( async (term) => {
-            searchCompanies(term)
-        }, 100)
-
-        debounceSearchCompanies(searchTerm)
-    },[searchTerm])    
+        throttleSearchCompanies(searchTerm)
+    },[searchTerm])
+    
+    React.useEffect(() => {
+        window.onscroll = debounce(() => {
+            // Bails early if:
+            // * there's an error
+            // * it's already loading
+            // * there's nothing left to load
+            if (loadingCompanies || !nextCompanies) return;
+      
+            // Checks that the page has scrolled to the bottom
+            if (
+              window.innerHeight + document.documentElement.scrollTop
+              === document.documentElement.offsetHeight
+            ) {
+              getNextCompanies(nextCompanies);
+            }
+          }, 100);
+        
+        return () => {
+            window.onscroll = () =>{}
+        }
+    })
         
 
     const classes = commonStyles()
