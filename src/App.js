@@ -16,6 +16,8 @@ import {
     getUser
 } from './actions/index';
 
+import { getTemplateFindings } from './actions/templateFindings'
+
 const mapStateToProps = state => {
     return {
         authDetermined: state.authDetermined,
@@ -32,6 +34,8 @@ const mapStateToProps = state => {
         loadFindingsSuccess: state.loadFindingsSuccess,
         loadingUser: state.loadingUser,
         loadUserSuccess: state.loadUserSuccess,
+        loadTemplateFindingsSuccess: state.loadTemplateFindingsSuccess,
+        loadingTemplateFindings: state.loadingTemplateFindings
     }
 };
 
@@ -51,7 +55,9 @@ const ConnectedApp = (props) => {
         loadFindingsSuccess,
         loadingFindings,
         loadingUser,
-        loadUserSuccess
+        loadUserSuccess,
+        loadTemplateFindingsSuccess,
+        loadingTemplateFindings
     } = props
 
     const renderRoutes = (props) => {
@@ -90,6 +96,9 @@ const ConnectedApp = (props) => {
         async function fetchUser() {
             props.getUser()
         }
+        async function fetchTemplateFindings() {
+            props.getTemplateFindings()
+        }
 
         authStatus()
 
@@ -111,6 +120,9 @@ const ConnectedApp = (props) => {
         if (!loadUserSuccess && !loadingUser && isAuthenticated) {
             fetchUser()
         }
+        if (!loadTemplateFindingsSuccess && !loadingTemplateFindings && isAuthenticated) {
+            fetchTemplateFindings()
+        }
     });
    
     return (
@@ -127,7 +139,8 @@ const App = connect(
         getReports,
         getPhases,
         getFindings,
-        getUser
+        getUser,
+        getTemplateFindings
     }
 )(ConnectedApp);
 

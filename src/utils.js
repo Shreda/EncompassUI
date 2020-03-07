@@ -5,7 +5,7 @@ import { ListItemIcon } from '@material-ui/core';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import red from '@material-ui/core/colors/red'
 import orange from '@material-ui/core/colors/orange';
-import yellow from '@material-ui/core/colors/yellow';
+import amber from '@material-ui/core/colors/amber';
 import green from '@material-ui/core/colors/green';
 import blue from '@material-ui/core/colors/blue';
 
@@ -15,7 +15,7 @@ export const getColor = (finding) => {
     } else if(finding.rating >=3 && finding.rating <=6 && finding.rating != 5 ) {
         return orange[300]
     } else if (finding.rating >= 5 && finding.rating <=12 && finding.rating != 6) {
-        return yellow[300]
+        return amber[300]
     } else if(finding.rating >= 15 && finding.rating <=25) {
         return green[300]
     } else if (finding.rating === 0) {

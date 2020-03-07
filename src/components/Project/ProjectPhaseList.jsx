@@ -18,12 +18,9 @@ const ProjectPhaseList = (props) => {
     return (
     <List component="nav" aria-label="phases">
         {phases.map(p =>
-            <React.Fragment key={p.id}>
-                <ListItem button to={`/phase/${p.id}`} component={RouterLink}>
+                <ListItem key={p.id} button to={`/phase/${p.id}`} component={RouterLink}>
                     <ListItemText primary={p.name} />
                 </ListItem>
-                <Divider light={true} component='li' variant='middle' />
-            </React.Fragment>
         )}
     </List>        
     )

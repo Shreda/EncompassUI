@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import { connect } from 'react-redux';
+import throttle from 'lodash/throttle'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
@@ -7,8 +8,16 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 import {addFinding} from '../../actions/index'
+import { searchTemplateFindings } from '../../actions/templateFindings'
 import { Typography } from '@material-ui/core';
 import AddTemplateToFindingList from './AddTemplateToFindingList'
+
+const mapStateToProps = (state, props) => {
+    return {
+        templateFindings: state.templateFindings
+    }
+}
+
 const useStyles = makeStyles(theme => ({
     leftMargin: {
         marginLeft: theme.spacing(2),
@@ -18,7 +27,9 @@ const useStyles = makeStyles(theme => ({
 const ConnectedAddFindingForm = (props) => {
 
     const {
-        addFinding
+        addFinding,
+        templateFindings,
+        searchTemplateFindings
     } = props
 
     const [title, setTitle] = React.useState('')
@@ -35,44 +46,61 @@ const ConnectedAddFindingForm = (props) => {
         setTitle('')
     }
 
+    const throttleSearchTemplateFindings = useCallback(throttle((title) => {
+        searchTemplateFindings(title)
+    }, 750, {leading: true}), [])
+
+    React.useEffect(() => {
+        throttleSearchTemplateFindings(title)
+    }, [title])
+
     const classes = useStyles()
 
     return(
-        <Grid onSubmit={(e) => handleSave(e, title)} component='form' alignItems='center' item container spacing={2} directon='row'>
-            <Grid item>
-                <TextField 
-                    autoComplete='off' 
-                    className={classes.leftMargin} 
-                    fullWidth id="outlined-basic" 
-                    label="New Finding Title" 
-                    variant="outlined"
-                    value={title}
-                    onChange={(event) => setTitle(event.target.value)}
-                    autoFocus
-                />
+        <Grid container direction='column' spacing={2} item>
+            <Grid onSubmit={(e) => handleSave(e, title)} component='form' alignItems='center' item container spacing={2} directon='row'>
+                <Grid item>
+                    <TextField 
+                        autoComplete='off' 
+                        className={classes.leftMargin} 
+                        fullWidth id="outlined-basic" 
+                        label="New Finding Title" 
+                        variant="outlined"
+                        value={title}
+                        onChange={(event) => setTitle(event.target.value)}
+                        autoFocus
+                    />
+                </Grid>
+                <Grid className={classes.leftMargin} item>
+                    <Button 
+                        color='primary'
+                        variant='contained'
+                        onClick={(e) => handleSave(e, title)}
+                        type='submit'
+                    >
+                        Add
+                    </Button>
+                </Grid>
             </Grid>
-            <Grid className={classes.leftMargin} item>
-                <Button 
-                    color='primary'
-                    variant='contained'
-                    onClick={(e) => handleSave(e, title)}
-                    type='submit'
-                >
-                    Add
-                </Button>
+            <Grid item direction='column' spacing={2} container>
+                <Grid item>
+                    <Typography variant='subtitle1' component='h2'>Template Findings</Typography>
+                </Grid>
+                <Grid item>
+                    <AddTemplateToFindingList title={title} findings={templateFindings}/>
+                </Grid>
             </Grid>
-            <Grid className={classes.leftMargin} item>
-                <Typography variant='subtitle1' component='h2'>Template Findings</Typography>
 
-            </Grid>
         </Grid>
-    )
+        
+        )
 }
 
 const AddFindingForm = connect(
-    null,
+    mapStateToProps,
     {
-        addFinding
+        addFinding,
+        searchTemplateFindings
     }
 )(ConnectedAddFindingForm)
 

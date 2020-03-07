@@ -104,15 +104,6 @@ const ConnectedPhaseDetail = (props) => {
                                     spacing={3}
                                 >
                                     <PhaseDetailBreadcrumb phase={phase} />
-                                    {/* <Dock>
-                                        <Grid item container direction='column' justify='flex-start' alignItems='flex-start'>
-                                            <Grid item>
-                                                <Typography variant='h4' component='h2'>
-                                                    {phase.name}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>                                        
-                                    </Dock> */}
                                     <PhaseDetailDock phase={phase}/>
                                     <MainStage>
                                         <Grid className={classes.grow} item container direction='column' justify='flex-start' alignItems='flex-start'>

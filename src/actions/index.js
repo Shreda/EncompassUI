@@ -425,6 +425,7 @@ export function editPhase(phase) {
 
 export function saveReport(report) {
     return function(dispatch) {
+        console.log(report)
         const URL = config.url.API_URL + `report/${report.id}/`
         var phase_ids = []
         if (Array.isArray(report.phases) && report.phases.length) {
@@ -436,6 +437,7 @@ export function saveReport(report) {
         dispatch({
             type: SAVE_REPORT
         })
+        console.log(report)
         return fetch(URL, {
             mode: 'cors',
             method: 'PUT',
@@ -446,6 +448,7 @@ export function saveReport(report) {
             body: JSON.stringify(report)
         }).then(res => res.json())
             .then(json => {
+                console.log(json)
                 dispatch({
                     type: SAVE_REPORT_SUCCESS,
                     payload: json

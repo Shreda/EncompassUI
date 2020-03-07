@@ -97,7 +97,7 @@ const ConnectedProjectDetail = (props) => {
         savingReport
     } = props
     const [generatingReport, setGeneratingReport] = React.useState(false);
-    
+
     const handleGenerate = async (e, reportId) => {
         e.preventDefault()
         setGeneratingReport(true)

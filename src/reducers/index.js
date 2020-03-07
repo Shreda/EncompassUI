@@ -73,7 +73,10 @@ import {
     SAVE_PROJECT_SUCCESS,
     SAVE_PROJECT_FAILURE,
     TOGGLE_SAVE_PROJECT_SUCCESS,
-    LOGOUT
+    LOGOUT,
+    LOAD_TEMPLATE_FINDINGS,
+    LOAD_TEMPLATE_FINDINGS_SUCCESS,
+    LOAD_TEMPLATE_FINDINGS_FAILURE
 
 } from '../constants/action-types';
 
@@ -234,6 +237,7 @@ function rootReducer(state = initialState, action) {
                 loadingCompanies: false,
                 nextCompanies: action.nextCompanies
             });
+
         case GET_COMPANY:
             return Object.assign({}, state, {
                 loadCompany: true
@@ -431,7 +435,24 @@ function rootReducer(state = initialState, action) {
         case TOGGLE_SAVE_PHASE_SUCCESS:
             return Object.assign({}, state, {
                 savePhaseSuccess: !state.savePhaseSuccess
-            })              
+            })
+            
+        //////////////////////////////////////
+        //       Template Findings Reducer  //
+        //////////////////////////////////////
+        case LOAD_TEMPLATE_FINDINGS:
+            return Object.assign({}, state, {
+                loadingTemplateFindings: true
+            })
+
+        case LOAD_TEMPLATE_FINDINGS_SUCCESS:
+            const a_new_template_findings = unionBy(state.templateFindings, action.payload, 'id')
+            return Object.assign({}, state, {
+                loadTemplateFindingsSuccess: true,
+                templateFindings: a_new_template_findings,
+                loadingTemplateFindings: false,
+                nextTemplateFindings: action.nextTemplateFindings
+            })
 
         //////////////////////////////////////
         //          Finding Reducers        //
