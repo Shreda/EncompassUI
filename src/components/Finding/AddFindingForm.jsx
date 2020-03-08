@@ -87,7 +87,7 @@ const ConnectedAddFindingForm = (props) => {
                     <Typography variant='subtitle1' component='h2'>Template Findings</Typography>
                 </Grid>
                 <Grid item>
-                    <AddTemplateToFindingList title={title} findings={templateFindings}/>
+                    <AddTemplateToFindingList phaseid={props.phaseid} title={title} findings={templateFindings}/>
                 </Grid>
             </Grid>
 
