@@ -447,6 +447,7 @@ function rootReducer(state = initialState, action) {
 
         case LOAD_TEMPLATE_FINDINGS_SUCCESS:
             const a_new_template_findings = unionBy(state.templateFindings, action.payload, 'id')
+            console.log(action.nextTemplateFindings)
             return Object.assign({}, state, {
                 loadTemplateFindingsSuccess: true,
                 templateFindings: a_new_template_findings,

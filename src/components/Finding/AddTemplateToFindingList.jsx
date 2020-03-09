@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { connect } from 'react-redux'
 // import { Link as RouterLink } from 'react-router-dom';
 import { sortBy } from 'lodash'
@@ -17,6 +17,7 @@ import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 
 import { addFinding } from '../../actions/index'
+import { getNextTemplateFindings } from '../../actions/templateFindings'
 
 const useStyles = makeStyles(theme => ({
     scrollList: {
@@ -26,6 +27,12 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const mapStateToProps = (state, props) => {
+    return {
+        nextTemplateFindings: state.nextTemplateFindings
+    }
+}
+
 const ConnectedAddTemplateToFindingList = (props) => {
     // Takes an array of findings and displays
     // them in a list
@@ -33,7 +40,9 @@ const ConnectedAddTemplateToFindingList = (props) => {
         findings,
         title,
         addFinding,
-        phaseid
+        phaseid,
+        getNextTemplateFindings,
+        nextTemplateFindings
     } = props
 
     const handleSave = async (event, finding) => {
@@ -66,9 +75,18 @@ const ConnectedAddTemplateToFindingList = (props) => {
     const classes = useStyles()
     const filtered_companies = filterTemplateFindings(findings, title)
     const sorted_findings = sortBy(filtered_companies, 'rating')
+    const listRef = useRef(<div></div>)
+
+    React.useEffect(() => {
+        listRef.current.onscroll = () => {
+            if(listRef.current.scrollTop === (listRef.current.scrollHeight - listRef.current.offsetHeight)) {
+                getNextTemplateFindings(nextTemplateFindings)
+            }            
+        }
+    }, [listRef])
     
     return (
-    <List className={classes.scrollList} component="nav" aria-label="findings">
+    <List ref={listRef} className={classes.scrollList} component="nav" aria-label="findings">
         {sorted_findings.map(f =>
         <React.Fragment key={f.id}>
             <ListItem>
@@ -90,9 +108,10 @@ const ConnectedAddTemplateToFindingList = (props) => {
 }
 
 const AddTemplateToFindingList = connect(
-    null,
+    mapStateToProps,
     {
-        addFinding
+        addFinding,
+        getNextTemplateFindings
     }
 )(ConnectedAddTemplateToFindingList)
 

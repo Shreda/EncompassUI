@@ -46,7 +46,7 @@ export function getNextTemplateFindings(url) {
                 dispatch({
                     type: LOAD_TEMPLATE_FINDINGS_SUCCESS,
                     payload: json.results,
-                    nextCompanies: json.next
+                    nextTemplateFindings: json.next
                 })
             })
     }
