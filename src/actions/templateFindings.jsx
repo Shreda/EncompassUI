@@ -43,6 +43,7 @@ export function getNextTemplateFindings(url) {
             }            
         }).then(res => res.json())
             .then(json => {
+                // console.log(json.next)
                 dispatch({
                     type: LOAD_TEMPLATE_FINDINGS_SUCCESS,
                     payload: json.results,

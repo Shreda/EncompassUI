@@ -18,6 +18,7 @@ import AddIcon from '@material-ui/icons/Add'
 
 import { addFinding } from '../../actions/index'
 import { getNextTemplateFindings } from '../../actions/templateFindings'
+import throttle from 'lodash/throttle'
 
 const useStyles = makeStyles(theme => ({
     scrollList: {
@@ -52,14 +53,6 @@ const ConnectedAddTemplateToFindingList = (props) => {
             phase: phaseid
         }
         addFinding(f)
-    //     const finding = {
-    //         title: title,
-    //         phase: props.phaseid,
-    //         impact: 0,
-    //         likelihood: 0,
-    //     }
-    //     await addFinding(finding)
-    //     setTitle('')
     }
 
     const filterTemplateFindings = (array, string) => {
@@ -78,12 +71,13 @@ const ConnectedAddTemplateToFindingList = (props) => {
     const listRef = useRef(<div></div>)
 
     React.useEffect(() => {
-        listRef.current.onscroll = () => {
-            if(listRef.current.scrollTop === (listRef.current.scrollHeight - listRef.current.offsetHeight)) {
+        listRef.current.onscroll = throttle(() => {
+            if(nextTemplateFindings && listRef.current.scrollTop === (listRef.current.scrollHeight - listRef.current.offsetHeight)) {
                 getNextTemplateFindings(nextTemplateFindings)
-            }            
-        }
-    }, [listRef])
+            }          
+        }, 250) 
+        
+    }, [listRef, nextTemplateFindings])
     
     return (
     <List ref={listRef} className={classes.scrollList} component="nav" aria-label="findings">
