@@ -6,6 +6,7 @@ import WrapBreadcrumb from '../WrapBreadcrumb'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip';
 
 const FindingBreadcrumb = (props) => {
     const {
@@ -15,36 +16,39 @@ const FindingBreadcrumb = (props) => {
     return (
     <WrapBreadcrumb>
         <Breadcrumbs>
-            <Link component={RouterLink} to='/'>
-                Home
-            </Link>                    
+            <Chip 
+                component={RouterLink}
+                to='/'
+                clickable
+                label='Home'
+            />                   
             <Typography>
                 Project
             </Typography>                    
-            <Link 
+            <Chip 
                 component={RouterLink} 
                 to={`/project/${finding.phase.project.id}`}
-            >
-                {finding.phase.project.name}
-            </Link>                    
+                label={finding.phase.project.name}
+                clickable
+            />
             <Typography>
                 Phase
             </Typography>                    
-            <Link 
+            <Chip 
                 component={RouterLink} 
                 to={`/phase/${finding.phase.id}`}
-            >
-                {finding.phase.name}
-            </Link>                    
+                label={finding.phase.name}
+                clickable
+            />
             <Typography>
                 Finding
             </Typography>                    
-            <Link 
+            <Chip 
                 component={RouterLink} 
                 to={`/finding/${finding.id}`}
-            >
-                {finding.title}
-            </Link>                    
+                label={finding.title}
+                clickable
+            />
         </Breadcrumbs>
     </WrapBreadcrumb>        
     )

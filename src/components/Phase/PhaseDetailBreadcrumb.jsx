@@ -9,6 +9,7 @@ import { getProject } from '../../actions/index'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip';
 
 const mapStateToProps = (state, props) => {
     const project = state.projects.filter(p => {
@@ -44,29 +45,32 @@ const ConnectedPhaseDetailBreadcrumb = (props) => {
     return (
     <WrapBreadcrumb>
         <Breadcrumbs>
-            <Link component={RouterLink} to='/'>
-                Home
-            </Link>                    
+            <Chip 
+                component={RouterLink}
+                to='/'
+                clickable
+                label='Home'
+            />                   
             <Typography>
                 Project
             </Typography>
             {project ? (
-                <Link 
+                <Chip 
                     component={RouterLink} 
                     to={`/project/${project.id}`}
-                >
-                    {project.name}
-                </Link>                    
+                    label={project.name}
+                    clickable
+                />
             ) : (null)}               
             <Typography>
                 Phase
             </Typography>                    
-            <Link 
+            <Chip 
                 component={RouterLink} 
                 to={`/phase/${phase.id}`}
-            >
-                {phase.name}
-            </Link>                    
+                label={phase.name}
+                clickable
+            />
         </Breadcrumbs>
     </WrapBreadcrumb>        
     )

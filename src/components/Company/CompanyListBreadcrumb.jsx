@@ -6,15 +6,19 @@ import WrapBreadcrumb from '../WrapBreadcrumb'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip'
 
 const CompanyListBreadcrumb = (props) => {
     return (
     <WrapBreadcrumb>
         <Breadcrumbs>
-            <Link component={RouterLink} to='/'>
-                Home
-            </Link>                    
-            <Typography>
+            <Chip 
+                component={RouterLink} 
+                to='/'
+                label='Home'
+                clickable
+            />
+            <Typography >
                 Company
             </Typography>                                       
         </Breadcrumbs>

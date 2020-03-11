@@ -19,6 +19,7 @@ import PhaseDetailDock from './PhaseDetailDock'
 import SaveSuccessSnack from '../SaveSuccessSnack'
 import Dock from '../Dock'
 import MainStage from '../MainStage'
+import CentreCircularProgress from '../CentreCircularProgress'
 import {commonStyles} from '../../styles/index'
 import {
     getPhase,
@@ -90,9 +91,9 @@ const ConnectedPhaseDetail = (props) => {
         fetchFindings()
     }, [])
     return (
-            loadingPhases ? <p>Loading...</p>:(
+            loadingPhases ? <CentreCircularProgress />:(
                 (!loadPhasesSuccess ? <p>Error loading phase</p>: (
-                    loadPhase ? <p>Loading phase...</p> : (
+                    loadPhase ? <CentreCircularProgress /> : (
                         !phase ? <p>No phase...</p>: (
                             <div className={classes.root}>
                                 <SaveSuccessSnack saveSuccess={savePhaseSuccess} callback={toggleSavePhaseSuccess} />

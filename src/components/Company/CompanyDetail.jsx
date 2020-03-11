@@ -21,6 +21,7 @@ import red from '@material-ui/core/colors/red'
 
 import CompanyDetailBreadcrumb from './CompanyDetailBreadcrumb'
 import CompanyProjectsTable from './CompanyProjectsTable'
+import CentreCircularProgress from '../CentreCircularProgress'
 
 const mapStateToProps = (state, props) => {
     const company = state.companies.filter(f => {
@@ -62,9 +63,9 @@ const ConnectedCompanyDetail = (props) => {
     })    
 
     return (
-    loadingCompanies ? <p>Loading...</p>:(
+    loadingCompanies ? <CentreCircularProgress />:(
         (!loadCompaniesSuccess ? <p>Error loading company</p>: (
-            loadCompany ? <p>Loading company...</p>: (
+            loadCompany ? <CentreCircularProgress />: (
                 !company ? null: (
                     <div className={classes.root}>
                         <Grid 

@@ -6,6 +6,7 @@ import WrapBreadcrumb from '../WrapBreadcrumb'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip';
 
 const ProjectDetailBreadcrumb = (props) => {
     const {
@@ -15,18 +16,21 @@ const ProjectDetailBreadcrumb = (props) => {
     return (
     <WrapBreadcrumb>
         <Breadcrumbs>
-            <Link component={RouterLink} to='/'>
-                Home
-            </Link>                    
+            <Chip 
+                component={RouterLink}
+                to='/'
+                clickable
+                label='Home'
+            />                
             <Typography>
                 Project
             </Typography>                    
-            <Link 
+            <Chip 
                 component={RouterLink} 
                 to={`/project/${project.id}`}
-            >
-                {project.name}
-            </Link>                    
+                label={project.name}
+                clickable
+            />
         </Breadcrumbs> 
     </WrapBreadcrumb>        
     )

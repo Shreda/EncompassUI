@@ -30,6 +30,7 @@ import SaveIcon from '@material-ui/icons/Save'
 import IconButton from '@material-ui/core/IconButton'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
+import CentreCircularProgress from '../CentreCircularProgress'
 import WrapBreadcrumb from '../WrapBreadcrumb'
 
 
@@ -121,7 +122,7 @@ const ConnectedProjectDetail = (props) => {
 
  
     return (
-            loadingReports ? <p>Loading...</p>:(
+            loadingReports ? <CentreCircularProgress />:(
                 (!loadReportsSuccess ? <p>Error loading report</p>:
                     <div className={classes.root}>
                         <SaveSuccessSnack saveSuccess={saveReportSuccess} callback={toggleSaveReportSuccess} />

@@ -29,6 +29,7 @@ import PhaseList from '../Phase/PhaseList'
 import ReportList from '../Report/ReportList'
 import Dock from '../Dock';
 import MainStage from '../MainStage'
+import CentreCircularProgress from '../CentreCircularProgress'
 
 const mapStateToProps = (state, props) => {
     const project = state.projects.filter(p => {
@@ -106,9 +107,9 @@ const ConnectedProjectDetail = (props) => {
     }, [])
 
     return (
-        loadingProjects ? <p>Loading...</p> : (
+        loadingProjects ? <CentreCircularProgress /> : (
             (!loadProjectsSuccess ? <p>Error loading project</p> : (
-                loadProject ? <p>Loading project...</p> : (
+                loadProject ? <CentreCircularProgress /> : (
                     !project ? <p>No project...</p> : (
                         <div className={classes.root}>
                             <Grid

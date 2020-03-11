@@ -29,12 +29,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { IconButton } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip'
 
 import { commonStyles } from '../styles/index';
 
 import WrapBreadcrumb from './WrapBreadcrumb'
 import Dock from './Dock'
 import ProjectFavouriteButton from './Favourite/ProjectFavouriteButton'
+import CentreCircularProgress from './CentreCircularProgress'
 
 import {
     updateFavourites
@@ -83,9 +85,9 @@ const ConnectedApp = (props) => {
     const filtered_projects = debounceFilterValue(projects, searchTerm)
 
     return (
-            loadingProjects ? <p>Loading...</p>:(
+            loadingProjects ? <CentreCircularProgress />:(
                 (!loadProjectsSuccess ? <p>Error loading project</p>: (
-                    loadingUser ? <p>Loading...</p>: (
+                    loadingUser ? <CentreCircularProgress />: (
                         <div className={classes.root}>
                                 <Grid 
                                     container 
@@ -96,9 +98,12 @@ const ConnectedApp = (props) => {
                                 >
                                     <WrapBreadcrumb>
                                         <Breadcrumbs>
-                                            <Link component={RouterLink} to='/'>
-                                                Home
-                                            </Link>                    
+                                            <Chip 
+                                                component={RouterLink} 
+                                                to='/'
+                                                label='Home'
+                                                clickable
+                                            />
                                         </Breadcrumbs>
                                     </WrapBreadcrumb>
                                     <Dock>
