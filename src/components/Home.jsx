@@ -24,6 +24,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import BusinessIcon from '@material-ui/icons/Business';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
@@ -126,6 +127,12 @@ const ConnectedApp = (props) => {
                                                             <LibraryBooksIcon />
                                                         </ListItemIcon>
                                                         <ListItemText primary="Projects" />
+                                                    </ListItem>
+                                                    <ListItem component={RouterLink} to='/template/findings' button>
+                                                        <ListItemIcon>
+                                                            <MenuBookIcon />
+                                                        </ListItemIcon>
+                                                        <ListItemText primary="Template findings" />
                                                     </ListItem>
                                                 </List>
                                             </Grid>

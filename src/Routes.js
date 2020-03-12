@@ -9,6 +9,7 @@ import ReportDetail from './components/Report/ReportDetail'
 import PhaseDetail from './components/Phase/PhaseDetail';
 import FindingDetail from './components/Finding/FindingDetail';
 import CompanyList from './components/Company/CompanyList'
+import TemplateFindingsPage from './components/TemplateFinding/TemplateFindingsPage'
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -66,6 +67,12 @@ const ConnectedRoutes = (props) => {
                 exact
                 path='/phase/:id'
                 component={PhaseDetail}
+                isAuthenticated={isAuthenticated}
+            />
+            <ProtectedRoute
+                exact
+                path='/template/findings'
+                component={TemplateFindingsPage}
                 isAuthenticated={isAuthenticated}
             />
             <ProtectedRoute
