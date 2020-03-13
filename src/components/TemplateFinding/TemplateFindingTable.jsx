@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
+import {getColor} from '../../utils'
+
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -22,10 +24,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import BugReportIcon from '@material-ui/icons/BugReport';
 
 const mapStateToProps = (state, props) => {
     return({
-
+        templateFindings: state.templateFindings
     })
 }
 
@@ -76,8 +79,8 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    { id: 'title', numeric: false, disablePadding: false, label: 'Title' },
     { id: 'rating', numeric: true, disablePadding: false, label: 'Rating' },
+    { id: 'title', numeric: false, disablePadding: false, label: 'Title' },
     // { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
     // { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
     // { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
@@ -128,26 +131,6 @@ EnhancedTableHead.propTypes = {
     rowCount: PropTypes.number.isRequired,
 };
 
-const useToolbarStyles = makeStyles(theme => ({
-    root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
-    },
-    highlight:
-        theme.palette.type === 'light'
-            ? {
-                    color: theme.palette.secondary.main,
-                    backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-                }
-            : {
-                    color: theme.palette.text.primary,
-                    backgroundColor: theme.palette.secondary.dark,
-                },
-    title: {
-        flex: '1 1 100%',
-    },
-}));
-
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
@@ -172,7 +155,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function TemplateFindingTable() {
+const ConnectedTemplateFindingTable = (props) => {
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('rating');
@@ -180,6 +163,10 @@ export default function TemplateFindingTable() {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+    const {
+        templateFindings
+    } = props
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -202,7 +189,7 @@ export default function TemplateFindingTable() {
 
     const isSelected = title => selected.indexOf(title) !== -1;
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, templateFindings.length - page * rowsPerPage);
 
     return (
             <React.Fragment>
@@ -219,10 +206,10 @@ export default function TemplateFindingTable() {
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
+                            rowCount={templateFindings.length}
                         />
                         <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
+                            {stableSort(templateFindings, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -234,10 +221,11 @@ export default function TemplateFindingTable() {
                                             tabIndex={-1}
                                             key={row.title}
                                         >
+                                            <TableCell >
+                                                <BugReportIcon style={{color: getColor(row)}}/></TableCell>
                                             <TableCell id={labelId}>
                                                 {row.title}
                                             </TableCell>
-                                            <TableCell >{row.rating}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -252,7 +240,7 @@ export default function TemplateFindingTable() {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
+                    count={templateFindings.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}
@@ -265,3 +253,12 @@ export default function TemplateFindingTable() {
         </React.Fragment>
     );
 }
+
+const TemplateFindingTable = connect(
+    mapStateToProps,
+    {
+
+    }
+)(ConnectedTemplateFindingTable)
+
+export default TemplateFindingTable
