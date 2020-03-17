@@ -8,10 +8,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Person from '@material-ui/icons/Person'
 import Avatar from '@material-ui/core/Avatar'
+import { ReactComponent as Logo } from '../imgs/encompass.svg';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        marginTop: '15vh',
+        marginTop: '5vh',
         padding: '8px',
     },
     welcome: {
@@ -60,9 +61,10 @@ const ConnectedLogin = (props) => {
             <Grid component='form' onSubmit={(e) => handleLogin(e, username, password)} 
                 spacing={2} item alignItems='center' direction='column'container >
                 <Grid item>
-                    <Avatar className={classes.bigAvatar}>
-                        <Person fontSize='inherit' />
-                    </Avatar>
+                    <Logo width='100%' height='100%'/>
+                    <Typography variant='h2' component='h1'>
+                        Encompass
+                    </Typography>
                 </Grid>
                 <Grid item>
                     <TextField 
