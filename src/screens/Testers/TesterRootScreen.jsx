@@ -1,12 +1,9 @@
 import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
-import Routes from './Routes';
+import Routes from '../../Routes';
 import { connect } from 'react-redux';
-import './App.css'
-import ButtonAppBar from './components/ButtonAppBar'
-import RootScreen from './screens/RootScreen'
-
-// import actions
+import '../../App.css'
+import ButtonAppBar from '../../components/ButtonAppBar'
 import {
     determineAuth,
     getProjects,
@@ -15,9 +12,9 @@ import {
     getPhases,
     getFindings,
     getUser
-} from './actions/index';
+} from '../../actions/index';
 
-import { getTemplateFindings } from './actions/templateFindings'
+import { getTemplateFindings } from '../../actions/templateFindings'
 
 const mapStateToProps = state => {
     return {
@@ -40,7 +37,7 @@ const mapStateToProps = state => {
     }
 };
 
-const ConnectedApp = (props) => {
+const ConnectedTesterRootScreen = (props) => {
 
     const {
         authDetermined,
@@ -76,9 +73,6 @@ const ConnectedApp = (props) => {
     }
 
      React.useEffect(() => {
-        function authStatus() {
-            props.determineAuth();
-        }
         async function fetchProjects() {
             props.getProjects()
         }
@@ -100,8 +94,6 @@ const ConnectedApp = (props) => {
         async function fetchTemplateFindings() {
             props.getTemplateFindings()
         }
-
-        authStatus()
 
         if (!loadProjectsSuccess && !loadingProjects && isAuthenticated) {
             fetchProjects();
@@ -127,12 +119,11 @@ const ConnectedApp = (props) => {
     });
    
     return (
-        // renderRoutes(props)
-        <RootScreen/>
+        renderRoutes(props)
     );
 }
 
-const App = connect(
+const TesterRootScreen = connect(
     mapStateToProps,
     {
         determineAuth,
@@ -144,6 +135,6 @@ const App = connect(
         getUser,
         getTemplateFindings
     }
-)(ConnectedApp);
+)(ConnectedTesterRootScreen);
 
-export default App;
+export default TesterRootScreen;

@@ -43,7 +43,7 @@ const ConnectedLogin = (props) => {
             password
         }
         await props.doLogin(creds)
-        props.history.replace('/')
+        props.history.replace('/login')
         window.location.reload();
     }
 

@@ -12,4 +12,7 @@ export const commonStyles = makeStyles(theme => ({
         padding: theme.spacing(2),
         width: '100%'
     },
+    rootest: {
+        flexGrow: 1
+    }
 }));

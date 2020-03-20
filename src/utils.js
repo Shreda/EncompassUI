@@ -9,6 +9,30 @@ import amber from '@material-ui/core/colors/amber';
 import green from '@material-ui/core/colors/green';
 import blue from '@material-ui/core/colors/blue';
 
+export const arrayIsEmpty = anArray => {
+    if (Array.isArray(anArray) && !anArray.length) {
+        return true
+    } else {
+        return false
+    }
+}
+
+export const inGroup = (user, groupName) => {
+    const x = user.groups.filter(g => {
+        if (g.name === groupName) {
+            return true
+        } else {
+            return false
+        }
+    })
+
+    if (arrayIsEmpty(x)) {
+        return false
+    } else {
+        return true
+    }
+}
+
 export const getColor = (finding) => {
     if(finding.rating >=1 && finding.rating <=2) {
         return red[300]
