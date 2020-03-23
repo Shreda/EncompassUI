@@ -8,6 +8,7 @@ import SendIcon from '@material-ui/icons/Send';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import {commonStyles} from '../../styles/index'
+import { Link as RouterLink } from 'react-router-dom';
 import './LandingPage.css'
 
 const LandingPage = (props) => {
