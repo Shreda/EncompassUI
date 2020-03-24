@@ -12,7 +12,7 @@ import { ReactComponent as Logo } from '../imgs/encompass.svg';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        marginTop: '5vh',
+        marginTop: '10vh',
         padding: '8px',
     },
     welcome: {

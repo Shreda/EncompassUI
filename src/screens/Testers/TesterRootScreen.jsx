@@ -4,6 +4,7 @@ import Routes from '../../Routes';
 import { connect } from 'react-redux';
 import '../../App.css'
 import ButtonAppBar from '../../components/ButtonAppBar'
+import UnauthButtonAppBar from '../../components/UnauthButtonAppBar'
 import {
     determineAuth,
     getProjects,

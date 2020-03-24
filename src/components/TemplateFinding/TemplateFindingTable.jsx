@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-
+import {Link as RouterLink} from 'react-router-dom'
+import Link from '@material-ui/core/Link'
 import {getColor} from '../../utils'
 import {getNextTemplateFindings} from '../../actions/templateFindings'
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -203,14 +204,18 @@ const ConnectedTemplateFindingTable = (props) => {
                                     return (
                                         <TableRow
                                             hover
-                                            role="checkbox"
+                                            role="button"
                                             tabIndex={-1}
                                             key={row.title}
                                         >
-                                            <TableCell >
+                                            <TableCell component={RouterLink} to='/'>
                                                 <BugReportIcon style={{color: getColor(row)}}/></TableCell>
                                             <TableCell id={labelId}>
-                                                {row.title}
+                                                <Link component={RouterLink}>
+                                                    <Typography variant='body1'>
+                                                        {row.title}
+                                                    </Typography>
+                                                </Link>
                                             </TableCell>
                                         </TableRow>
                                     );
