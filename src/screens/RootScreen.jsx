@@ -41,7 +41,7 @@ const ConnectedRootScreen = (props) => {
     return (
         !authDetermined ? (<CenterCircularProgress message='Check yo creds...' />) : (
             (loadingUser ? (
-                <CenterCircularProgress message="Check yo privilege..." />
+                null
             ) : (
                 (isAuthenticated? (<RootAuthScreen/>):(<RootUnauthScreen/>)
             ))

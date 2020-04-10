@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Person from '@material-ui/icons/Person'
 import Avatar from '@material-ui/core/Avatar'
 import { ReactComponent as Logo } from '../imgs/encompass.svg';
-
+import ErrorSnack from '../components/ErrorSnack'
 const useStyles = makeStyles(theme => ({
     root: {
         marginTop: '10vh',
@@ -29,8 +29,18 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const mapStateToProps = (state, props) => {
+    return {
+        loginFailed: state.auth.loginFailed
+    }
+}
+
 const ConnectedLogin = (props) => {
     const classes = useStyles();
+
+    const {
+        loginFailed
+    } = props
 
     const handleChange = (event, callback) => {
         callback(event.target.value)
@@ -58,6 +68,7 @@ const ConnectedLogin = (props) => {
             className={classes.root}
             spacing={0}
         >
+            {loginFailed ? (<ErrorSnack />) : (null)}
             <Grid component='form' onSubmit={(e) => handleLogin(e, username, password)} 
                 spacing={2} item alignItems='center' direction='column'container >
                 <Grid item>
@@ -104,7 +115,7 @@ const ConnectedLogin = (props) => {
 };
 
 const Login = connect(
-    null,
+    mapStateToProps,
     {
         doLogin,
     }

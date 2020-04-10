@@ -769,7 +769,10 @@ export function doLogin(creds) {
             ).then(({user, res}) => {
                 if(!res.ok) {
                     // Login error
-                    console.log('error login');
+                    // console.log('error login');
+                    dispatch({
+                        type: LOGIN_FAILURE
+                    })
                     return Promise.reject(user)
                 } else {
                     var date = new Date()

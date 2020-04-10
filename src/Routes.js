@@ -86,9 +86,9 @@ const ConnectedRoutes = (props) => {
                 component={FindingDetail}
                 isAuthenticated={isAuthenticated}
             />
-            {/* <Route exact path="/login">
+            <Route exact path="/login">
                 <Redirect to="/" />
-            </Route>             */}
+            </Route>            
         </Switch>
     );
 };

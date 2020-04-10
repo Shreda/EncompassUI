@@ -9,7 +9,8 @@ import {
 const initialState = {
     loggingIn: false,
     isAuthenticated: false,
-    authDetermined: false,    
+    authDetermined: false,
+    loginFailed: false,
 }
 
 export default function auth(state = initialState, action) {
@@ -25,6 +26,11 @@ export default function auth(state = initialState, action) {
                 isAuthenticated: true,
             });
 
+        case LOGIN_FAILURE:
+            return Object.assign({}, state, {
+                loggingIn: false,
+                isAuthenticated: false
+            })
 
         case SET_AUTHENTICATED:
             return Object.assign({}, state, {
