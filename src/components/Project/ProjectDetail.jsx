@@ -32,21 +32,21 @@ import MainStage from '../MainStage'
 import CentreCircularProgress from '../CentreCircularProgress'
 
 const mapStateToProps = (state, props) => {
-    const project = state.projects.filter(p => {
+    const project = state.project.projects.filter(p => {
         if (p.id === props.match.params.id) {
             return true;
         } else {
             return false;
         }
     })
-    const phases = state.phases.filter(p => {
+    const phases = state.phase.phases.filter(p => {
         if(p.project === props.match.params.id) {
             return true
         } else {
             return false
         }
     })
-    const reports = state.reports.filter(r => {
+    const reports = state.report.reports.filter(r => {
         if(r.project === props.match.params.id) {
             return true
         } else {
@@ -54,9 +54,9 @@ const mapStateToProps = (state, props) => {
         }
     })
     return {
-        loadingProjects: state.loadingProjects,
-        loadProjectsSuccess: state.loadProjectsSuccess,
-        loadProject: state.loadProject,
+        loadingProjects: state.project.loadingProjects,
+        loadProjectsSuccess: state.project.loadProjectsSuccess,
+        loadProject: state.project.loadProject,
         project: project[0],
         phases: phases,
         reports: reports

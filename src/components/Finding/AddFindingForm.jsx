@@ -14,7 +14,7 @@ import AddTemplateToFindingList from './AddTemplateToFindingList'
 
 const mapStateToProps = (state, props) => {
     return {
-        templateFindings: state.templateFindings
+        templateFindings: state.templateFinding.templateFindings
     }
 }
 

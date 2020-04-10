@@ -45,12 +45,12 @@ import {
 
 const mapStateToProps = state => {
     return {
-        loadingProjects: state.loadingProjects,
-        loadProjectsSuccess: state.loadProjectsSuccess,
-        projects: state.projects,
-        user: state.user,
-        loadingUser: state.loadingUser,
-        loadUserSuccess: state.loadUserSuccess
+        loadingProjects: state.project.loadingProjects,
+        loadProjectsSuccess: state.project.loadProjectsSuccess,
+        projects: state.project.projects,
+        user: state.user.user,
+        loadingUser: state.user.loadingUser,
+        loadUserSuccess: state.user.loadUserSuccess
     }
 }
 

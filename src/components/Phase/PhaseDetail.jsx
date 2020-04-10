@@ -28,14 +28,14 @@ import {
 } from '../../actions/index'
 
 const mapStateToProps = (state, props) => {
-    const phase = state.phases.filter(ph => {
+    const phase = state.phase.phases.filter(ph => {
         if(ph.id === props.match.params.id) {
             return true;
         } else {
             return false;
         }
     })
-    const findings = state.findings.filter(f => {
+    const findings = state.finding.findings.filter(f => {
         if(f.phase.id === props.match.params.id) {
             return true
         } else {
@@ -43,14 +43,14 @@ const mapStateToProps = (state, props) => {
         }
     })
     return {
-        phases: state.phases,
-        loadingPhases: state.loadingPhases,
-        loadPhasesSuccess: state.loadPhasesSuccess,
-        loadPhase: state.loadPhase,
-        isAuthenticated: state.isAuthenticated,
+        phases: state.phase.phases,
+        loadingPhases: state.phase.loadingPhases,
+        loadPhasesSuccess: state.phase.loadPhasesSuccess,
+        loadPhase: state.phase.loadPhase,
+        isAuthenticated: state.auth.isAuthenticated,
         phase: phase[0],
         findings: findings,
-        savePhaseSuccess: state.savePhaseSuccess
+        savePhaseSuccess: state.phase.savePhaseSuccess
     }
 }
 

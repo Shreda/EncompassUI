@@ -52,17 +52,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const mapStateToProps = (state, props) => {
-    const report = state.reports.filter(r => {
+    const report = state.report.reports.filter(r => {
         if(r.id === props.match.params.id) return true;
         else return false;
     })    
     return {
         report: report[0],
-        loadingReports: state.loadingReports,
-        loadReportsSuccess: state.loadReportsSuccess,
-        loadReport: state.loadReport,
-        saveReportSuccess: state.saveReportSuccess,
-        savingReport: state.savingReport
+        loadingReports: state.report.loadingReports,
+        loadReportsSuccess: state.report.loadReportsSuccess,
+        loadReport: state.report.loadReport,
+        saveReportSuccess: state.report.saveReportSuccess,
+        savingReport: state.report.savingReport
     }
 }
 

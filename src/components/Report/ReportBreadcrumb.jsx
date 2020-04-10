@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import Chip from '@material-ui/core/Chip';
 
 const mapStateToProps = (state, props) => {
-    const project = state.projects.filter(p => {
+    const project = state.project.projects.filter(p => {
         if(p.id === props.report.project) {
             return true
         } else {
@@ -21,7 +21,7 @@ const mapStateToProps = (state, props) => {
     })
     return {
         project: project[0],
-        loadProject: state.loadProject
+        loadProject: state.project.loadProject
     }
 }
 

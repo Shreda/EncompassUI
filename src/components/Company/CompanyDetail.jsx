@@ -24,7 +24,7 @@ import CompanyProjectsTable from './CompanyProjectsTable'
 import CentreCircularProgress from '../CentreCircularProgress'
 
 const mapStateToProps = (state, props) => {
-    const company = state.companies.filter(f => {
+    const company = state.company.companies.filter(f => {
         if(f.id === props.match.params.id) {
             return true;
         } else {
@@ -32,10 +32,10 @@ const mapStateToProps = (state, props) => {
         }
     })
     return {
-        companies: state.companies,
-        loadingCompanies: state.loadingCompanies,
-        loadCompaniesSuccess: state.loadCompaniesSuccess,
-        loadCompany: state.loadCompany,
+        companies: state.company.companies,
+        loadingCompanies: state.company.loadingCompanies,
+        loadCompaniesSuccess: state.company.loadCompaniesSuccess,
+        loadCompany: state.company.loadCompany,
         company: company[0]
     }
 }

@@ -24,7 +24,7 @@ const handleChange = (value, company, callback, param) => {
 
 const mapStateToProps = state => {
     return {
-        saveCompanySuccess: state.saveCompanySuccess
+        saveCompanySuccess: state.company.saveCompanySuccess
     }
 }
 

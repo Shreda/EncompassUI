@@ -6,7 +6,7 @@ import TesterRootScreen from './Testers/TesterRootScreen'
 
 const mapStateToProps = (state, props) => {
     return {
-        user: state.user
+        user: state.user.user
     }
 }
 

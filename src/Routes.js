@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated
     };
 };
 
@@ -80,9 +80,15 @@ const ConnectedRoutes = (props) => {
                 component={FindingDetail}
                 isAuthenticated={isAuthenticated}
             />
-            <Route exact path="/login">
+            <ProtectedRoute
+                exact
+                path='/template/finding/:id'
+                component={FindingDetail}
+                isAuthenticated={isAuthenticated}
+            />
+            {/* <Route exact path="/login">
                 <Redirect to="/" />
-            </Route>            
+            </Route>             */}
         </Switch>
     );
 };

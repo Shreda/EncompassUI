@@ -19,22 +19,22 @@ import { getTemplateFindings } from '../../actions/templateFindings'
 
 const mapStateToProps = state => {
     return {
-        authDetermined: state.authDetermined,
-        isAuthenticated: state.isAuthenticated,
-        loadProjectsSuccess: state.loadProjectsSuccess,
-        loadingProjects: state.loadingProjects,
-        loadCompaniesSuccess: state.loadCompaniesSuccess,
-        loadingCompanies: state.loadingCompanies,
-        loadingReports: state.loadingReports,
-        loadReportsSuccess: state.loadReportsSuccess,
-        loadingPhases: state.loadingPhases,
-        loadPhasesSuccess: state.loadPhasesSuccess,
-        loadingFindings: state.loadingFindings,
-        loadFindingsSuccess: state.loadFindingsSuccess,
-        loadingUser: state.loadingUser,
-        loadUserSuccess: state.loadUserSuccess,
-        loadTemplateFindingsSuccess: state.loadTemplateFindingsSuccess,
-        loadingTemplateFindings: state.loadingTemplateFindings
+        authDetermined: state.auth.authDetermined,
+        isAuthenticated: state.auth.isAuthenticated,
+        loadProjectsSuccess: state.project.loadProjectsSuccess,
+        loadingProjects: state.project.loadingProjects,
+        loadCompaniesSuccess: state.company.loadCompaniesSuccess,
+        loadingCompanies: state.company.loadingCompanies,
+        loadingReports: state.report.loadingReports,
+        loadReportsSuccess: state.report.loadReportsSuccess,
+        loadingPhases: state.phase.loadingPhases,
+        loadPhasesSuccess: state.phase.loadPhasesSuccess,
+        loadingFindings: state.finding.loadingFindings,
+        loadFindingsSuccess: state.finding.loadFindingsSuccess,
+        loadingUser: state.user.loadingUser,
+        loadUserSuccess: state.user.loadUserSuccess,
+        loadTemplateFindingsSuccess: state.templateFinding.loadTemplateFindingsSuccess,
+        loadingTemplateFindings: state.templateFinding.loadingTemplateFindings
     }
 };
 

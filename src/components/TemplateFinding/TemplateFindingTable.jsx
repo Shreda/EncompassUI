@@ -29,7 +29,7 @@ import BugReportIcon from '@material-ui/icons/BugReport';
 
 const mapStateToProps = (state, props) => {
     return({
-        nextTemplateFindings: state.nextTemplateFindings,
+        nextTemplateFindings: state.templateFinding.nextTemplateFindings,
     })
 }
 

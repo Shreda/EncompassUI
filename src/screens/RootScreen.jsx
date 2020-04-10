@@ -7,10 +7,10 @@ import CenterCircularProgress from '../components/CentreCircularProgress'
 
 const mapStateToProps = (state, props) => {
     return {
-        loadUserSuccess: state.loadUserSuccess,
-        loadingUser: state.loadingUser,
-        isAuthenticated: state.isAuthenticated,
-        authDetermined: state.authDetermined
+        loadUserSuccess: state.user.loadUserSuccess,
+        loadingUser: state.user.loadingUser,
+        isAuthenticated: state.auth.isAuthenticated,
+        authDetermined: state.auth.authDetermined
     }
 }
 
@@ -27,13 +27,13 @@ const ConnectedRootScreen = (props) => {
             props.determineAuth();
         }
 
-        async function fetchUser() {
+        function fetchUser() {
             props.getUser()
         }
 
         authStatus()
 
-        if (!loadUserSuccess && !loadingUser && isAuthenticated) {
+        if (!loadUserSuccess && !loadingUser) {
             fetchUser()
         }
     });

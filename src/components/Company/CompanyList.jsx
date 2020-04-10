@@ -28,10 +28,10 @@ import {
 
 const mapStateToProps = state => {
     return {
-        companies: state.companies,
-        loadingCompanies: state.loadingCompanies,
-        loadCompaniesSuccess: state.loadCompaniesSuccess,
-        nextCompanies: state.nextCompanies
+        companies: state.company.companies,
+        loadingCompanies: state.company.loadingCompanies,
+        loadCompaniesSuccess: state.company.loadCompaniesSuccess,
+        nextCompanies: state.company.nextCompanies
     }
 }
 

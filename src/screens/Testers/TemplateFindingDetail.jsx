@@ -30,7 +30,7 @@ import FindingDetailDock from './FindingDetailDock';
 import CentreCircularProgress from '../CentreCircularProgress'
 
 const mapStateToProps = (state, props) => {
-    const finding = state.finding.findings.filter(f => {
+    const templateFinding = state.templateFinding.templateFindings.filter(f => {
         if(f.id === props.match.params.id) {
             return true;
         } else {
@@ -38,13 +38,13 @@ const mapStateToProps = (state, props) => {
         }
     })
     return {
-        findings: state.finding.findings,
-        loadingFindings: state.finding.loadingFindings,
-        loadFindingsSuccess: state.finding.loadFindingsSuccess,
-        savingFinding: state.finding.savingFinding,
-        loadFinding: state.finding.loadFinding,
-        saveFindingSuccess: state.finding.saveFindingSuccess,
-        finding: finding[0]
+        findings: state.findings,
+        loadingFindings: state.loadingFindings,
+        loadFindingsSuccess: state.loadFindingsSuccess,
+        savingFinding: state.savingFinding,
+        loadFinding: state.loadFinding,
+        saveFindingSuccess: state.saveFindingSuccess,
+        finding: templateFinding[0]
     }
 }
 
@@ -66,7 +66,7 @@ const handleChange = (value, finding, callback, param) => {
     callback(r)
 }
 
-const ConnectedFindingDetail = (props) => {
+const ConnectedTemplateFindingDetail = (props) => {
     const {
         findings,
         loadFindingsSuccess,
@@ -219,7 +219,7 @@ const ConnectedFindingDetail = (props) => {
     )
 }
 
-const FindingDetail = connect(
+const TemplateFindingDetail = connect(
     mapStateToProps,
     {
         uploadImage,
@@ -228,6 +228,6 @@ const FindingDetail = connect(
         getFinding,
         toggleSaveFindingSuccess
     }
-)(ConnectedFindingDetail);
+)(ConnectedTemplateFindingDetail);
 
-export default FindingDetail;
+export default TemplateFindingDetail;

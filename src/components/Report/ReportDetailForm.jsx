@@ -14,7 +14,7 @@ import { commonStyles } from '../../styles/index'
 import { editReport, saveReport, toggleSaveReportSuccess } from '../../actions/index'
 
 const mapStateToProps = (state, props) => {
-    const phases = state.phases.filter(p => {
+    const phases = state.phase.phases.filter(p => {
         if(p.project === props.report.project) return true
         else return false
     })

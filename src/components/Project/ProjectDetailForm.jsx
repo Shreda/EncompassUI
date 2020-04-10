@@ -24,7 +24,7 @@ const handleChange = (value, project, callback, param) => {
 
 const mapStateToProps = state => {
     return {
-        saveProjectSuccess: state.saveProjectSuccess
+        saveProjectSuccess: state.project.saveProjectSuccess
     }
 }
 

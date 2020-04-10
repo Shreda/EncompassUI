@@ -227,23 +227,24 @@ export function getReport(id) {
 }}
 
 export function getUser() {
-    return function(dispatch) {
+    // console.log('in get user function')
+    return async function(dispatch) {
         const URL = config.url.API_URL + 'me/'
         dispatch({
             type: LOAD_USER
         })
-        return fetch(URL, {
+        const res = await fetch(URL, {
             mode: 'cors',
             headers: {
                 'Authorization': `Bearer ${API_KEY}`
             }
-        }).then(res => res.json())
-            .then(json => {
-                dispatch({
-                    type: LOAD_USER_SUCCESS,
-                    payload: json
-                })
-            })
+        })
+        const json = await res.json()
+
+        dispatch({
+            type: LOAD_USER_SUCCESS,
+            payload: json
+        })
     }
 }
 

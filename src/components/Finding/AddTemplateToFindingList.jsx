@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 const mapStateToProps = (state, props) => {
     return {
-        nextTemplateFindings: state.nextTemplateFindings
+        nextTemplateFindings: state.templateFinding.nextTemplateFindings
     }
 }
 
