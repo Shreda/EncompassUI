@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button'
 
 
 import {commonStyles} from '../../styles/index'
-import {editFinding, saveFinding} from '../../actions/index'
+import {editFinding, saveFinding} from '../../actions/findings'
 import { getColor } from '../../utils'
 
 const handleSelect = (name, finding, callback) => event => {

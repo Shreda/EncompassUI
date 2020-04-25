@@ -4,17 +4,16 @@ import Routes from '../../Routes';
 import { connect } from 'react-redux';
 import '../../App.css'
 import ButtonAppBar from '../../components/ButtonAppBar'
-import UnauthButtonAppBar from '../../components/UnauthButtonAppBar'
+import TemporaryDraw from '../../components/TemporaryDraw'
 import {
     determineAuth,
-    getProjects,
-    getCompanies,
-    getReports,
-    getPhases,
-    getFindings,
     getUser
 } from '../../actions/index';
-
+import { getReports } from '../../actions/reports'
+import { getPhases } from '../../actions/phases'
+import { getCompanies } from '../../actions/companies' 
+import { getFindings } from '../../actions/findings'
+import { getProjects } from '../../actions/projects'
 import { getTemplateFindings } from '../../actions/templateFindings'
 
 const mapStateToProps = state => {
@@ -64,6 +63,7 @@ const ConnectedTesterRootScreen = (props) => {
             return (
                 <Router>
                     <ButtonAppBar isAuthenticated={isAuthenticated}/>
+                    <TemporaryDraw />
                     <Routes />
                 </Router>
             )

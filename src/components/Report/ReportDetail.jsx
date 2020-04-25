@@ -3,15 +3,14 @@ import {debounce} from 'lodash';
 import { connect } from 'react-redux';
 import {config} from '../../constants/configuration';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { uploadImage } from '../../actions/index'
 import {
     editReport,
     saveReport,
-    uploadImage,
     generateReport,
     getReport,
     toggleSaveReportSuccess
-} from '../../actions/index'
+} from '../../actions/reports'
 import ReportBreadcrumb from './ReportBreadcrumb'
 import ReportDetailDock from './ReportDetailDock'
 import SaveSuccessSnack from '../SaveSuccessSnack'

@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { logout } from '../actions/index'
+import { toggleDraw } from '../actions/ui'
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,9 +32,15 @@ const useStyles = makeStyles(theme => ({
   const ConnectedButtonAppBar = (props) => {
     const {
         isAuthenticated,
-        logout
+        logout,
+        toggleDraw
     } = props
     const classes = useStyles();
+
+    const handleDrawButton = event => {
+        event.preventDefault()
+        toggleDraw();
+    }
 
     const handleLogout = event => {
         event.preventDefault()
@@ -45,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     <div className={classes.root}>
         <AppBar className={classes.trans} position="fixed">
             <Toolbar>
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                <IconButton onClick={handleDrawButton} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
@@ -66,7 +73,8 @@ const useStyles = makeStyles(theme => ({
 const ButtonAppBar = withRouter(connect(
     null,
     {
-        logout
+        logout,
+        toggleDraw
     }
 )(ConnectedButtonAppBar))
 

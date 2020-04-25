@@ -7,6 +7,7 @@ import report from './report'
 import phase from './phase'
 import user from './user'
 import finding from './finding'
+import ui from './ui'
 
 export default combineReducers({
     templateFinding,
@@ -16,5 +17,6 @@ export default combineReducers({
     report,
     phase,
     user,
-    finding
+    finding,
+    ui
 })

@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 
 import {
     uploadImage,
-    editFinding,
-    saveFinding,
-    getFinding,
-    toggleSaveFindingSuccess
 } from '../../actions/index'
-
+import {
+    editFinding, 
+    getFinding, 
+    saveFinding,
+    toggleSaveFindingSuccess
+} from '../../actions/findings'
 import Editor from 'rich-markdown-editor';
 
 import Grid from '@material-ui/core/Grid'

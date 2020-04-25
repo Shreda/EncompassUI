@@ -111,33 +111,25 @@ const ConnectedApp = (props) => {
                                         <Grid item container direction='column' justify='flex-start' alignItems='flex-start'>
                                             <Grid item>
                                                 <Typography variant='h5' component='h2'>
-                                                    Useful Links
+                                                    Favourites
                                                 </Typography>
                                             </Grid>
                                             <Grid className={classes.grow} item>
-                                                <List component="nav" aria-label="useful links">
-                                                    <ListItem to='company' component={RouterLink} button>
-                                                        <ListItemIcon>
-                                                            <BusinessIcon />
-                                                        </ListItemIcon>
-                                                        <ListItemText primary="Companies" />
-                                                    </ListItem>
-                                                    <ListItem component={RouterLink} to='project' button>
-                                                        <ListItemIcon>
-                                                            <LibraryBooksIcon />
-                                                        </ListItemIcon>
-                                                        <ListItemText primary="Projects" />
-                                                    </ListItem>
-                                                    <ListItem component={RouterLink} to='/template/findings' button>
-                                                        <ListItemIcon>
-                                                            <MenuBookIcon />
-                                                        </ListItemIcon>
-                                                        <ListItemText primary="Template findings" />
-                                                    </ListItem>
+                                                <List component="nav" aria-label="favourites">
+                                                    {loadingUser ? <p>Loading user...</p>: (
+                                                        user.favourite_projects.map(fp => 
+                                                        <ListItem key={fp.id} to={`/project/${fp.id}`} component={RouterLink} button>
+                                                            <ListItemText primary={fp.name} />
+                                                            <ListItemSecondaryAction>
+                                                                <ProjectFavouriteButton project={fp} />
+                                                            </ListItemSecondaryAction>                                                
+                                                        </ListItem>                                                                        
+                                                        )
+                                                    )}
                                                 </List>
                                             </Grid>
                                         </Grid>
-                                    </Dock>
+                                    </Dock>  
                                     <Grid item container xs={12} sm={6} lg={6}>
                                         <Paper className={classes.paper}>
                                             <Grid item direction='column' spacing={2} justify='flex-start' alignItems='flex-start' container>
@@ -206,30 +198,7 @@ const ConnectedApp = (props) => {
                                                 </Table> 
                                             </TableContainer>                         
                                         </Paper>
-                                    </Grid>
-                                    <Dock>
-                                        <Grid item container direction='column' justify='flex-start' alignItems='flex-start'>
-                                            <Grid item>
-                                                <Typography variant='h5' component='h2'>
-                                                    Favourites
-                                                </Typography>
-                                            </Grid>
-                                            <Grid className={classes.grow} item>
-                                                <List component="nav" aria-label="favourites">
-                                                    {loadingUser ? <p>Loading user...</p>: (
-                                                        user.favourite_projects.map(fp => 
-                                                        <ListItem key={fp.id} to={`/project/${fp.id}`} component={RouterLink} button>
-                                                            <ListItemText primary={fp.name} />
-                                                            <ListItemSecondaryAction>
-                                                                <ProjectFavouriteButton project={fp} />
-                                                            </ListItemSecondaryAction>                                                
-                                                        </ListItem>                                                                        
-                                                        )
-                                                    )}
-                                                </List>
-                                            </Grid>
-                                        </Grid>
-                                    </Dock>                            
+                                    </Grid>                          
                                 </Grid>                 
                         </div>
                     )

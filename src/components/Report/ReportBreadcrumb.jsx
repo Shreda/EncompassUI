@@ -2,7 +2,7 @@ import React from 'react'
 import { Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { getProject } from '../../actions/index'
+import { getProject } from '../../actions/projects'
 
 import WrapBreadcrumb from '../WrapBreadcrumb'
 

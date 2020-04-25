@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 
 import WrapBreadcrumb from '../WrapBreadcrumb'
-import { getProject } from '../../actions/index'
+import { getProject } from '../../actions/projects'
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Link from '@material-ui/core/Link'

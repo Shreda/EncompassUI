@@ -5,14 +5,12 @@ import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import sortBy from 'lodash/sortBy'
 import CompanyListBreadcrumb from './CompanyListBreadcrumb'
-import Dock from '../Dock'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
@@ -24,7 +22,7 @@ import MainStage from '../MainStage'
 import {
     getNextCompanies,
     searchCompanies
-} from '../../actions/index'
+} from '../../actions/companies'
 
 const mapStateToProps = state => {
     return {

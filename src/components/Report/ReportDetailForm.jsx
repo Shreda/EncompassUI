@@ -11,7 +11,7 @@ import Select from '@material-ui/core/Select'
 import FormControl from '@material-ui/core/FormControl'
 
 import { commonStyles } from '../../styles/index'
-import { editReport, saveReport, toggleSaveReportSuccess } from '../../actions/index'
+import { editReport, saveReport, toggleSaveReportSuccess } from '../../actions/reports'
 
 const mapStateToProps = (state, props) => {
     const phases = state.phase.phases.filter(p => {

@@ -9,7 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import Button from '@material-ui/core/Button'
 
 import { commonStyles } from '../../styles/index'
-import { editPhase, savePhase, toggleSavePhaseSuccess } from '../../actions/index'
+import { editPhase, savePhase, toggleSavePhaseSuccess } from '../../actions/phases'
 
 const handleChange = (value, phase, callback, param) => {
     const r = {

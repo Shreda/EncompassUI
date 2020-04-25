@@ -21,7 +21,7 @@ import AddReportForm from '../Report/AddReportForm'
 import {
     getProject,
     getProjectPhases
-} from '../../actions/index'
+} from '../../actions/projects'
 
 import ProjectDetailBreadcrumb from './ProjectDetailBreadcrumb'
 import ProjectDetailDock from './ProjectDetailDock'

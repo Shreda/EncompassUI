@@ -11,7 +11,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 
-import {getCompany} from '../../actions/index'
+import {getCompany} from '../../actions/companies'
 import { commonStyles } from '../../styles/index'
 import Dock from '../Dock'
 import CompanyDetailDock from './CompanyDetailDock'

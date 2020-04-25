@@ -25,7 +25,7 @@ import {
     getPhase,
     getPhaseFindings,
     toggleSavePhaseSuccess
-} from '../../actions/index'
+} from '../../actions/phases'
 
 const mapStateToProps = (state, props) => {
     const phase = state.phase.phases.filter(ph => {

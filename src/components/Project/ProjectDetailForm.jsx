@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button'
 
 import { commonStyles } from '../../styles/index'
 import SaveSuccessSnack from '../SaveSuccessSnack'
-import { editProject, saveProject, toggleSaveProjectSuccess } from '../../actions/index'
+import { editProject, saveProject, toggleSaveProjectSuccess } from '../../actions/projects'
 
 const handleChange = (value, project, callback, param) => {
     const r = {

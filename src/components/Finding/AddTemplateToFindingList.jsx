@@ -16,7 +16,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 
-import { addFinding } from '../../actions/index'
+import { addFinding } from '../../actions/findings'
 import { getNextTemplateFindings } from '../../actions/templateFindings'
 import throttle from 'lodash/throttle'
 
