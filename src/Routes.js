@@ -9,6 +9,7 @@ import PhaseDetail from './components/Phase/PhaseDetail';
 import FindingDetail from './components/Finding/FindingDetail';
 import CompanyList from './components/Company/CompanyList'
 import TemplateFindingsPage from './components/TemplateFinding/TemplateFindingsPage'
+import TemplateFindingDetail from './screens/Testers/TemplateFindingDetail'
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -83,7 +84,7 @@ const ConnectedRoutes = (props) => {
             <ProtectedRoute
                 exact
                 path='/template/finding/:id'
-                component={FindingDetail}
+                component={TemplateFindingDetail}
                 isAuthenticated={isAuthenticated}
             />
             <Route exact path="/login">

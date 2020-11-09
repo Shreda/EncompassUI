@@ -3,12 +3,17 @@ import {debounce} from 'lodash';
 import { connect } from 'react-redux';
 
 import {
-    uploadImage,
     editFinding,
     saveFinding,
     getFinding,
     toggleSaveFindingSuccess
-} from '../../actions/index'
+} from '../../actions/findings'
+
+import {uploadImage} from '../../actions/index'
+
+import {
+    getTemplateFinding
+} from '../../actions/templateFindings'
 
 import Editor from 'rich-markdown-editor';
 
@@ -21,13 +26,13 @@ import SaveIcon from '@material-ui/icons/Save';
 import IconButton from '@material-ui/core/IconButton'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import FindingBreadcrumb from './FindingBreadcrumb'
+// import FindingBreadcrumb from './FindingBreadcrumb'
 import { commonStyles } from '../../styles/index';
-import Dock from '../Dock'
-import FindingDetailForm from './FindingDetailForm'
-import SaveSuccessSnack from '../SaveSuccessSnack'
-import FindingDetailDock from './FindingDetailDock';
-import CentreCircularProgress from '../CentreCircularProgress'
+import Dock from '../../components/Dock'
+// import FindingDetailForm from './FindingDetailForm'
+// import SaveSuccessSnack from '../SaveSuccessSnack'
+// import FindingDetailDock from './FindingDetailDock';
+import CentreCircularProgress from '../../components/CentreCircularProgress'
 
 const mapStateToProps = (state, props) => {
     const templateFinding = state.templateFinding.templateFindings.filter(f => {
@@ -86,10 +91,11 @@ const ConnectedTemplateFindingDetail = (props) => {
     
     React.useEffect(() => {
         async function fetchFinding() {
-            props.getFinding(props.match.params.id)
+            props.getTemplateFinding(props.match.params.id)
         }
 
         if (!finding && !loadFinding) {
+            console.log('test')
             fetchFinding()
         }
     })
@@ -107,7 +113,7 @@ const ConnectedTemplateFindingDetail = (props) => {
                     loadFinding ? <CentreCircularProgress /> : (
                         !finding ? null: (
                             <div className={classes.root}>
-                                <SaveSuccessSnack saveSuccess={saveFindingSuccess} callback={toggleSaveFindingSuccess} />
+                                {/* <SaveSuccessSnack saveSuccess={saveFindingSuccess} callback={toggleSaveFindingSuccess} /> */}
                                 <Grid 
                                     container 
                                     direction='row'
@@ -115,8 +121,8 @@ const ConnectedTemplateFindingDetail = (props) => {
                                     alignItems='flex-start'
                                     spacing={3}
                                 >
-                                    <FindingBreadcrumb finding={finding}/>
-                                    <FindingDetailDock saveSuccess={saveFindingSuccess} finding={finding} />
+                                    {/* <FindingBreadcrumb finding={finding}/>
+                                    <FindingDetailDock saveSuccess={saveFindingSuccess} finding={finding} /> */}
 
                                     <Grid item container xs={12} sm={6} lg={6}>
                                         <Paper className={classes.paper}>
@@ -225,7 +231,7 @@ const TemplateFindingDetail = connect(
         uploadImage,
         editFinding,
         saveFinding,
-        getFinding,
+        getTemplateFinding,
         toggleSaveFindingSuccess
     }
 )(ConnectedTemplateFindingDetail);

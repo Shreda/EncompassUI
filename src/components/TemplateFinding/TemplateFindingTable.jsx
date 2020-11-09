@@ -208,10 +208,10 @@ const ConnectedTemplateFindingTable = (props) => {
                                             tabIndex={-1}
                                             key={row.title}
                                         >
-                                            <TableCell component={RouterLink} to='/'>
+                                            <TableCell component={RouterLink} to={`/template/finding/${row.id}`}>
                                                 <BugReportIcon style={{color: getColor(row)}}/></TableCell>
                                             <TableCell id={labelId}>
-                                                <Link component={RouterLink}>
+                                                <Link to={`/template/finding/${row.id}`} component={RouterLink}>
                                                     <Typography variant='body1'>
                                                         {row.title}
                                                     </Typography>
