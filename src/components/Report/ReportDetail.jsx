@@ -1,7 +1,10 @@
 import React from 'react';
 import {debounce} from 'lodash';
 import { connect } from 'react-redux';
+
 import {config} from '../../constants/configuration';
+import { commonStyles } from '../../styles/index'
+
 import { Link as RouterLink } from 'react-router-dom';
 import { uploadImage } from '../../actions/index'
 import {
@@ -65,6 +68,7 @@ const mapStateToProps = (state, props) => {
     }
 }
 
+
 const handleSave = (opt, report, callback) => {
     callback(report)
 }
@@ -82,6 +86,8 @@ const handleChange = debounce((value, report, callback, param) => {
 }, 500)
 
 const ConnectedProjectDetail = (props) => {
+
+    const commonClasses = commonStyles();
     const {
         report,
         loadReportsSuccess,
@@ -123,7 +129,7 @@ const ConnectedProjectDetail = (props) => {
     return (
             loadingReports ? <CentreCircularProgress />:(
                 (!loadReportsSuccess ? <p>Error loading report</p>:
-                    <div className={classes.root}>
+                    <div className={commonClasses.root}>
                         <SaveSuccessSnack saveSuccess={saveReportSuccess} callback={toggleSaveReportSuccess} />
                         <Grid 
                             container 
